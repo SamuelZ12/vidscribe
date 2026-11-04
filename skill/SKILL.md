@@ -22,7 +22,7 @@ vidscribe <file-or-URL> [-o DIR] [-l LANG] [-f txt|srt|vtt|json] [-c "hotwords"]
 ```
 
 - Output: `/tmp/vidscribe/transcripts/<name>.<fmt>` (txt also prints to stdout).
-- Video input (default) or `-v [N]`: srt+txt plus N evenly spaced frames (default 8) and a frame per spoken on-screen reference, at most max(40, N) in total. Goes to `/tmp/vidscribe/frames/<name>/` with `index.txt`: frame time, frame file, start-end of the spoken text, text (tab-separated; `-` when nothing is spoken).
+- Video input (default) or `-v [N]`: srt+txt plus N evenly spaced frames (default 8), a frame per spoken on-screen reference, and a frame at the end of each distinct scene, at most max(40, N) in total. Goes to `/tmp/vidscribe/frames/<name>/` with `index.txt`: frame time, frame file, start-end of the spoken text, text (tab-separated; `-` when nothing is spoken).
 - `-a`: transcript only. `-f vtt|json` without `-v` also skips frames.
 - `-l zh|en|...` only if auto-detect fails. `-c "Name1, Name2"` biases rare names.
 - Languages outside Qwen3-ASR's ~30: `-m mlx-community/whisper-large-v3-turbo-asr-fp16`.
