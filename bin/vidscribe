@@ -5,7 +5,7 @@
 # Frames are on by default when the input has a video stream (-f txt|srt). -a/--audio-only: transcript only.
 # -v [N]: force frames, N evenly spaced (default 8) plus a frame at every cue with an on-screen reference
 #         ("look at this", "as you can see"...), at most max(40, N) total. Frame text = sentence spoken at that time, interpolated within ~30s cues.
-#         Frames+video go to /tmp/vidscribe/frames/<name>/ (auto-pruned after 3 days); index.txt (time -> frame -> start-end of spoken text -> text).
+#         Frames go to /tmp/vidscribe/frames/<name>/ (auto-pruned after 3 days) with video.<ext> (downloads moved there, local files symlinked) and index.txt (time -> frame -> start-end of spoken text -> text).
 set -euo pipefail
 export PATH="$HOME/.local/bin:/opt/homebrew/bin:$PATH"
 
@@ -76,8 +76,10 @@ if (( VISUAL )); then
   FROOT="${VIDSCRIBE_FRAMES_DIR:-/tmp/vidscribe/frames}"; mkdir -p "$FROOT"
   find "$FROOT" -mindepth 1 -maxdepth 1 -type d -mtime +3 -exec rm -rf {} + 2>/dev/null || true
   FDIR="$FROOT/$NAME"; rm -rf "$FDIR"; mkdir -p "$FDIR"
-  cp "$IN" "$FDIR/video.${IN##*.}" 2>/dev/null || true
-  python3 - "$OUT.srt" "$DUR" "$NFRAMES" "$FDIR" "$IN" "$OUT.txt" <<'PY' >&2
+  # keep the video next to the frames: link local files (no multi-GB copy), move downloads out of $TMP
+  VID="$FDIR/video.${IN##*.}"
+  if [[ "$IN" == "$TMP"/* ]]; then mv "$IN" "$VID"; else ln -s "$(cd "$(dirname "$IN")" && pwd)/$(basename "$IN")" "$VID"; fi
+  python3 - "$OUT.srt" "$DUR" "$NFRAMES" "$FDIR" "$VID" "$OUT.txt" <<'PY' >&2
 import re, subprocess, sys
 srt, dur, n, fdir, vid, txt = sys.argv[1], float(sys.argv[2]), int(sys.argv[3]), sys.argv[4], sys.argv[5], sys.argv[6]
 def sec(t):

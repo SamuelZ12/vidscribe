@@ -27,6 +27,7 @@ vidscribe <file-or-URL> [-o DIR] [-l LANG] [-f txt|srt|vtt|json] [-c "hotwords"]
 - `-v [N]`: force frame mode, with N evenly spaced frames. `-a`/`--audio-only`: transcript only, never download or save video. `-f vtt|json` on a video without `-v` also gives a transcript only.
 - `-l zh|en|...` forces a language; `-c "Letta, Qwen"` biases rare names.
 - A `WARNING: last cue ... < duration` line means the model stopped early; re-run on the tail.
+- The frames folder also holds `video.<ext>`: the downloaded video for URLs, a symlink to the original for local files.
 - Old outputs in `/tmp/vidscribe` are pruned after 3 days.
 
 Env overrides: `VIDSCRIBE_MODEL`, `VIDSCRIBE_OUTDIR`, `VIDSCRIBE_FRAMES_DIR`.
