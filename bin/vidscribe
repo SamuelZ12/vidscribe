@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 # vidscribe: local multilingual speech-to-text (Qwen3-ASR 1.7B via mlx-audio).
-# Usage: vidscribe <file-or-URL> [-o OUTDIR] [-l LANG] [-f txt|srt|vtt|json] [-c "hotwords"] [-m MODEL] [-v [N]]
+# Usage: vidscribe <file-or-URL> [-o OUTDIR] [-l LANG] [-f txt|srt|vtt|json] [-c "hotwords"] [-m MODEL] [-v [N] | -a]
 # URLs (X, YouTube, etc.) are fetched with yt-dlp. Prints the transcript path; text to stdout for txt.
-# -v [N]: visual mode (frame text = sentence spoken at that time, interpolated within ~30s cues). Keeps the video, writes an SRT, saves N evenly spaced frames (default 8)
-#         plus a frame at every cue with an on-screen reference ("look at this", "as you can see"...).
+# Frames are on by default when the input has a video stream (-f txt|srt). -a/--audio-only: transcript only.
+# -v [N]: force frames, N evenly spaced (default 8) plus a frame at every cue with an on-screen reference
+#         ("look at this", "as you can see"...). Frame text = sentence spoken at that time, interpolated within ~30s cues.
 #         Frames+video go to /tmp/vidscribe/frames/<name>/ (auto-pruned after 3 days); index.txt (time -> frame -> spoken text).
 set -euo pipefail
 export PATH="$HOME/.local/bin:/opt/homebrew/bin:$PATH"
@@ -12,7 +13,7 @@ MODEL="${VIDSCRIBE_MODEL:-mlx-community/Qwen3-ASR-1.7B-8bit}"
 OUTDIR="${VIDSCRIBE_OUTDIR:-/tmp/vidscribe/transcripts}"
 # tmp is only cleared on reboot, so prune transcripts older than 3 days
 [[ -d /tmp/vidscribe/transcripts ]] && find /tmp/vidscribe/transcripts -mindepth 1 -maxdepth 1 -mtime +3 -exec rm -rf {} + 2>/dev/null || true
-FMT="txt"; LANG_ARG=(); CTX_ARG=(); VISUAL=0; NFRAMES=8
+FMT="txt"; LANG_ARG=(); CTX_ARG=(); VFLAG=0; AFLAG=0; NFRAMES=8
 
 [[ $# -ge 1 ]] || { sed -n '2,4p' "$0"; exit 1; }
 SRC="$1"; shift
@@ -23,19 +24,31 @@ while [[ $# -gt 0 ]]; do
     -f) FMT="$2"; shift 2;;
     -c) CTX_ARG=(--context "$2"); shift 2;;
     -m) MODEL="$2"; shift 2;;
-    -v) VISUAL=1; if [[ "${2:-}" =~ ^[0-9]+$ ]]; then NFRAMES="$2"; shift 2; else shift; fi;;
+    -v) VFLAG=1; if [[ "${2:-}" =~ ^[0-9]+$ ]]; then NFRAMES="$2"; shift 2; else shift; fi;;
+    -a|--audio-only) AFLAG=1; shift;;
     *) echo "unknown arg: $1" >&2; exit 1;;
   esac
 done
+(( VFLAG && AFLAG )) && { echo "-v and -a conflict" >&2; exit 1; }
+# frames by default for video, unless -a or a format frames can't produce (vtt/json keep the old audio-only output)
+WANT_VIDEO=$VFLAG
+(( ! VFLAG && ! AFLAG )) && [[ "$FMT" == "txt" || "$FMT" == "srt" ]] && WANT_VIDEO=1
+
+# true if the file has a real video stream (cover art on mp3/m4a is an attached_pic, not video)
+has_video() {
+  local d; d="$(ffprobe -v error -select_streams v -show_entries stream_disposition=attached_pic -of csv=p=0 "$1" 2>/dev/null || true)"
+  [[ $'\n'"$d"$'\n' == *$'\n0\n'* ]]
+}
 
 mkdir -p "$OUTDIR"
 TMP="$(mktemp -d)"; trap 'rm -rf "$TMP"' EXIT
 
 if [[ "$SRC" =~ ^https?:// ]]; then
-  if (( VISUAL )); then
+  if (( WANT_VIDEO )); then
+    # sources without video fall back to "b" (audio only, any extension); has_video decides below
     yt-dlp -q --no-warnings -f "bv*[height<=720]+ba/b[height<=720]/b" --merge-output-format mp4 \
       -o "$TMP/%(id)s.%(ext)s" "$SRC" >&2
-    IN="$(ls "$TMP"/*.mp4 | head -1)"
+    IN="$(ls "$TMP"/* | head -1)"
   else
     yt-dlp -q --no-warnings -x --audio-format wav -o "$TMP/%(id)s.%(ext)s" "$SRC" >&2
     IN="$(ls "$TMP"/*.wav | head -1)"
@@ -45,6 +58,8 @@ else
   [[ -f "$SRC" ]] || { echo "no such file: $SRC" >&2; exit 1; }
   IN="$SRC"; NAME="$(basename "${SRC%.*}")"
 fi
+VISUAL=$VFLAG
+(( WANT_VIDEO && ! VFLAG )) && has_video "$IN" && VISUAL=1
 
 WAV="$TMP/in16k.wav"
 ffmpeg -nostdin -loglevel error -y -i "$IN" -ac 1 -ar 16000 "$WAV"
