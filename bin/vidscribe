@@ -46,9 +46,9 @@ TMP="$(mktemp -d)"; trap 'rm -rf "$TMP"' EXIT
 if [[ "$SRC" =~ ^https?:// ]]; then
   if (( WANT_VIDEO )); then
     # sources without video fall back to "b" (audio only, any extension); has_video decides below
-    yt-dlp -q --no-warnings -f "bv*[height<=720]+ba/b[height<=720]/b" --merge-output-format mp4 \
-      -o "$TMP/%(id)s.%(ext)s" "$SRC" >&2
-    IN="$(ls "$TMP"/* | head -1)"
+    IN="$(yt-dlp -q --no-warnings --no-simulate --print after_move:filepath \
+      -f "bv*[height<=720]+ba/b[height<=720]/b" --merge-output-format mp4 -o "$TMP/%(id)s.%(ext)s" "$SRC")"
+    IN="${IN%%$'\n'*}"  # first file only if the URL is a playlist
   else
     yt-dlp -q --no-warnings -x --audio-format wav -o "$TMP/%(id)s.%(ext)s" "$SRC" >&2
     IN="$(ls "$TMP"/*.wav | head -1)"
