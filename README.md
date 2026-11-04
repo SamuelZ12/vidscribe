@@ -26,7 +26,7 @@ vidscribe <file-or-URL> [-o DIR] [-l LANG] [-f txt|srt|vtt|json] [-c "hotwords"]
 - Frame mode writes srt + txt and saves N evenly spaced frames (default 8) plus a frame at every spoken on-screen reference ("look at this", "as you can see", 你看...). At most 40 frames in total (or N, if `-v N` asks for more): on long videos the reference frames are thinned out evenly (see `MEASUREMENTS.md`). Output: `/tmp/vidscribe/frames/<name>/` with `index.txt`, one tab-separated line per frame: frame time, frame file, start-end of the spoken text, spoken text (`-` and empty text where nothing is being said).
 - `-v [N]`: force frame mode, with N evenly spaced frames. `-a`/`--audio-only`: transcript only, never download or save video. `-f vtt|json` on a video without `-v` also gives a transcript only.
 - `-l zh|en|...` forces a language; `-c "Letta, Qwen"` biases rare names.
-- A `WARNING: last cue ... < duration` line means the model stopped early; re-run on the tail.
+- Long media is transcribed to the end. Applause or music can show up as a short run of one repeated word ("oh, oh, oh"). A `WARNING: last cue ... < duration` line means the model still stopped early; re-run on the tail.
 - The frames folder also holds `video.<ext>`: the downloaded video for URLs, a symlink to the original for local files.
 - Old outputs in `/tmp/vidscribe` are pruned after 3 days.
 

@@ -63,13 +63,30 @@ VISUAL=$VFLAG
 
 WAV="$TMP/in16k.wav"
 ffmpeg -nostdin -loglevel error -y -i "$IN" -ac 1 -ar 16000 "$WAV"
+DUR="$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$WAV")"
 
 OUT="$OUTDIR/$NAME"
 RUNFMT="$FMT"; (( VISUAL )) && RUNFMT="srt"
-mlx_audio.stt.generate --model "$MODEL" --audio "$WAV" --output-path "$OUT" \
-  --format "$RUNFMT" ${LANG_ARG[@]+"${LANG_ARG[@]}"} ${CTX_ARG[@]+"${CTX_ARG[@]}"} >&2
-
-DUR="$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$WAV")"
+# mlx-audio spends one --max-tokens budget (default 8192) on the whole file: dense speech ran out
+# after ~13-55 min, and a repetition loop ("oh, oh, ..." over applause) could burn it all. So give the
+# file a budget that never binds, and cap each ~30 s piece at 25 tok/s instead (real speech peaks ~16).
+MLXPY="$(sed -n '1s/^#!//p' "$(command -v mlx_audio.stt.generate)")"
+MAXTOK="$(awk -v d="$DUR" 'BEGIN{ printf "%d", 8192 + 32*d }')"
+"$MLXPY" - --model "$MODEL" --audio "$WAV" --output-path "$OUT" --format "$RUNFMT" --max-tokens "$MAXTOK" \
+  ${LANG_ARG[@]+"${LANG_ARG[@]}"} ${CTX_ARG[@]+"${CTX_ARG[@]}"} >&2 <<'PY'
+import sys
+from mlx_audio.stt.generate import main
+try:
+    from mlx_audio.stt.models.qwen3_asr.qwen3_asr import Qwen3ASRModel as M
+    piece = M._generate_single_chunk
+    def capped(self, audio, *, max_tokens, **kw):
+        return piece(self, audio, max_tokens=min(max_tokens, 32 + int(25 * len(audio) / self.sample_rate)), **kw)
+    M._generate_single_chunk = capped
+except (ImportError, AttributeError) as e:
+    print(f"warning: mlx-audio changed, per-piece token cap off ({e})", file=sys.stderr)
+sys.argv[0] = "mlx_audio.stt.generate"
+main()
+PY
 
 if (( VISUAL )); then
   # media is bulky: keep it in /tmp (cleared on reboot) and prune runs older than 3 days
