@@ -17,7 +17,7 @@ Video: "Andrej Karpathy: Software Is Changing (Again)", 39:31 (2371 s), slide-he
 | SRT cues | 68 (~30 s each) |
 | Wall time, whole run | 4m00s |
 
-Phase split (timed separately on the same video):
+Phase split (timed separately on the same video, outside vidscribe; frame extraction used 27 test timestamps):
 
 | Phase | Time |
 |---|---|
