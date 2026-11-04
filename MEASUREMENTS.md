@@ -90,3 +90,28 @@ Raising the budget alone (`--max-tokens 32768`, MIT) transcribed to the end, mat
 - Per-piece cap (shipped): each piece may use at most `32 + 25 tok/s × piece length`. Real speech peaks at 15.9 tok/s per piece (Hindi; 816 cues measured). The file budget becomes `8192 + 32 × seconds`, so it never binds first.
 
 Result: 9 short clips byte-identical to uncapped output; MIT 319 s, full coverage, every cue identical to the uncapped run except the loop, which is 222 words instead of 3840.
+
+## Scene-change frames (ROADMAP step 4)
+
+2026-11-04. Cut detection: ffmpeg at 2 fps and 160 px, `scene > 0.3`; ~0.75 s per minute of video (84 s for 111 min), ~15% on top of transcription. Cuts per minute ranged from 0.2 (animated charts: gradual changes don't register) to 8.5 (Mandarin slides); every clip over ~10 min has more cuts than the cap.
+
+One frame per scene, at its last sampled frame, so slide builds and typed text are complete. Scenes under 1 s, flat frames, scenes within 3 s of a ref frame, and repeats of an earlier scene (dHash on a 9x8 thumbnail, ≤ 6 of 64 bits) are dropped. Dedupe removes less on long talks than hoped (MIT 262 → 218, I/O 817 → 599): wide and close-up stage shots don't count as repeats.
+
+Two ways to share the 40-frame cap, compared on the 12 clips with a free check (is there a frame in the same scene as the question's moment?):
+
+| Frame set | Visual | Mixed | Speech | All (48) |
+|---|---|---|---|---|
+| master (even + ref) | 12/24 | 6/12 | 10/12 | 28 |
+| split: keep all even frames, refs and scenes share the rest | 17/24 | 7/12 | 10/12 | 34 |
+| replace: scenes and refs first, even frames only fill empty slots | 18/24 | 7/12 | 9/12 | 34 |
+
+A tie, so split shipped: it keeps even spacing for videos without hard cuts and leaves `-v N` unchanged.
+
+Agent test, same method as the clip test above (every agent viewed every frame; checked from transcripts). Holdout: 4 new clips (screencast, coding tutorial, cooking, Mandarin explainer) whose questions a separate agent wrote after the frame code was fixed.
+
+| Set | Transcript only | master | scene frames |
+|---|---|---|---|
+| 12 original clips | 13/48 | 28.5/48 | 33/48 |
+| 4 holdout clips | 5/16 | 11.5/16 | 12.5/16 |
+
+9 questions changed: 8 gained, 1 lost (sign test p ≈ 0.04). Of the 6 gains traced to the frame the agent cited, all 6 were scene frames, so the gain is not just from more frames (332 vs 206 on the 12 clips). The loss: MIT, where scenes took half of the slots refs used to have. No new wrong answers; misses stayed "unknown". The three long talks gained nothing (1, 1, 2 of 4): 16 of hundreds of scenes fit the cap, and a third of the Karpathy picks were stage shots. Better scene choice on long videos is the open problem.
