@@ -5,7 +5,7 @@
 # Frames are on by default when the input has a video stream (-f txt|srt). -a/--audio-only: transcript only.
 # -v [N]: force frames, N evenly spaced (default 8) plus a frame at every cue with an on-screen reference
 #         ("look at this", "as you can see"...), at most max(40, N) total. Frame text = sentence spoken at that time, interpolated within ~30s cues.
-#         Frames+video go to /tmp/vidscribe/frames/<name>/ (auto-pruned after 3 days); index.txt (time -> frame -> spoken text).
+#         Frames+video go to /tmp/vidscribe/frames/<name>/ (auto-pruned after 3 days); index.txt (time -> frame -> start-end of spoken text -> text).
 set -euo pipefail
 export PATH="$HOME/.local/bin:/opt/homebrew/bin:$PATH"
 
@@ -100,10 +100,12 @@ for a, b, t in cues:
     for x in parts:
         s0 = a + (b-a)*pos/total; pos += len(x); s1 = a + (b-a)*pos/total
         sents.append((s0, s1, x.strip()))
+def mmss(t): return f"{int(t//60):02d}:{t%60:04.1f}"
 def around(t, w=1):
     i = next((k for k, s in enumerate(sents) if s[0] <= t < s[1]), None)
-    if i is None: return ''  # no spoken sentence in a gap or beyond the transcript
-    return ' '.join(s[2] for s in sents[max(0, i-w):i+w+1])
+    if i is None: return '-', ''  # no spoken sentence in a gap or beyond the transcript
+    win = sents[max(0, i-w):i+w+1]
+    return f"{mmss(win[0][0])}-{mmss(win[-1][1])}", ' '.join(s[2] for s in win)
 targets = []
 if dur > 0:
     targets += [(dur*(i+0.5)/n, 'even') for i in range(n)]
@@ -121,7 +123,8 @@ idx = []
 for k, (t, kind) in enumerate(targets):
     fn = f"{k:03d}_{int(t//60):02d}m{t%60:04.1f}s_{kind}.jpg"
     subprocess.run(['ffmpeg','-nostdin','-loglevel','error','-y','-ss',f'{t:.2f}','-i',vid,'-frames:v','1','-q:v','3','-vf','scale=-2:720',f"{fdir}/{fn}"], check=False)
-    idx.append(f"{int(t//60):02d}:{t%60:04.1f}\t{fn}\t{around(t, 0 if kind == 'ref' else 1)}")
+    span, text = around(t, 0 if kind == 'ref' else 1)
+    idx.append(f"{mmss(t)}\t{fn}\t{span}\t{text}")
 open(f"{fdir}/index.txt", 'w', encoding='utf-8').write('\n'.join(idx) + '\n')
 print(f"frames: {fdir} ({sum(1 for x in targets if x[1]=='ref')} on-screen refs, {sum(1 for x in targets if x[1]=='even')} evenly spaced)")
 PY
