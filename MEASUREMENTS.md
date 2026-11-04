@@ -72,4 +72,21 @@ Cap: no evidence that more frames help. On the MIT lecture B = C (3/4). On the I
 
 Agents skip frames when there are many: before being told explicitly to view every frame, 3 of 15 frame-condition agents looked at only part of their set (8/16, 8/13, and 2/65 frames). Sending more frames doesn't mean more get looked at.
 
-Truncation: the model stopped at 2862 s (MIT, 64 min) and 2876 s (I/O, 111 min) and 2021 s (Karpathy). Both hour-plus clips stop around 48 min, so long videos lose their tail by default. Transcribing in 30-min chunks and merging fixed all three (last cue = duration).
+Truncation: the model stopped at 2862 s (MIT, 64 min) and 2876 s (I/O, 111 min) and 2021 s (Karpathy). Transcribing in 30-min chunks and merging fixed all three (last cue = duration). Cause and fix in the next section.
+
+## Long audio: token budget, not audio length
+
+2026-11-04. mlx-audio decodes ~30 s pieces but spends one `--max-tokens` budget (default 8192) across the whole file, then stops. When transcription stops depends on how many tokens the speech needs:
+
+| Speech | tok/s | Budget runs out at |
+|---|---|---|
+| English lecture (MIT) | ~2.5 | ~55 min |
+| English talk (Karpathy) | ~3.5 | ~39 min |
+| Hindi, Devanagari (C-39pLx6QTQ) | ~10 | ~13.5 min |
+
+Raising the budget alone (`--max-tokens 32768`, MIT) transcribed to the end, matching the chunked transcript in every 5-min window, but took 1744 s. The 17 s of closing applause looped as "oh, oh, ..." for 22k tokens until the budget ran out. Such loops are common: 4 of the 8 videos with SRTs on this machine had one, and in one a 30 s "hey, hey" piece used 8148 tokens, the whole budget.
+
+- `repetition_penalty=1.1` (mlx-audio's built-in) stopped the loop (MIT 298 s) but changed real words: 0-1% on English and Mandarin clips, with errors like "stock or" → "stockor" and "google" → "g o o g l e", and 15.8% on the Hindi clip. Rejected.
+- Per-piece cap (shipped): each piece may use at most `32 + 25 tok/s × piece length`. Real speech peaks at 15.9 tok/s per piece (Hindi; 816 cues measured). The file budget becomes `8192 + 32 × seconds`, so it never binds first.
+
+Result: 9 short clips byte-identical to uncapped output; MIT 319 s, full coverage, every cue identical to the uncapped run except the loop, which is 222 words instead of 3840.
