@@ -4,7 +4,7 @@
 # URLs (X, YouTube, etc.) are fetched with yt-dlp. Prints the transcript path; text to stdout for txt.
 # Frames are on by default when the input has a video stream (-f txt|srt). -a/--audio-only: transcript only.
 # -v [N]: force frames, N evenly spaced (default 8) plus a frame at every cue with an on-screen reference
-#         ("look at this", "as you can see"...). Frame text = sentence spoken at that time, interpolated within ~30s cues.
+#         ("look at this", "as you can see"...), at most max(40, N) total. Frame text = sentence spoken at that time, interpolated within ~30s cues.
 #         Frames+video go to /tmp/vidscribe/frames/<name>/ (auto-pruned after 3 days); index.txt (time -> frame -> spoken text).
 set -euo pipefail
 export PATH="$HOME/.local/bin:/opt/homebrew/bin:$PATH"
@@ -107,11 +107,15 @@ def around(t, w=1):
 targets = []
 if dur > 0:
     targets += [(dur*(i+0.5)/n, 'even') for i in range(n)]
-for s0, s1, x in sents:
-    if DEIX.search(x) and s1 > s0:
-        t = s0 + min(1.0, (s1-s0)/2)  # stay inside even a sub-second sentence
-        targets = [y for y in targets if not (y[1] == 'even' and abs(y[0]-t) < 3)]
-        targets.append((t, 'ref'))
+refs = [s0 + min(1.0, (s1-s0)/2) for s0, s1, x in sents if DEIX.search(x) and s1 > s0]  # stay inside even a sub-second sentence
+# cap total frames (see MEASUREMENTS.md): keep all even frames, spread the kept refs evenly over the list
+room = max(0, 40 - n); nref = len(refs)
+if nref > room:
+    refs = [refs[int((i+0.5)*nref/room)] for i in range(room)]
+    print(f"frames: capped at 40, kept {room} of {nref} on-screen refs")
+for t in refs:
+    targets = [y for y in targets if not (y[1] == 'even' and abs(y[0]-t) < 3)]
+    targets.append((t, 'ref'))
 targets.sort()
 idx = []
 for k, (t, kind) in enumerate(targets):
