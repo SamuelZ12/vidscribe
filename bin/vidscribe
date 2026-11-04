@@ -111,10 +111,10 @@ if dur > 0:
     targets += [(dur*(i+0.5)/n, 'even') for i in range(n)]
 refs = [s0 + min(1.0, (s1-s0)/2) for s0, s1, x in sents if DEIX.search(x) and s1 > s0]  # stay inside even a sub-second sentence
 # cap total frames (see MEASUREMENTS.md): keep all even frames, spread the kept refs evenly over the list
-room = max(0, 40 - n); nref = len(refs)
+cap = max(40, len(targets)); room = cap - len(targets); nref = len(refs)
 if nref > room:
     refs = [refs[int((i+0.5)*nref/room)] for i in range(room)]
-    print(f"frames: capped at 40, kept {room} of {nref} on-screen refs")
+    print(f"frames: capped at {cap}, kept {room} of {nref} on-screen refs")
 for t in refs:
     targets = [y for y in targets if not (y[1] == 'even' and abs(y[0]-t) < 3)]
     targets.append((t, 'ref'))
@@ -129,7 +129,7 @@ open(f"{fdir}/index.txt", 'w', encoding='utf-8').write('\n'.join(idx) + '\n')
 print(f"frames: {fdir} ({sum(1 for x in targets if x[1]=='ref')} on-screen refs, {sum(1 for x in targets if x[1]=='even')} evenly spaced)")
 PY
   [[ "$FMT" != "srt" && "$FMT" != "txt" ]] && echo "note: -v writes srt+txt; -f $FMT ignored" >&2
-  FMT="txt"
+  [[ "$FMT" == "srt" ]] || FMT="txt"
 fi
 
 # truncation check: model has silently stopped early on long media before
