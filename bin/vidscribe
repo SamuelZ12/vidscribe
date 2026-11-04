@@ -1,0 +1,121 @@
+#!/usr/bin/env bash
+# vidscribe: local multilingual speech-to-text (Qwen3-ASR 1.7B via mlx-audio).
+# Usage: vidscribe <file-or-URL> [-o OUTDIR] [-l LANG] [-f txt|srt|vtt|json] [-c "hotwords"] [-m MODEL] [-v [N]]
+# URLs (X, YouTube, etc.) are fetched with yt-dlp. Prints the transcript path; text to stdout for txt.
+# -v [N]: visual mode (frame text = sentence spoken at that time, interpolated within ~30s cues). Keeps the video, writes an SRT, saves N evenly spaced frames (default 8)
+#         plus a frame at every cue with an on-screen reference ("look at this", "as you can see"...).
+#         Frames+video go to /tmp/vidscribe/frames/<name>/ (auto-pruned after 3 days); index.txt (time -> frame -> spoken text).
+set -euo pipefail
+export PATH="$HOME/.local/bin:/opt/homebrew/bin:$PATH"
+
+MODEL="${VIDSCRIBE_MODEL:-mlx-community/Qwen3-ASR-1.7B-8bit}"
+OUTDIR="${VIDSCRIBE_OUTDIR:-/tmp/vidscribe/transcripts}"
+# tmp is only cleared on reboot, so prune transcripts older than 3 days
+[[ -d /tmp/vidscribe/transcripts ]] && find /tmp/vidscribe/transcripts -mindepth 1 -maxdepth 1 -mtime +3 -exec rm -rf {} + 2>/dev/null || true
+FMT="txt"; LANG_ARG=(); CTX_ARG=(); VISUAL=0; NFRAMES=8
+
+[[ $# -ge 1 ]] || { sed -n '2,4p' "$0"; exit 1; }
+SRC="$1"; shift
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -o) OUTDIR="$2"; shift 2;;
+    -l) LANG_ARG=(--language "$2"); shift 2;;
+    -f) FMT="$2"; shift 2;;
+    -c) CTX_ARG=(--context "$2"); shift 2;;
+    -m) MODEL="$2"; shift 2;;
+    -v) VISUAL=1; if [[ "${2:-}" =~ ^[0-9]+$ ]]; then NFRAMES="$2"; shift 2; else shift; fi;;
+    *) echo "unknown arg: $1" >&2; exit 1;;
+  esac
+done
+
+mkdir -p "$OUTDIR"
+TMP="$(mktemp -d)"; trap 'rm -rf "$TMP"' EXIT
+
+if [[ "$SRC" =~ ^https?:// ]]; then
+  if (( VISUAL )); then
+    yt-dlp -q --no-warnings -f "bv*[height<=720]+ba/b[height<=720]/b" --merge-output-format mp4 \
+      -o "$TMP/%(id)s.%(ext)s" "$SRC" >&2
+    IN="$(ls "$TMP"/*.mp4 | head -1)"
+  else
+    yt-dlp -q --no-warnings -x --audio-format wav -o "$TMP/%(id)s.%(ext)s" "$SRC" >&2
+    IN="$(ls "$TMP"/*.wav | head -1)"
+  fi
+  NAME="$(basename "${IN%.*}")"
+else
+  [[ -f "$SRC" ]] || { echo "no such file: $SRC" >&2; exit 1; }
+  IN="$SRC"; NAME="$(basename "${SRC%.*}")"
+fi
+
+WAV="$TMP/in16k.wav"
+ffmpeg -nostdin -loglevel error -y -i "$IN" -ac 1 -ar 16000 "$WAV"
+
+OUT="$OUTDIR/$NAME"
+RUNFMT="$FMT"; (( VISUAL )) && RUNFMT="srt"
+mlx_audio.stt.generate --model "$MODEL" --audio "$WAV" --output-path "$OUT" \
+  --format "$RUNFMT" ${LANG_ARG[@]+"${LANG_ARG[@]}"} ${CTX_ARG[@]+"${CTX_ARG[@]}"} >&2
+
+DUR="$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$WAV")"
+
+if (( VISUAL )); then
+  # media is bulky: keep it in /tmp (cleared on reboot) and prune runs older than 3 days
+  FROOT="${VIDSCRIBE_FRAMES_DIR:-/tmp/vidscribe/frames}"; mkdir -p "$FROOT"
+  find "$FROOT" -mindepth 1 -maxdepth 1 -type d -mtime +3 -exec rm -rf {} + 2>/dev/null || true
+  FDIR="$FROOT/$NAME"; rm -rf "$FDIR"; mkdir -p "$FDIR"
+  cp "$IN" "$FDIR/video.${IN##*.}" 2>/dev/null || true
+  python3 - "$OUT.srt" "$DUR" "$NFRAMES" "$FDIR" "$IN" "$OUT.txt" <<'PY' >&2
+import re, subprocess, sys
+srt, dur, n, fdir, vid, txt = sys.argv[1], float(sys.argv[2]), int(sys.argv[3]), sys.argv[4], sys.argv[5], sys.argv[6]
+def sec(t):
+    h, m, s = t.replace(',', '.').split(':'); return int(h)*3600 + int(m)*60 + float(s)
+cues = []
+for blk in re.split(r'\n\s*\n', open(srt, encoding='utf-8').read().strip()):
+    lines = blk.strip().splitlines()
+    for i, l in enumerate(lines):
+        if '-->' in l:
+            a, b = [x.strip() for x in l.split('-->')]
+            cues.append((sec(a), sec(b), ' '.join(lines[i+1:]).strip())); break
+open(txt, 'w', encoding='utf-8').write('\n'.join(c[2] for c in cues) + '\n')
+DEIX = re.compile(r"\b(look at (this|that|here|the)|as you can see|you can see|see (this|here|that)|this (one|screen|chart|graph|slide|button|page|part)|right here|over here|on (the )?screen|watch (this|what)|let me show|i'?ll show|showing you|here'?s (the|what|how)|like this|this is what|on the (right|left)|(this|the) (photo|image|picture|plot|diagram|demo|code|graph)|up here|down here|pointing)\b|这个|这里|你看|看这", re.I)
+# cues are ~30s chunks; split into sentences and interpolate each sentence's time
+# by character offset so frames map to the line actually spoken, not the whole chunk
+sents = []
+for a, b, t in cues:
+    parts = [x for x in re.split(r'(?<=[.!?])\s+|(?<=[。！？])(?![。！？])\s*', t) if x.strip()] or [t]
+    total = sum(len(x) for x in parts) or 1; pos = 0
+    for x in parts:
+        s0 = a + (b-a)*pos/total; pos += len(x); s1 = a + (b-a)*pos/total
+        sents.append((s0, s1, x.strip()))
+def around(t, w=1):
+    i = next((k for k, s in enumerate(sents) if s[0] <= t < s[1]), None)
+    if i is None: return ''  # no spoken sentence in a gap or beyond the transcript
+    return ' '.join(s[2] for s in sents[max(0, i-w):i+w+1])
+targets = []
+if dur > 0:
+    targets += [(dur*(i+0.5)/n, 'even') for i in range(n)]
+for s0, s1, x in sents:
+    if DEIX.search(x) and s1 > s0:
+        t = s0 + min(1.0, (s1-s0)/2)  # stay inside even a sub-second sentence
+        targets = [y for y in targets if not (y[1] == 'even' and abs(y[0]-t) < 3)]
+        targets.append((t, 'ref'))
+targets.sort()
+idx = []
+for k, (t, kind) in enumerate(targets):
+    fn = f"{k:03d}_{int(t//60):02d}m{t%60:04.1f}s_{kind}.jpg"
+    subprocess.run(['ffmpeg','-nostdin','-loglevel','error','-y','-ss',f'{t:.2f}','-i',vid,'-frames:v','1','-q:v','3','-vf','scale=-2:720',f"{fdir}/{fn}"], check=False)
+    idx.append(f"{int(t//60):02d}:{t%60:04.1f}\t{fn}\t{around(t, 0 if kind == 'ref' else 1)}")
+open(f"{fdir}/index.txt", 'w', encoding='utf-8').write('\n'.join(idx) + '\n')
+print(f"frames: {fdir} ({sum(1 for x in targets if x[1]=='ref')} on-screen refs, {sum(1 for x in targets if x[1]=='even')} evenly spaced)")
+PY
+  [[ "$FMT" != "srt" && "$FMT" != "txt" ]] && echo "note: -v writes srt+txt; -f $FMT ignored" >&2
+  FMT="txt"
+fi
+
+# truncation check: model has silently stopped early on long media before
+if [[ -f "$OUT.srt" ]]; then
+  LAST="$(awk '/-->/ {split($0,a,"-->"); split(a[2],t,/[:,]/); last=t[1]*3600+t[2]*60+t[3]+t[4]/1000} END {print last+0}' "$OUT.srt")"
+  awk -v l="${LAST:-0}" -v d="$DUR" 'BEGIN{ if (d-l > 30) printf "WARNING: last cue %.0fs < duration %.0fs; re-run on the tail\n", l, d }' >&2
+fi
+
+echo "transcript: $OUT.$FMT" >&2
+[[ "$FMT" == "txt" ]] && cat "$OUT.$FMT"
+exit 0
