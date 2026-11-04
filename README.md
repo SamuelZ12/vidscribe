@@ -1,6 +1,6 @@
 # vidscribe
 
-Local speech-to-text and video frame capture for AI agents, on Apple Silicon. Give it a file or a URL (YouTube, X, podcasts, anything yt-dlp handles) and it returns a transcript. With `-v` it also saves key video frames plus an `index.txt` that maps each frame to what was being said, so an agent can actually "watch" the video.
+Local speech-to-text and video frame capture for AI agents, on Apple Silicon. Give it a file or a URL (YouTube, X, podcasts, anything yt-dlp handles) and it returns a transcript. For video it also saves key frames plus an `index.txt` that maps each frame to what was being said, so an agent can actually "watch" the video.
 
 Everything runs on-device. No API keys.
 
@@ -18,11 +18,13 @@ This installs `uv`, `ffmpeg`, `yt-dlp`, and `mlx-audio`, then symlinks `bin/vids
 ## Usage
 
 ```
-vidscribe <file-or-URL> [-o DIR] [-l LANG] [-f txt|srt|vtt|json] [-c "hotwords"] [-m MODEL] [-v [N]]
+vidscribe <file-or-URL> [-o DIR] [-l LANG] [-f txt|srt|vtt|json] [-c "hotwords"] [-m MODEL] [-v [N] | -a]
 ```
 
 - Transcripts go to `/tmp/vidscribe/transcripts/<name>.<fmt>`; txt is also printed to stdout. Use `-o DIR` to keep them elsewhere.
-- `-v [N]`: visual mode. Writes srt + txt, saves N evenly spaced frames (default 8) and a frame at every spoken on-screen reference ("look at this", "as you can see", 你看...). Output: `/tmp/vidscribe/frames/<name>/` with `index.txt` (time, frame, spoken text).
+- Frames are on by default when the input has a video stream (checked with ffprobe; URLs are downloaded as video, up to 720p). Audio files, including mp3/m4a with cover art, give a transcript only, same as before.
+- Frame mode writes srt + txt and saves N evenly spaced frames (default 8) plus a frame at every spoken on-screen reference ("look at this", "as you can see", 你看...). At most 40 frames in total (or N, if `-v N` asks for more): on long videos the reference frames are thinned out evenly (see `MEASUREMENTS.md`). Output: `/tmp/vidscribe/frames/<name>/` with `index.txt`, one tab-separated line per frame: frame time, frame file, start-end of the spoken text, spoken text (`-` and empty text where nothing is being said).
+- `-v [N]`: force frame mode, with N evenly spaced frames. `-a`/`--audio-only`: transcript only, never download or save video. `-f vtt|json` on a video without `-v` also gives a transcript only.
 - `-l zh|en|...` forces a language; `-c "Letta, Qwen"` biases rare names.
 - A `WARNING: last cue ... < duration` line means the model stopped early; re-run on the tail.
 - Old outputs in `/tmp/vidscribe` are pruned after 3 days.
