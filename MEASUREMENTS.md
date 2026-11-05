@@ -216,3 +216,32 @@ Dev 3 → 15/18, holdout 8 → 16/18. No leakage (each agent's tool calls stayed
 - Every miss in both conditions was an honest "unknown"; no confident wrong answers. Four low-confidence answers were graded right: a small painting (`at`), and in `frames` a small shirt print, a blurry book spine and a half-hidden Siri prompt the agent completed.
 - `frames` alone got 11/36, mostly where the answer stays on screen (a podcast's background shelves, 3/3) or lands on a default frame by chance.
 - Caveat: 36 questions, 5 misses, and one video (`wYSncx9zLIU`) accounts for 3 of them; the 75% bar rules out a large gap, not a small one.
+
+## Scan probe: contact sheets for the hard-eval misses
+
+2026-11-05. Can an agent find a moment the transcript never hints at by scanning contact sheets (many small frames per image, ~1.2k tokens per sheet like one frame)? Taken on the 5 `at` misses above, before any code. For each, a 10-min window containing the answer (offset random, seed 7; `eval/hard/scan_probe.json`) was cut into 1280x720 sheets by `eval/scan_probe.py`, two tile choices × two grids. 20 fresh agents, one per cell, got only the question, their sheets and each tile's time; no tool but `read` on their own sheets (checked in every transcript). Asked: which tiles show the moment, and the answer if readable.
+
+| Miss | scene 3x3 | scene 4x4 | even 5 s 3x3 | even 5 s 4x4 |
+|---|---|---|---|---|
+| `wYSncx9zLIU` h1 coffee bag brand (3.75 s on screen) | read | read | not found | not found |
+| `wYSncx9zLIU` h2 class time on app slide | read | read (low conf.) | read | found, misread 12:30 |
+| `wYSncx9zLIU` h3 signpost trail number (5 s) | not found | not found | found, unreadable | found, unreadable |
+| `yQ6VOOd73MA` h2 caption institution (4 s) | read | read | not found | not found |
+| `yQ6VOOd73MA` h3 number on clockwork | not found | not found | read | read |
+| **Located** | 3/5 | 3/5 | 3/5 | 3/5 |
+| Sheets per window | 4-10 | 3-6 | 14 | 8 |
+
+- Scene and even tiles fail on different moments: scene tiles (the last frame of each detected scene, as in normal runs) miss content in the middle of long scenes (the clockwork, 18 s scene; the signpost, inside a 22 s run of soft transitions with no detected cut). Even 5 s tiles miss shots shorter than the spacing. Every "not found" was a window with no tile inside the answer span, not a tile the agent overlooked.
+- 4x4 located exactly what 3x3 did, with ~40% fewer sheets, but produced the only confident misread (12:30 for 12:15). Tiles are for finding a moment; answers need a full-size `--at` frame.
+- Combining them: scene tiles plus even fill so no gap exceeds G seconds. On these 5 windows (coverage only, no agents):
+
+| G | windows covered | tiles per 10 min | whole video, 4x4 sheets (`wYSncx9zLIU` 111 min / `yQ6VOOd73MA` 54 min) |
+|---|---|---|---|
+| 5 s | 5/5 | 137-160 | 102 / 54 |
+| 10 s | 5/5 | 77-109 | 64 / 38 |
+| 15 s | 4/5 | 60-94 | 52 / 33 |
+| 30 s | 3/5 | 41-88 | 42 / 31 |
+
+- At G = 10 s, a 10-min window is 5-7 sheets (6-8k tokens); the failed `at` searches on these two videos spent 40 and 52 extra frames (48k, 62k tokens). A whole long video is 38-64 sheets, so scanning should target windows.
+- Scene detection (2 fps, 160 px) took 7.4 s for 10 min and 85 s for the 111-min keynote on an M-series laptop.
+- Caveats: 5 questions, chosen because they were misses; one run per cell; the window was given, while a real agent must choose it; G was picked on these same 5, so it may be fitted to them. `yQ6VOOd73MA` was a hard-eval holdout clip and is now dev.

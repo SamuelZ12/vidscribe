@@ -136,6 +136,8 @@ The 72 questions above all name their moment through speech ("when the speaker s
 
 Run 2026-11-05: `frames` 11/36, `at` 31/36; OCR not built (`MEASUREMENTS.md`, "Hard eval"). Files: `hard/questions/<ID>.json` (same fields as above plus `anchor`, `anchor_s`), `hard/grades.json` (per clip, condition and question: `score`, `answer`, `confidence`, `reason`; `miss` = not found / misread on misses; `extra_frames` on `at` h1), `hard/transcript_only.json` (validation check 2 on the final 36: `answer`, `score`), `hard/check_transcript.py` (validation check 1).
 
+Scan probe (`MEASUREMENTS.md`, "Scan probe"): `scan_probe.py VIDEO START END OUTDIR [--method scene|even5|fill10] [--grid 4]` builds the contact sheets and prints each sheet's tile times; `hard/scan_probe.json` has the 5 windows and the 20 agents' answers (`located` = a reported tile lies inside `visible_s`). The probe used the 5 `at` misses, so the whole hard set (both splits) is now dev data.
+
 ### Questions
 
 - 3 per video, 36 total, `qid` `h1`-`h3`: one from each third of the video.
