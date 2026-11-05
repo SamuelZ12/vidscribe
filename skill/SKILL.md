@@ -14,18 +14,20 @@ description: Transcribes speech from local media files or URLs (YouTube, X/Twitt
 3. **Check coverage.** A `WARNING: last cue ... < duration` line (rare) means the transcript ends before the media does: say so instead of guessing what comes after. A run of one repeated word ("oh, oh, oh") is applause or music, not speech.
 4. **Look at frames** (video only). Read `index.txt`, then view the frame images. Done when every on-screen reference in the speech is tied to a frame you actually looked at.
 5. **Get missing frames** (video only). Long videos keep at most 40 frames, so a moment you need often has none. Find it in the transcript (srt times), then run `vidscribe <frames-dir> --at 8:14` for an exact second or `--at 7:50-8:50` (4 frames) when unsure, and view what it prints. Several times or ranges fit in one call (`--at 8:14,31:00-31:40`); fractions take a dot (`8:14.5`), not the srt comma. Ask for the moments you need, not the whole video.
-6. Answer from the transcript and frames, not from the post text or guesses.
+6. **Scan when nothing points to it** (video only). If the question is about something on screen that the transcript never leads to, or `--at` didn't find it, run `vidscribe <frames-dir> --scan 50:00-60:00` on the stretch where it most likely is. It prints 4x4 contact sheets (a tile at every scene change, at most 10 s apart) with each tile's time. View every sheet, pick the tile, then `--at` its time and answer from that frame, never from the tile (small text misreads). 10 min is 5-8 sheets, each about the cost of one frame; widen the range step by step, and use `--scan all` (a 2-hour keynote is ~65 sheets) only as a last resort.
+7. Answer from the transcript and frames, not from the post text or guesses.
 
 ## Flags
 
 ```
 vidscribe <file-or-URL> [-o DIR] [-l LANG] [-f txt|srt|vtt|json] [-c "hotwords"] [-m MODEL] [-v [N] | -a]
-vidscribe <frames-dir> --at TIMES
+vidscribe <frames-dir> --at TIMES | --scan RANGES|all
 ```
 
 - Output: `/tmp/vidscribe/transcripts/<name>.<fmt>` (txt also prints to stdout).
 - Video input (default) or `-v [N]`: srt+txt plus N evenly spaced frames (default 8), a frame per spoken on-screen reference, and a frame at the end of each distinct scene, at most max(40, N) in total. Goes to `/tmp/vidscribe/frames/<name>/` with `index.txt`: frame time, frame file, start-end of the spoken text, text (tab-separated; `-` when nothing is spoken).
 - `--at`: frames from the run's `video.<ext>` at times (`494`, `8:14`, `1:02:05`) or ranges (`7:50-8:50`, 4 frames each); no transcription. Fails once the folder is pruned (3 days): re-run on the source.
+- `--scan`: 4x4 contact sheets (`scan_<start>-<end>_NN.jpg`) of a range (`50:00-60:00`, several with commas) or `all`; prints `path<TAB>tile times` per sheet and the tile count first. Ranges only; no transcription.
 - `-a`: transcript only. `-f vtt|json` without `-v` also skips frames.
 - `-l zh|en|...` only if auto-detect fails. `-c "Name1, Name2"` biases rare names.
 - Languages outside Qwen3-ASR's ~30: `-m mlx-community/whisper-large-v3-turbo-asr-fp16`.

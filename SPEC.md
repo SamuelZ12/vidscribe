@@ -32,7 +32,7 @@ No harness; smoke runs:
 - Errors: single time, past end, backwards, bad syntax, pruned folder, extra flags; nothing written on error.
 - Symlinked local video with spaces in the path.
 - Normal run byte-identical to master (transcript, `index.txt`, frames) with `VIDSCRIBE_OUTDIR`/`VIDSCRIBE_FRAMES_DIR` in a scratch dir.
-- Tile times on the probe windows match `eval/scan_probe.py --method fill10`.
+- On a probe window, every scene end from the whole-video pass (`eval/scan_probe.py --method scene`) is a tile. A ranged pass may add a few: dedupe there only sees scenes inside the range. Ranged detection samples on the whole-video 0.5 s grid.
 
 ## Eval
 Same method as the hard eval (`eval/README.md`, "Hard set"): fresh agents, blind x/y labels, the same grader, leakage check.
@@ -55,7 +55,7 @@ Same method as the hard eval (`eval/README.md`, "Hard set"): fresh agents, blind
 - Ask first: merge, push; changing normal-run output, the frame cap or scene detection settings; downloading the holdout videos (list proposed first); deleting `/tmp/vseval` or `/tmp/vsprobe`.
 - Never: tune SKILL.md wording, G or the grid on holdout results; touch `/tmp/vidscribe` contents other than fresh test folders; send media off the device.
 
-## Open questions
-1. `all`: allow it (agents may burn ~64 sheets on a long keynote), or require explicit ranges? Proposed: allow, with the stderr cost line and SKILL.md guidance.
-2. Fill gap 10 s and 4x4 grid were chosen on the 5 probe windows; fix them now (proposed), or tune on dev?
-3. Ship bar as above?
+## Decisions (approved 2026-11-05)
+1. `all` allowed, with the stderr cost line and SKILL.md guidance.
+2. Fill gap 10 s and 4x4 grid fixed now; the holdout tests whether they generalise.
+3. Ship bar as above.

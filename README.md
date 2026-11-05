@@ -33,6 +33,7 @@ vidscribe "https://www.youtube.com/watch?v=<id>"    # any URL yt-dlp handles
 vidscribe memo.m4a -f srt -o ~/transcripts          # srt, kept outside /tmp
 vidscribe "https://www.youtube.com/watch?v=<id>" -a # transcript only, audio download only
 vidscribe /tmp/vidscribe/frames/<name> --at 8:14,7:50-8:50   # more frames from a previous run
+vidscribe /tmp/vidscribe/frames/<name> --scan 50:00-60:00   # contact sheets to find an unnamed moment
 ```
 
 The transcript path is printed to stderr as `transcript: <path>`; frame runs also print `frames: <dir> (...)`.
@@ -41,7 +42,7 @@ The transcript path is printed to stderr as `transcript: <path>`; frame runs als
 
 ```
 vidscribe <file-or-URL> [-o DIR] [-l LANG] [-f txt|srt|vtt|json] [-c "hotwords"] [-m MODEL] [-v [N] | -a]
-vidscribe <frames-dir> --at TIMES
+vidscribe <frames-dir> --at TIMES | --scan RANGES|all
 vidscribe -h | --help
 ```
 
@@ -56,6 +57,10 @@ vidscribe -h | --help
 ### Frames on demand (`--at`)
 
 The frames folder also holds `video.<ext>`: the downloaded video for URLs, a symlink to the original for local files. `vidscribe <frames-dir> --at 494,8:14,7:50-8:50` pulls more frames from it without transcribing again: one per time, 4 evenly spaced inside each range (seconds, `M:SS` or `H:MM:SS`, fractions with a dot). Frames are saved as `at_<mm>m<ss.s>s.jpg` in the same folder and each prints as `mm:ss.s<TAB>path`; `index.txt` is left as is. `--at` takes no other flags, and fails once the folder has been pruned: re-run on the source.
+
+### Contact sheets (`--scan`)
+
+`vidscribe <frames-dir> --scan 50:00-60:00` (several ranges with commas, or `all`) helps find a moment the transcript never leads to. Each range becomes 4x4 contact sheets, 1280x720, saved as `scan_<start>-<end>_NN.jpg` in the frames folder: one tile at the end of each scene (the same cut detection as frame mode) plus evenly spaced tiles so no two are more than 10 s apart. Stderr gives the tile and sheet count per range; stdout prints one line per sheet, `path<TAB>` then the tile times in reading order. A 10-min range is typically 5-8 sheets; scene detection takes ~7 s per 10 min of video. Tiles are too small for reliable reading: confirm with `--at` at the tile's time. Same rules as `--at`: ranges only, no other flags, fails once the folder is pruned. Probe and sizing in `MEASUREMENTS.md`, "Scan probe".
 
 ### Environment
 
