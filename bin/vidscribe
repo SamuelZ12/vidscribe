@@ -218,7 +218,7 @@ fi
 # truncation check: model has silently stopped early on long media before
 if [[ -f "$OUT.srt" ]]; then
   LAST="$(awk '/-->/ {split($0,a,"-->"); split(a[2],t,/[:,]/); last=t[1]*3600+t[2]*60+t[3]+t[4]/1000} END {print last+0}' "$OUT.srt")"
-  awk -v l="${LAST:-0}" -v d="$DUR" 'BEGIN{ if (d-l > 30) printf "WARNING: last cue %.0fs < duration %.0fs; re-run on the tail\n", l, d }' >&2
+  awk -v l="${LAST:-0}" -v d="$DUR" 'BEGIN{ if (d-l > 30) printf "WARNING: last cue %.0fs < duration %.0fs; transcript ends early\n", l, d }' >&2
 fi
 
 echo "transcript: $OUT.$FMT" >&2
