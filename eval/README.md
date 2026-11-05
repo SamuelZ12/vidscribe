@@ -130,9 +130,11 @@ Do not modify anything else under /tmp/vseval2.
 
 Speech questions move by about ±1 per 12 between runs from agent noise alone, even with identical transcripts. Compare conditions within a run when the expected difference is small.
 
-## Hard set (spec; questions frozen 2026-11-04, not run)
+## Hard set
 
 The 72 questions above all name their moment through speech ("when the speaker says ..."), which is the case `--at` is built for (`MEASUREMENTS.md`, "Frames on demand", caveat). The hard set asks about moments the transcript never points to: the agent must find the moment from what is on screen. Its result decides whether the OCR timeline (ROADMAP 5) is built.
+
+Run 2026-11-05: `frames` 11/36, `at` 31/36; OCR not built (`MEASUREMENTS.md`, "Hard eval"). Files: `hard/questions/<ID>.json` (same fields as above plus `anchor`, `anchor_s`), `hard/grades.json` (per clip, condition and question: `score`, `answer`, `reason`, `miss` = found / not found; `extra_frames` on `at` h1), `hard/check_transcript.py` (validation check 1).
 
 ### Questions
 

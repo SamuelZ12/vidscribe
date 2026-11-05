@@ -185,4 +185,34 @@ By kind (master → C): visual 19 → 46/48 (holdout 10 → 22/24), mixed 6.5 �
 - Cost: 1-3 `--at` calls and 4-23 extra frames per video (about 19k tokens at ~1.2k per frame); extraction takes ~0.05 s per frame. Agents asked for single times or 10-50 s ranges around the cue the question pointed at.
 - The 3 misses are all precision, not missing coverage: a card on screen for 0.75 s (the agent read the next card), a 4 s phone screen in a collage (a neighbouring outlet; master got this one right), and a slide whose bullets appeared 6 s after the agent's last frame (it guessed instead of fetching a wider range). All three are confident wrong answers.
 - One agent passed a range past the end; the call fails as a whole with a clear message, and it retried.
-- Caveat: the questions anchor on speech ("when the speaker says ..."), which is the case `--at` is built for. Moments the transcript never hints at still depend on the automatic 40 frames.
+- Caveat: the questions anchor on speech ("when the speaker says ..."), which is the case `--at` is built for. Moments the transcript never hints at still depend on the automatic 40 frames. Tested in "Hard eval" below.
+
+## Hard eval: moments the transcript never names
+
+2026-11-05. Same 12 videos (re-downloaded, transcribed with master `b3fa881`), 36 new questions, 3 per video, one per third. Each names its moment only by what is on screen; the anchor is not spoken within 60 s and the answer is never spoken. All 36 also defeated a transcript-only agent that had to guess (score 0/36). Method, prompts and validation in `eval/README.md`, "Hard set"; grades in `eval/hard/grades.json`. Two conditions, fresh agents, blind grader: `frames` (the run's 39-40 frames) and `at` (the same plus `--at`). Dev clips ran first, then holdout; nothing changed between.
+
+| Clip | frames | at | extra frames |
+|---|---|---|---|
+| LCEmiRjPEtQ | 0 | 3 | 12 |
+| Unzc731iCUY | 1 | 3 | 12 |
+| wYSncx9zLIU | 0 | 0 | 40 |
+| H3KnMyojEQU | 0 | 3 | 20 |
+| gDvwRpl9erE | 1 | 3 | 16 |
+| xAcTmDO6NTI | 1 | 3 | 12 |
+| ej5RsTtVvQE (holdout) | 2 | 3 | 4 |
+| JKbtWimlzAE (holdout) | 1 | 3 | 16 |
+| hF8swzNR1-o (holdout) | 1 | 3 | 67 |
+| yQ6VOOd73MA (holdout) | 0 | 1 | 52 |
+| x-wqMcYMNdg (holdout) | 3 | 3 | 0 |
+| v9DuQ1C3xH8 (holdout) | 1 | 3 | 12 |
+| **Total /36** | **11** | **31** | 22 per clip |
+
+Dev 3 → 15/18, holdout 8 → 16/18. No leakage (each agent's tool calls stayed in its folder; no `ffmpeg`).
+
+- **Decision (rule set before the run): OCR timeline not built.** `at` scored 31/36 (86%), above the 75% bar. All 5 misses are "not found" (no viewed frame inside the anchor span), so the misses are the kind OCR would target, but there are too few to justify it.
+- Agents find unnamed moments from related speech, not the anchor itself: presenter hand-overs ("Here's Raja") for name captions, the topic being discussed (Photoshop mentioned before a slide comparing it with Unreal; "LLMs click stuff" before an Operator screenshot; a Logan Airport story before a terminal map). The new questions keep anchors unspoken, but on talks and keynotes the content shown is usually what is being discussed.
+- The misses are where that link is missing: a 111-minute Google I/O keynote with three brief shots (a montage clip, a demo slide, a 5 s photo) the speech never describes (`wYSncx9zLIU`, 40 extra frames, 0/3), and two NOVA documentary shots (stock footage of a watch movement; an interviewee whose caption appears once) that the agent searched for with 52 extra frames.
+- Searching costs more than in the speech-anchored eval: 0-67 extra frames per video, 263 total (about 26k tokens per video at ~1.2k per frame, against ~19k there). The largest were long searches: `hF8swzNR1-o` 67 (3/3), `yQ6VOOd73MA` 52 (1/3), `wYSncx9zLIU` 40 (0/3).
+- Every miss in both conditions was an honest "unknown"; no confident wrong answers. Three low-confidence answers were graded right: a small painting (`at`), a blurry book spine and a half-hidden Siri prompt completed by the agent (`frames`).
+- `frames` alone got 11/36, mostly where the answer stays on screen (a podcast's background shelves, 3/3) or lands on a default frame by chance.
+- Caveat: 36 questions, 5 misses, and one video (`wYSncx9zLIU`) accounts for 3 of them; the 75% bar rules out a large gap, not a small one.

@@ -23,7 +23,7 @@ Add frames at scene changes (ffmpeg `select='gt(scene,0.3)'` or similar) on top 
 
 ## 5. Later
 - Frames on demand for long videos (done): `vidscribe <frames-dir> --at TIMES`; the agent finds the moment in the transcript and extracts frames from `video.<ext>`. 37.5 → 69/72 on 12 long videos (see `MEASUREMENTS.md`, "Frames on demand"). Choosing better scenes within the 40-frame cap had been tried first and didn't help: on long videos the frame count, not the choice, limits pinpoint questions ("Scene choice on long videos").
-- OCR of on-screen text into index.txt.
+- OCR of on-screen text into index.txt: not built. A hard eval of moments the transcript never names scored 31/36 with `--at` (11/36 without), above the 75% bar set beforehand; the 5 misses are moments no speech relates to (see `MEASUREMENTS.md`, "Hard eval"). Revisit if agents report failing to find on-screen content.
 - Optional escalation to a hosted model (Gemini Flash via Google's `gemini-api` CLI, `gemini-api agent run`) behind an explicit flag; needs `GEMINI_API_KEY`. Never default.
 
 ## Testing (done for steps 2-4)
