@@ -1,5 +1,7 @@
 # Measurements
 
+The 12-video long-video eval (scene choice, frames on demand) is in `eval/`: questions, reference answers, grades, prompts and rebuild steps.
+
 ## Frame counts on a long talk (ROADMAP step 1)
 
 2026-11-04, Apple Silicon Mac, `master` (bb029cd), default model `mlx-community/Qwen3-ASR-1.7B-8bit`.

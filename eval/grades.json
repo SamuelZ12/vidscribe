@@ -1,0 +1,962 @@
+{
+ "LCEmiRjPEtQ": {
+  "master": {
+   "v1": {
+    "score": 1,
+    "reason": "The candidate answer is the same as the reference: the xAI Colossus cluster with 100K H100 GPUs."
+   },
+   "v2": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown,\" so it did not name any of the tools. The reference lists three Software 1.0 tools: calculator, Python interpreter and terminal."
+   },
+   "v3": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and didn't name the query. The reference says the visible query is \"meta buys scale ai\"."
+   },
+   "v4": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown,\" so it never named the checked item. The reference says the item with the green check mark is \"Running locally (ez).\""
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "The candidate's answer, \"Human+AI UIUX for Coding,\" is exactly the same as the reference answer, so it is correct."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate says five dollars, which is the same as the reference answer of $5."
+   }
+  },
+  "scene_b": {
+   "v1": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and didn't name the cluster. The reference answer is xAI's Colossus cluster (100K H100 GPUs)."
+   },
+   "v2": {
+    "score": 0,
+    "reason": "The candidate said \"unknown,\" so it doesn't name any of the tools in the reference answer: Calculator, Python interpreter and Terminal."
+   },
+   "v3": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and didn't give the query. The reference says it was \"meta buys scale ai\"."
+   },
+   "v4": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown,\" so it doesn't name the checked item. The reference says the item with the green check mark is \"Running locally (ez).\""
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "The title matches the reference exactly. The extra description of the image doesn't contradict anything in the reference."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate says $5 in credits, which is the same as the reference answer."
+   }
+  },
+  "at": {
+   "v1": {
+    "score": 1,
+    "reason": "The candidate answer is the same as the reference: the xAI Colossus cluster with 100K H100 GPUs."
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate names the same three tools as the reference: Calculator, Python interpreter and Terminal. The added ellipsis only notes that the list continues, so it doesn't change the answer."
+   },
+   "v3": {
+    "score": 1,
+    "reason": "The candidate answer, \"meta buys scale ai,\" matches the reference answer exactly."
+   },
+   "v4": {
+    "score": 1,
+    "reason": "The candidate's answer, \"Running locally (ez)\", is the same as the reference answer."
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "The candidate's answer is exactly the same as the reference answer."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate's answer of $5 is the same as the reference answer."
+   }
+  }
+ },
+ "Unzc731iCUY": {
+  "master": {
+   "v1": {
+    "score": 1,
+    "reason": "The candidate answer matches the reference. Both say the arch is built from white blocks on the table, with two upright blocks and one block laid across the top."
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate answer is the same as the reference: MIT in the bottom left and CSAIL in the bottom right."
+   },
+   "v3": {
+    "score": 1,
+    "reason": "The date in the candidate answer, 29-Jan-2015, matches the reference. The timestamp it adds is extra detail and does not contradict the reference."
+   },
+   "v4": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\", so it doesn't give the time the reference shows (11:23 pm ET)."
+   },
+   "mixed": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and gave no content. The reference says the first bullet reads \"Newton noted that F = ma.\""
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate says duct tape, which matches the reference. The extra detail about the colour doesn't change the core answer."
+   }
+  },
+  "scene_b": {
+   "v1": {
+    "score": 1,
+    "reason": "The candidate's answer matches the reference. Both say the arch is made of white blocks from the table, with two upright blocks and one laid across the top."
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate's answer is the same as the reference: MIT is bottom left and CSAIL is bottom right."
+   },
+   "v3": {
+    "score": 1,
+    "reason": "The date matches the reference. The extra timestamp detail doesn't contradict it."
+   },
+   "v4": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown,\" so it gave no time at all. The reference answer is 11:23 pm ET."
+   },
+   "mixed": {
+    "score": 0,
+    "reason": "The candidate said \"unknown\" and didn't give the bullet text. The correct answer is \"Newton noted that F = ma.\""
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate says duct tape, which matches the reference. The added detail that it is red isn't in the reference and doesn't change the core answer."
+   }
+  },
+  "at": {
+   "v1": {
+    "score": 1,
+    "reason": "The candidate matches the reference: white blocks, with two standing upright and one laid across the top."
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate's answer matches the reference exactly: MIT is at the bottom left and CSAIL is at the bottom right."
+   },
+   "v3": {
+    "score": 1,
+    "reason": "The date matches the reference. The extra timestamp detail doesn't contradict it."
+   },
+   "v4": {
+    "score": 1,
+    "reason": "The candidate's answer, 11:23 pm ET, is the same as the reference answer."
+   },
+   "mixed": {
+    "score": 0,
+    "reason": "According to the reference, the first bullet says \"Newton noted that F = ma.\" The candidate's answer, \"Argued uniqueness of human intelligence,\" doesn't match that."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate says \"duct tape,\" which matches the reference. The added detail that the tape is red isn't in the reference and can't be checked, but it doesn't change the core answer."
+   }
+  }
+ },
+ "wYSncx9zLIU": {
+  "master": {
+   "v1": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and never described the photo. The reference says it shows a gray cat wearing bunny ears, lying in a pet bed."
+   },
+   "v2": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and did not name a company. The reference answer is BioNTech."
+   },
+   "v3": {
+    "score": 0,
+    "reason": "The brand, ASUS, is right, but the model is wrong. The reference answer is the TUF Gaming Z790-Plus WIFI, while the candidate answer names the ROG STRIX X870A GAMING WIFI."
+   },
+   "v4": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and didn't give the name. The reference answer is Willamette Pizza Co."
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "The candidate's answer matches the reference: 1656 Elo on GDPval-AA, compared with 1314 for 3.1 Pro."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate's answer of 93 is the same as the reference answer."
+   }
+  },
+  "scene_b": {
+   "v1": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\", so it gave no content. The reference says the photo shows a gray cat wearing bunny ears, lying in a pet bed."
+   },
+   "v2": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and never named a company. The reference answer is BioNTech (BioNTech SE)."
+   },
+   "v3": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and didn't name a motherboard. The reference answer is the ASUS TUF Gaming Z790-Plus WIFI, so this doesn't match."
+   },
+   "v4": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and didn't name the pizza company. The reference answer is \"Willamette Pizza Co.\""
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "The candidate's answer matches the reference exactly: a GDPval-AA Elo of 1656, compared with 1314 for 3.1 Pro."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate's answer of 93 is the same as the reference answer."
+   }
+  },
+  "at": {
+   "v1": {
+    "score": 1,
+    "reason": "The candidate matches the reference: a gray cat wearing bunny ears in a pet bed. The extra details it adds don't contradict the reference."
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate names BioNTech SE, which matches the reference. The ticker is misspelled (the real one is BNTX), but that's a minor extra detail and doesn't change the company identified."
+   },
+   "v3": {
+    "score": 1,
+    "reason": "The candidate names the same brand and model as the reference, ASUS TUF Gaming Z790-Plus WIFI. Adding the word \"motherboard\" doesn't change the answer."
+   },
+   "v4": {
+    "score": 1,
+    "reason": "The candidate's answer, \"Willamette Pizza Co.\", is exactly the same as the reference answer."
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "It matches the reference exactly: 1656 GDPval-AA Elo, compared with 1314 for 3.1 Pro."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate's answer of 93 is the same as the reference answer."
+   }
+  }
+ },
+ "H3KnMyojEQU": {
+  "master": {
+   "v1": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and didn't name the exercise. The correct answer is an alternating bicep curl (8 reps at 30 lbs)."
+   },
+   "v2": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and didn't name the song or the artist. The reference answer is \"Kneel\" by Nilüfer Yanya."
+   },
+   "v3": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown,\" so it gives no job title. The reference answer is \"VP, Platform Architecture (Tim Millet),\" and nothing in the candidate answer matches it."
+   },
+   "v4": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\", so it doesn't give the text the reference has under the logo: \"Shot on iPhone. Edited on Mac.\""
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "The candidate names the same product as the reference, the Apple Watch Ultra 3, and gives the same battery life of up to 42 hours. Adding a hedge doesn't change that the substance matches."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate's answer is the same as the reference: For All Mankind, all 40 episodes."
+   }
+  },
+  "scene_b": {
+   "v1": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and did not name the exercise. The reference answer is an alternating bicep curl (8 reps at 30 lbs)."
+   },
+   "v2": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and didn't name the song or artist. The reference answer is \"Kneel\" by Nilüfer Yanya."
+   },
+   "v3": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and gave no job title. The reference answer is \"VP, Platform Architecture\" (Tim Millet)."
+   },
+   "v4": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and didn't give the text. The reference says it reads \"Shot on iPhone. Edited on Mac.\""
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "The candidate gives the right product (Apple Watch Ultra 3) and the right battery life (up to 42 hours), so it matches the reference answer."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate answer is the same as the reference: For All Mankind, all 40 episodes."
+   }
+  },
+  "at": {
+   "v1": {
+    "score": 1,
+    "reason": "The candidate's answer, \"8x Bicep Curl • Alternating, 30 lbs\", is the same exercise, rep count, and weight as the reference."
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate answer gives the same song and artist as the reference: \"Kneel\" by Nilüfer Yanya."
+   },
+   "v3": {
+    "score": 1,
+    "reason": "The candidate answer is exactly the same as the reference."
+   },
+   "v4": {
+    "score": 1,
+    "reason": "The candidate's answer is exactly the same as the reference: \"Shot on iPhone. Edited on Mac.\""
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "The candidate gets the product (Apple Watch Ultra 3) and the battery life (up to 42 hours) right, matching the reference. The presenter's name it adds doesn't change the answer to what was asked."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate's answer is the same as the reference: For All Mankind, all 40 episodes."
+   }
+  }
+ },
+ "gDvwRpl9erE": {
+  "master": {
+   "v1": {
+    "score": 1,
+    "reason": "The candidate's answer, \"2.8\", is exactly the same as the reference answer."
+   },
+   "v2": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and did not give a value. According to the reference answer, the chart shows 38% for FastAPI in 2024."
+   },
+   "v3": {
+    "score": 1,
+    "reason": "The candidate's answer, \"le_package.pth\", is exactly the same as the reference answer."
+   },
+   "v4": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and gave no content. The reference says point 1 is \"All sneks are good.\""
+   },
+   "mixed": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown,\" so it doesn't name the object at all. The reference answer is a coffee mug."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate answer is identical to the reference: 90 seconds over a 250 megabit connection."
+   }
+  },
+  "scene_b": {
+   "v1": {
+    "score": 1,
+    "reason": "The candidate's answer, \"2.8\", is exactly the same as the reference answer."
+   },
+   "v2": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and gave no value. The reference answer is 38%."
+   },
+   "v3": {
+    "score": 1,
+    "reason": "The candidate's answer, le_package.pth, is exactly the same as the reference answer."
+   },
+   "v4": {
+    "score": 0,
+    "reason": "The candidate said \"unknown\" and didn't give the answer. The reference answer is \"All sneks are good.\""
+   },
+   "mixed": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown,\" so it doesn't name the object. The reference answer says the man is holding a coffee mug."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate answer is exactly the same as the reference: 90 seconds over a 250 megabit connection."
+   }
+  },
+  "at": {
+   "v1": {
+    "score": 1,
+    "reason": "The candidate's answer, \"2.8\", is exactly the same as the reference answer."
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate's answer of 38% is the same as the reference answer."
+   },
+   "v3": {
+    "score": 1,
+    "reason": "The candidate's answer, \"le_package.pth\", is exactly the same as the reference answer."
+   },
+   "v4": {
+    "score": 1,
+    "reason": "The candidate answer, \"All sneks are good\", is exactly the same as the reference answer."
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "The candidate says the man is holding a coffee mug, which matches the reference. Calling it \"white\" adds a detail but doesn't change the answer."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate answer is the same as the reference: 90 seconds over a 250 megabit connection."
+   }
+  }
+ },
+ "xAcTmDO6NTI": {
+  "master": {
+   "v1": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and gave no number. The reference says the bake step is 5 minutes (at 350F)."
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate's answer, Python 3.8.5, is exactly the same as the reference answer."
+   },
+   "v3": {
+    "score": 1,
+    "reason": "The candidate's answer, \"flag\", is exactly the same as the reference answer."
+   },
+   "v4": {
+    "score": 1,
+    "reason": "The candidate's answer, Dell, is the same as the reference answer."
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "The candidate's answer, \"ok\", is exactly the same as the reference answer."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate answer, \"Probably almost 10 years\", matches the reference answer word for word."
+   }
+  },
+  "scene_b": {
+   "v1": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and did not give a number. The reference says the slide's bake step is 5 minutes at 350F."
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate's answer, Python 3.8.5, is exactly the same as the reference answer."
+   },
+   "v3": {
+    "score": 1,
+    "reason": "The candidate's answer, \"flag\", is exactly the same as the reference answer."
+   },
+   "v4": {
+    "score": 1,
+    "reason": "The candidate's answer, Dell, is the same as the reference answer."
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "The candidate's answer, \"ok\", is exactly the same as the reference answer."
+   },
+   "speech": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and didn't give the duration. The reference answer says it's probably almost 10 years."
+   }
+  },
+  "at": {
+   "v1": {
+    "score": 1,
+    "reason": "The candidate answer is identical to the reference: bake at 350F for 5 minutes."
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate's answer, Python 3.8.5, is exactly the same as the reference answer."
+   },
+   "v3": {
+    "score": 1,
+    "reason": "The candidate's answer, \"flag\", is exactly the same as the reference answer."
+   },
+   "v4": {
+    "score": 1,
+    "reason": "The candidate answer, Dell, is the same as the reference answer."
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "The candidate's answer, \"ok\", is exactly the same as the reference answer."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate's \"almost 10 years\" matches the reference in substance. Leaving out the hedge \"probably\" doesn't change that."
+   }
+  }
+ },
+ "ej5RsTtVvQE": {
+  "master": {
+   "v1": {
+    "score": 1,
+    "reason": "The candidate correctly identifies the chair and says one leg is propped on a stack of paper, which matches the reference's \"stack of books (paper)\" in substance."
+   },
+   "v2": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and did not give the subtitle. The reference subtitle is \"Cut from the Same Cloth\"."
+   },
+   "v3": {
+    "score": 1,
+    "reason": "The candidate's answer, \"Throw Away,\" is the same as the reference answer."
+   },
+   "v4": {
+    "score": 1,
+    "reason": "The candidate says dispatch_request(request), which is the same as the reference answer."
+   },
+   "mixed": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\", so it doesn't give the slide title. The reference says the slide is titled \"You will not reuse\", with the subtitle \"Except when you do\"."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate's answer of 50 is the same as the reference answer."
+   }
+  },
+  "scene_b": {
+   "v1": {
+    "score": 1,
+    "reason": "The candidate correctly says the object is a chair with one leg propped on a stack of flat items, and it names paper or a book as possibilities. That matches the reference: a stack of books or paper."
+   },
+   "v2": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown,\" so it never gives the subtitle. The reference subtitle is \"Cut from the Same Cloth.\""
+   },
+   "v3": {
+    "score": 1,
+    "reason": "The candidate's answer, \"Throw Away,\" is the same as the reference answer."
+   },
+   "v4": {
+    "score": 1,
+    "reason": "The candidate's answer, dispatch_request(request), is the same function and call that the reference gives."
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "The candidate's answer is the same as the reference: the title is \"You will not reuse\" and the subtitle is \"Except when you do\"."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate's answer of 50 is the same as the reference answer."
+   }
+  },
+  "at": {
+   "v1": {
+    "score": 1,
+    "reason": "The candidate correctly says the object is a chair with one leg propped up on a small stack. Calling it folded paper or cards matches the reference's \"stack of books (paper)\" closely enough."
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate's answer, \"Cut from the Same Cloth\", is exactly the same as the reference answer."
+   },
+   "v3": {
+    "score": 1,
+    "reason": "The candidate's answer, \"Throw Away,\" is the same as the reference answer."
+   },
+   "v4": {
+    "score": 1,
+    "reason": "The candidate's answer, dispatch_request(request), is the same function and call as the reference answer."
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "The candidate answer is identical to the reference answer: \"You will not reuse\", with the subtitle \"Except when you do\"."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate's answer of 50 is the same as the reference answer."
+   }
+  }
+ },
+ "JKbtWimlzAE": {
+  "master": {
+   "v1": {
+    "score": 1,
+    "reason": "The candidate answer is the same as the reference: Binghamton (Applied Math + Neuroscience)."
+   },
+   "v2": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and did not give the figure. The reference says each dataset contains about 29 million words."
+   },
+   "v3": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and didn't describe the photo. The reference answer is a white humanoid robot using a laptop."
+   },
+   "v4": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and did not name either product. The reference answer is AutoGPT and ChatGPT plug-ins."
+   },
+   "mixed": {
+    "score": 0,
+    "reason": "The candidate did not identify the ordering. The reference says reverse ordering scored highest at 77.6%. The candidate instead gave a different, overall Zorro score of 78.3."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate answer is the same as the reference: EMNLP, in Miami, last November."
+   }
+  },
+  "scene_b": {
+   "v1": {
+    "score": 1,
+    "reason": "The candidate answer is exactly the same as the reference: Binghamton."
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate's answer of about 29 million words is the same as the reference answer."
+   },
+   "v3": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown,\" so it gives no description of the photo. The reference says the photo shows a white humanoid robot using a laptop."
+   },
+   "v4": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\", so it doesn't name the two products from the reference answer, AutoGPT and ChatGPT plug-ins."
+   },
+   "mixed": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\", so it gave neither the ordering nor the score. The reference says reverse ordering scored highest, at 77.6% (± 1.3)."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate answer is the same as the reference: EMNLP, in Miami."
+   }
+  },
+  "at": {
+   "v1": {
+    "score": 1,
+    "reason": "The candidate names Binghamton, which matches the reference, and also gives the same majors."
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate's answer of about 29 million words matches the reference."
+   },
+   "v3": {
+    "score": 1,
+    "reason": "The candidate gets the main point right: a white humanoid robot using a laptop. The extra details about holographic displays and a brain graphic can't be checked against the reference, but they don't contradict it."
+   },
+   "v4": {
+    "score": 1,
+    "reason": "The candidate names the same two products as the reference, AutoGPT and ChatGPT plug-ins. The only difference is the quotation marks around \"plug-ins\", which doesn't change the answer."
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "The candidate gives the same answer as the reference: reverse ordering, with a Zorro score of 77.6% (± 1.3). It also correctly names the dataset as CHILDES."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate answer is the same as the reference: EMNLP, in Miami, last November."
+   }
+  }
+ },
+ "hF8swzNR1-o": {
+  "master": {
+   "v1": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and didn't name the song. The correct answer is \"With Me\" by John Summit & Julia Wolf."
+   },
+   "v2": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and didn't name a domain. The reference answer is cyberpetsgame.net."
+   },
+   "v3": {
+    "score": 1,
+    "reason": "The candidate's answer, Cervantes Bank, is the same as the reference answer."
+   },
+   "v4": {
+    "score": 0,
+    "reason": "The candidate said Robert, but the reference answer is Lydia, so the answer is wrong."
+   },
+   "mixed": {
+    "score": 0.5,
+    "reason": "The app name, Daydream, is correct. The price is missing: the reference gives $138 (Rhone)."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate's answer, \"up to 70% faster,\" is exactly the same as the reference answer."
+   }
+  },
+  "scene_b": {
+   "v1": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and did not name the song. The reference answer is \"With Me\" by John Summit & Julia Wolf."
+   },
+   "v2": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and gave no domain. The correct domain is cyberpetsgame.net."
+   },
+   "v3": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and did not name an account, so it doesn't match the reference answer, Cervantes Bank."
+   },
+   "v4": {
+    "score": 1,
+    "reason": "The candidate's answer, \"Lydia,\" is the same as the reference answer."
+   },
+   "mixed": {
+    "score": 0.5,
+    "reason": "The app name, Daydream, is correct. The answer doesn't give the price of the first shirt result, which was $138 (Rhone)."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate's answer, \"up to 70% faster,\" is the same as the reference answer."
+   }
+  },
+  "at": {
+   "v1": {
+    "score": 1,
+    "reason": "The candidate gives the same song and artists as the reference. The only difference is capitalization."
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate's answer, cyberpetsgame.net, is exactly the same as the reference answer."
+   },
+   "v3": {
+    "score": 1,
+    "reason": "The candidate's answer, Cervantes Bank, is the same as the reference answer."
+   },
+   "v4": {
+    "score": 1,
+    "reason": "The candidate's answer, \"Lydia,\" is the same as the reference answer."
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "The candidate's answer matches the reference: the app is Daydream, and the first shirt result is a Rhone shirt priced at $138."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate answer, \"Up to 70% faster,\" is exactly the same as the reference answer."
+   }
+  }
+ },
+ "yQ6VOOd73MA": {
+  "master": {
+   "v1": {
+    "score": 0,
+    "reason": "The candidate said \"unknown\" and gave no institution. The reference answer is the MIT McGovern Institute."
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate correctly says it's a model of a human brain, which matches the reference. The extra detail about the white stand doesn't contradict anything."
+   },
+   "v3": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown,\" so it gives no content. The reference says the card reads \"You will choose to sit here,\" and nothing in the candidate matches that."
+   },
+   "v4": {
+    "score": 0,
+    "reason": "The candidate said \"unknown\" and didn't name an instrument, while the reference answer is saxophone."
+   },
+   "mixed": {
+    "score": 0,
+    "reason": "The reference answer says the shape was a square. The candidate said a circle, which is wrong."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate's answer, \"almond\", is the same as the reference answer."
+   }
+  },
+  "scene_b": {
+   "v1": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and named no institution. The reference answer is the MIT McGovern Institute, so the candidate gives none of the requested information."
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate correctly says it's a model of a human brain, which matches the reference. The extra mention of a white stand doesn't contradict the reference."
+   },
+   "v3": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown,\" so it gives no information about the card. The reference says the card reads \"You will choose to sit here,\" and the candidate does not match it."
+   },
+   "v4": {
+    "score": 0,
+    "reason": "The candidate said \"unknown\" and never named an instrument. The reference answer is saxophone, so the answer is wrong."
+   },
+   "mixed": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\", so it gives no shape. The reference answer is a square, which means the candidate's answer is wrong."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate's answer, almond, is the same as the reference answer."
+   }
+  },
+  "at": {
+   "v1": {
+    "score": 1,
+    "reason": "The candidate names the same institution as the reference, MIT McGovern Institute. The extra caption detail (Nancy Kanwisher, PhD) doesn't contradict anything."
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate correctly names the object as a model of a human brain, which matches the reference. The extra detail about a white stand doesn't contradict it."
+   },
+   "v3": {
+    "score": 0,
+    "reason": "The candidate adds \"NOT,\" which flips the meaning of the card. The reference says the card reads \"You will choose to sit here,\" so the candidate answer contradicts it."
+   },
+   "v4": {
+    "score": 1,
+    "reason": "The candidate's answer, saxophone, is the same as the reference answer."
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "The candidate's answer, \"a square\", is the same as the reference answer."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate's answer, \"Almond\", is the same as the reference answer."
+   }
+  }
+ },
+ "x-wqMcYMNdg": {
+  "master": {
+   "v1": {
+    "score": 1,
+    "reason": "The candidate says Breitbart, which is the same outlet given in the reference answer."
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate's answer, white wired earbuds, matches the reference. Adding that they look like Apple earphones fits that answer and doesn't contradict it."
+   },
+   "v3": {
+    "score": 1,
+    "reason": "The candidate's answer, \"Hires\", is exactly the same as the reference answer."
+   },
+   "v4": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and didn't give the segment title. The reference answer is \"The Weekly Questions.\""
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "The candidate names Brittany Mamedev, which matches the reference answer."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate's answer, \"about nine million,\" is the same as the reference answer."
+   }
+  },
+  "scene_b": {
+   "v1": {
+    "score": 1,
+    "reason": "The candidate's answer, Breitbart, is the same as the reference answer."
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate says white wired earbuds, which matches the reference."
+   },
+   "v3": {
+    "score": 1,
+    "reason": "The candidate's answer, \"Hires,\" is the same as the reference answer."
+   },
+   "v4": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown,\" so it doesn't give the segment title. The reference answer is \"The Weekly Questions.\""
+   },
+   "mixed": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\", so it doesn't give the producer's name. The reference answer is Brittany (Mamedev)."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate's answer, about nine million, is the same as the reference answer."
+   }
+  },
+  "at": {
+   "v1": {
+    "score": 0,
+    "reason": "The candidate answered CBS News, but the reference says the outlet was Breitbart, so the answer is wrong."
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate says white wired earbuds, which matches the reference."
+   },
+   "v3": {
+    "score": 1,
+    "reason": "The candidate's answer, \"Hires,\" matches the reference answer exactly."
+   },
+   "v4": {
+    "score": 1,
+    "reason": "The candidate's answer matches the reference exactly. The only difference is that it's written in capital letters."
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "The candidate's answer, \"Brittany,\" matches the reference answer. The surname in the reference is in parentheses, so it's optional."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate's answer, \"about nine million,\" is the same as the reference answer."
+   }
+  }
+ },
+ "v9DuQ1C3xH8": {
+  "master": {
+   "v1": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown,\" so it gives no number. The correct answer is 8, from the title card \"8 TURKEY LASAGNA.\""
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate's answer, \"basics: roasted chicken,\" is exactly the same as the reference answer."
+   },
+   "v3": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and didn't name a color. The reference answer is yellow."
+   },
+   "v4": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown,\" so it doesn't name the brand. The reference answer is Pyrex."
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "The candidate says the pot is green, which matches the reference. The added detail about a white interior doesn't contradict the reference."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate matches the reference: she uses basil because she hates cilantro. The extra note about basil adding flavor doesn't contradict anything."
+   }
+  },
+  "scene_b": {
+   "v1": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and never gave the number. The reference answer is 8, from the title card \"8 TURKEY LASAGNA\"."
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate's answer, \"basics: roasted chicken,\" is exactly the same as the reference answer."
+   },
+   "v3": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and gave no color. The reference answer is yellow."
+   },
+   "v4": {
+    "score": 0,
+    "reason": "The candidate answered \"unknown\" and didn't name a brand. The correct answer is Pyrex."
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "The candidate says the pot is green, which matches the reference."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate matches the reference on both points: the herb is basil, and she uses it because she hates cilantro. The extra note about flavor doesn't contradict anything."
+   }
+  },
+  "at": {
+   "v1": {
+    "score": 1,
+    "reason": "The candidate's answer of 8 (\"8 TURKEY LASAGNA\") is the same as the reference answer."
+   },
+   "v2": {
+    "score": 1,
+    "reason": "The candidate's answer, \"basics: roasted chicken\", is exactly the same as the reference answer."
+   },
+   "v3": {
+    "score": 1,
+    "reason": "The candidate's answer, \"Yellow\", matches the reference answer exactly."
+   },
+   "v4": {
+    "score": 1,
+    "reason": "The candidate's answer, \"Pyrex\", is the same as the reference answer."
+   },
+   "mixed": {
+    "score": 1,
+    "reason": "The candidate says green, which matches the reference. The extra detail about a white interior doesn't contradict it."
+   },
+   "speech": {
+    "score": 1,
+    "reason": "The candidate gives the same herb (basil) and the same reason (she hates cilantro) as the reference. The extra remark about flavor doesn't contradict anything."
+   }
+  }
+ }
+}
