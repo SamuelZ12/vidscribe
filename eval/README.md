@@ -278,6 +278,8 @@ Condition `scan`: the `frames` folder plus `video.mp4`, with `--at` and `--scan`
 - Dev: all 36 hard-set questions (the probe made both splits dev), `scan` only, compared with the existing `at` grades. The prompt below ran unchanged; it was not tuned.
 - Holdout: 4 new videos, questions from the frozen hard-set writer prompt and both validation checks, committed before any answer run; `at` and `scan` both run once, labels `x`/`y` at random per clip.
 
+Run 2026-11-05: dev `scan` 36/36 (`at` 31); holdout `at` 12/12, `scan` 12/12; shipped (`MEASUREMENTS.md`, "Scan eval"). Holdout validation: 5 of 12 first-round questions failed check 1 (speech described the moment), 1 replacement failed check 2 (guessed from general knowledge); all final 12 scored 0 transcript-only (`hard/transcript_only.json`).
+
 | ID | Kind |
 |---|---|
 | `Nul7mPL7Nt4` | Samsung Galaxy Unpacked keynote (83 min) |

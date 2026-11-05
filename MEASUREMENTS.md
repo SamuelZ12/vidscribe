@@ -245,3 +245,37 @@ Dev 3 → 15/18, holdout 8 → 16/18. No leakage (each agent's tool calls stayed
 - At G = 10 s, a 10-min window is 5-7 sheets (6-8k tokens); the failed `at` searches on these two videos spent 40 and 52 extra frames (48k, 62k tokens). A whole long video is 38-64 sheets, so scanning should target windows.
 - Scene detection (2 fps, 160 px) took 7.4 s for 10 min and 85 s for the 111-min keynote on an M-series laptop.
 - Caveats: 5 questions, chosen because they were misses; one run per cell; the window was given, while a real agent must choose it; G was picked on these same 5, so it may be fitted to them. `yQ6VOOd73MA` was a hard-eval holdout clip and is now dev.
+
+## Scan eval: `--scan` (ROADMAP 5)
+
+2026-11-05. `vidscribe <frames-dir> --scan RANGES` as built (`SPEC.md`), tested on the hard set. Fresh answer agents, the same frames and grader as "Hard eval"; `scan` agents had `--at` and `--scan` with the SKILL.md step 6 wording, which was not changed during the run. Method, prompt and holdout list in `eval/README.md`, "Scan eval"; grades in `eval/hard/grades.json`.
+
+| Clip | at | scan | at extra frames | scan extra frames + sheets |
+|---|---|---|---|---|
+| LCEmiRjPEtQ | 3 | 3 | 12 | 12 + 0 |
+| Unzc731iCUY | 3 | 3 | 12 | 24 + 30 |
+| wYSncx9zLIU | 0 | 3 | 40 | 23 + 15 |
+| H3KnMyojEQU | 3 | 3 | 20 | 21 + 0 |
+| gDvwRpl9erE | 3 | 3 | 16 | 20 + 0 |
+| xAcTmDO6NTI | 3 | 3 | 12 | 9 + 3 |
+| ej5RsTtVvQE | 3 | 3 | 4 | 4 + 0 |
+| JKbtWimlzAE | 3 | 3 | 16 | 2 + 3 |
+| hF8swzNR1-o | 3 | 3 | 67 | 23 + 6 |
+| yQ6VOOd73MA | 1 | 3 | 52 | 36 + 18 |
+| x-wqMcYMNdg | 3 | 3 | 0 | 2 + 0 |
+| v9DuQ1C3xH8 | 3 | 3 | 12 | 12 + 0 |
+| **Dev /36** | **31** | **36** | 263 | 188 + 75 = 263 |
+| Nul7mPL7Nt4 (holdout) | 3 | 3 | 52 | 30 + 3 |
+| FFMm454fxNA (holdout) | 3 | 3 | 11 | 22 + 0 |
+| 8qVbE9DHkEk (holdout) | 3 | 3 | 8 | 12 + 0 |
+| 114i2Kz-LZA (holdout) | 3 | 3 | 20 | 12 + 3 |
+| **Holdout /12** | **12** | **12** | 91 | 76 + 6 = 82 |
+
+Dev `at` numbers are from the hard eval (agent-reported extra frames); `scan` counts and the holdout's are distinct `at_*.jpg` / `scan_*.jpg` files each agent viewed, from its transcript. One sheet costs about one frame (~1.2k tokens).
+
+- **Decision (rule set before the run): ship.** Dev 36/36 (bar 33), holdout `scan` 12 = `at` 12 (bar: not lower), no confident wrong answers in either condition (bar: at most `at` + 1).
+- All 5 `at` misses were recovered, each by scanning a window the agent chose: the three `wYSncx9zLIU` shots (0:00-2:00, 66:30-68:30, 103:00-104:40 among 7 windows tried) and two NOVA shots. No question was lost. Same total images on dev (263 vs 263): the scan agents spent sheets where `at` agents had spent frames searching.
+- Agents scanned only when the transcript gave no lead: 8 of 16 clips used no `--scan`. Every scan answer was confirmed with `--at` at the tile's time; one agent first pulled the wrong tile's time and corrected it.
+- `wYSncx9zLIU` h2 was answered from a second appearance of the same app screen (67:08, same "12:15 PM") rather than the reference span; correct, but the anchor was not unique.
+- **Holdout at ceiling.** Both conditions scored 12/12. `at` agents reached every holdout moment from the transcript's topic, a presenter hand-over or a default frame that already showed the caption; the widest search was 52 extra frames for the Samsung name caption, which the `scan` agent found with 3 sheets and 30 frames. So the holdout shows that `--scan` costs nothing when it isn't needed (82 vs 91 images), not that it helps. 5 of the 12 first-round holdout questions failed validation because speech described the moment, and 1 replacement was guessed from general knowledge: on keynotes and lectures almost everything shown is talked about, which is also why `at` does well there.
+- Caveats: the dev gain is on the 5 questions the probe used to choose the design (fill gap, grid), so it is an optimistic estimate; the holdout can't confirm it. One dev agent cropped its frames with `sips` to read small text (outside the rules; no effect: 3/3 in both runs). No agent opened a path outside its folder or ran ffmpeg.

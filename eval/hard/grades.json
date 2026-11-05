@@ -832,5 +832,197 @@
     "reason": "The candidate's answer matches the reference: a tart with a fluted crust and a dark filling."
    }
   }
+ },
+ "Nul7mPL7Nt4": {
+  "at": {
+   "h1": {
+    "score": 1,
+    "answer": "Channel Marketing",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"Channel Marketing\", is exactly the same as the reference answer.",
+    "extra_frames": 52,
+    "at_calls": 5
+   },
+   "h2": {
+    "score": 1,
+    "answer": "TW Production",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"TW Production,\" is exactly the same as the reference answer."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "3",
+    "confidence": "high",
+    "reason": "The candidate's answer of 3 is the same as the reference answer."
+   }
+  },
+  "scan": {
+   "h1": {
+    "score": 1,
+    "answer": "Channel Marketing",
+    "confidence": "high",
+    "reason": "The candidate answer, \"Channel Marketing\", is exactly the same as the reference answer.",
+    "extra_frames": 30,
+    "sheets": 3,
+    "at_calls": 5,
+    "scan_calls": 1
+   },
+   "h2": {
+    "score": 1,
+    "answer": "TW Production",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"TW Production,\" is exactly the same as the reference answer."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "3 (\"Can you book me a table for 3 at this restaurant for tomorrow night?\")",
+    "confidence": "high",
+    "reason": "The candidate says 3, which matches the reference answer."
+   }
+  }
+ },
+ "FFMm454fxNA": {
+  "at": {
+   "h1": {
+    "score": 1,
+    "answer": "Senior AI Developer Tools Advocate (caption: Kayla Cinnamon)",
+    "confidence": "high",
+    "reason": "The job title matches the reference exactly. The extra name is just additional detail and doesn't contradict the reference.",
+    "extra_frames": 11,
+    "at_calls": 2
+   },
+   "h2": {
+    "score": 1,
+    "answer": "WILL CODE FOR TACOS",
+    "confidence": "high",
+    "reason": "The candidate's answer is word-for-word the same as the reference: \"WILL CODE FOR TACOS\"."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "22",
+    "confidence": "high",
+    "reason": "The candidate's answer of 22 matches the reference exactly."
+   }
+  },
+  "scan": {
+   "h1": {
+    "score": 1,
+    "answer": "Senior AI Developer Tools Advocate (Kayla Cinnamon)",
+    "confidence": "high",
+    "reason": "The job title matches the reference exactly. The name added in brackets doesn't change that.",
+    "extra_frames": 22,
+    "sheets": 0,
+    "at_calls": 3,
+    "scan_calls": 0
+   },
+   "h2": {
+    "score": 1,
+    "answer": "WILL CODE FOR TACOS",
+    "confidence": "high",
+    "reason": "The candidate's answer is exactly the same as the reference: \"WILL CODE FOR TACOS\"."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "22",
+    "confidence": "high",
+    "reason": "The candidate's answer of 22 is the same as the reference answer."
+   }
+  }
+ },
+ "8qVbE9DHkEk": {
+  "at": {
+   "h1": {
+    "score": 1,
+    "answer": "Crock of Gold",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"Crock of Gold\", is exactly the same as the reference answer.",
+    "extra_frames": 8,
+    "at_calls": 1
+   },
+   "h2": {
+    "score": 1,
+    "answer": "49",
+    "confidence": "high",
+    "reason": "The candidate's answer, 49, is the same as the reference answer."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "Susanna Salonen",
+    "confidence": "high",
+    "reason": "The candidate's answer, Susanna Salonen, is exactly the same as the reference answer."
+   }
+  },
+  "scan": {
+   "h1": {
+    "score": 1,
+    "answer": "Crock of Gold",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"Crock of Gold\", is exactly the same as the reference answer.",
+    "extra_frames": 12,
+    "sheets": 0,
+    "at_calls": 2,
+    "scan_calls": 0
+   },
+   "h2": {
+    "score": 1,
+    "answer": "49",
+    "confidence": "high",
+    "reason": "The candidate's answer of 49 is the same as the reference answer."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "Susanna Salonen",
+    "confidence": "high",
+    "reason": "The candidate's answer, Susanna Salonen, is exactly the same as the reference."
+   }
+  }
+ },
+ "114i2Kz-LZA": {
+  "at": {
+   "h1": {
+    "score": 1,
+    "answer": "63K",
+    "confidence": "high",
+    "reason": "The candidate's answer, 63K, is the same as the reference answer.",
+    "extra_frames": 20,
+    "at_calls": 2
+   },
+   "h2": {
+    "score": 1,
+    "answer": "Intuitive embeddings",
+    "confidence": "high",
+    "reason": "The candidate's answer is the same as the reference answer."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "Kazemnejad (\"Right figures adapted from Transformer Architecture: The Positional Encoding, Kazemnejad, 2019\")",
+    "confidence": "high",
+    "reason": "The candidate names Kazemnejad and gives the year 2019, which matches the reference answer."
+   }
+  },
+  "scan": {
+   "h1": {
+    "score": 1,
+    "answer": "63K",
+    "confidence": "high",
+    "reason": "The candidate answer of 63K is the same as the reference answer.",
+    "extra_frames": 12,
+    "sheets": 3,
+    "at_calls": 3,
+    "scan_calls": 2
+   },
+   "h2": {
+    "score": 1,
+    "answer": "Intuitive embeddings",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"Intuitive embeddings\", is exactly the same as the reference answer."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "Kazemnejad (\"Transformer Architecture: The Positional Encoding\", Kazemnejad, 2019)",
+    "confidence": "high",
+    "reason": "The candidate gives the same name and year as the reference, Kazemnejad (2019). It also adds a plausible article title, which doesn't contradict the reference."
+   }
+  }
  }
 }
