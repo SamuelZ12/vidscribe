@@ -90,7 +90,7 @@ import glob, math, shutil
 from concurrent.futures import ThreadPoolExecutor
 vid, d, ranges = sys.argv[1:4]
 # tiles: every scene end plus even fill so no gap exceeds G s; 4x4 sheets of WxH tiles with 2 px padding
-# and 1 px margin = 1280x720 (fill gap and grid from MEASUREMENTS.md, "Scan probe")
+# and 1 px margin = 1280x720 (fill gap and grid from docs/measurements.md, "Scan probe")
 G, W, H = 10, 318, 178
 mm = lambda t: f"{int(t//60):02d}:{t%60:04.1f}"
 tag = lambda t: f"{int(t//60):02d}m{int(t%60):02d}s"
@@ -254,7 +254,7 @@ def around(t, w=1):
 refs = [s0 + min(1.0, (s1-s0)/2) for s0, s1, x in sents if DEIX.search(x) and s1 > s0]  # stay inside even a sub-second sentence
 scenes = [t for t in scene_ends(vid) if all(abs(t - r) >= 3 for r in refs)]
 def thin(xs, k): return xs if len(xs) <= k else [xs[int((i+0.5)*len(xs)/k)] for i in range(k)]
-# cap total frames (see MEASUREMENTS.md): keep all even frames; refs and scenes split the rest,
+# cap total frames (see docs/measurements.md): keep all even frames; refs and scenes split the rest,
 # either side's unused share goes to the other, and each is thinned evenly over time
 evens = [dur*(i+0.5)/n for i in range(n)] if dur > 0 else []
 cap = max(40, n); room = cap - len(evens)

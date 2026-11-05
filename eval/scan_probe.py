@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Contact sheets for one window of a video, as used in the scan probe (MEASUREMENTS.md, "Scan probe").
+"""Contact sheets for one window of a video, as used in the scan probe (docs/measurements.md, "Scan probe").
 
 usage: scan_probe.py VIDEO START END OUTDIR [--method scene|even5|fill10] [--grid 4]
   scene:  last frame of each scene (same cut detection and dedupe as vidscribe's scene frames)

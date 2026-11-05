@@ -6,7 +6,7 @@ Transcription runs on-device with [MLX](https://github.com/ml-explore/mlx). No A
 
 ## Does it help?
 
-Agents answered questions about videos and a blind grader scored them against reference answers (full method and per-video results in [`MEASUREMENTS.md`](MEASUREMENTS.md), data in [`eval/`](eval/)):
+Agents answered questions about videos and a blind grader scored them against reference answers (method and per-video results in [`docs/measurements.md`](docs/measurements.md); questions, grades and scripts in [`eval/`](eval/), videos rebuildable from their YouTube IDs):
 
 | Test | Transcript only | + frames | + `--at` | + `--scan` |
 |---|---|---|---|---|
@@ -14,7 +14,7 @@ Agents answered questions about videos and a blind grader scored them against re
 | 12 long videos, 39-111 min, 72 questions anchored on speech | | 37.5 | 69 | |
 | Same 12 videos, 36 questions on moments the speech never names | | 11 | 31 | 36 |
 
-Frames more than double what an agent gets right. [Omni2Web](https://arxiv.org/html/2609.23417) saw a similar jump on its instruction-recovery track (Gemini 3.5 Flash, screen-recorded web edits: transcript only 18.2, silent video + transcript 38.1). The hard set's questions were kept only if a transcript-only agent failed them. Its `--scan` gain is optimistic: the design was tuned on the 5 questions `--at` missed, and a 4-video holdout scored 12/12 with and without it. Scores were measured with earlier wording of the agent instructions (last version before the rewrite: [`55c8e8b`](https://github.com/SamuelZ12/vidscribe/blob/55c8e8b/skill/SKILL.md)); the current `skill/SKILL.md` has not been re-tested.
+Frames more than double what an agent gets right; [Omni2Web](https://arxiv.org/html/2609.23417) saw a similar jump on its instruction-recovery track (Gemini 3.5 Flash on screen-recorded web edits: transcript only 18.2, silent video + transcript 38.1). Caveats: the last row's questions were kept only if a transcript-only agent failed them; the `--scan` gain is optimistic (tuned on the 5 questions `--at` missed; a 4-video holdout scored 12/12 with and without it); scores were measured with the [`55c8e8b`](https://github.com/SamuelZ12/vidscribe/blob/55c8e8b/skill/SKILL.md) wording of `skill/SKILL.md`, and the current one has not been re-tested ([#1](https://github.com/SamuelZ12/vidscribe/issues/1)).
 
 ## Requirements
 
@@ -58,27 +58,11 @@ vidscribe <frames-dir> --at TIMES | --scan RANGES|all
 vidscribe -h | --help
 ```
 
-- Transcripts go to `/tmp/vidscribe/transcripts/<name>.<fmt>`; txt is also printed to stdout. Use `-o DIR` to keep them elsewhere.
-- Frames are on by default when the input has a video stream (checked with ffprobe; URLs are downloaded as video, up to 720p). Audio files, including mp3/m4a with cover art, give a transcript only.
-- Frame mode writes srt + txt and saves N evenly spaced frames (default 8), a frame at every spoken on-screen reference ("look at this", "as you can see", 你看...), and a frame at the end of each distinct scene (ffmpeg cut detection; repeated shots like a return to the same slide are dropped). At most 40 frames in total (or N, if `-v N` asks for more): on long videos reference and scene frames share the room and are thinned out evenly (see `MEASUREMENTS.md`). Output: `/tmp/vidscribe/frames/<name>/` with `index.txt`, one tab-separated line per frame: frame time, frame file (`_even`, `_ref` or `_scene`), start-end of the spoken text, spoken text (`-` and empty text where nothing is being said).
-- `-v [N]`: force frame mode, with N evenly spaced frames. `-a`/`--audio-only`: transcript only, never download or save video. `-f vtt|json` on a video without `-v` also gives a transcript only.
-- `-l zh|en|...` forces a language; `-c "Letta, Qwen"` biases rare names; `-m` picks another mlx-audio model.
-- Long media is transcribed to the end. Applause or music can show up as a short run of one repeated word ("oh, oh, oh"). A `WARNING: last cue ... < duration` line means the transcript ends before the media does: either the model stopped early or there is no speech near the end.
-- Old outputs in `/tmp/vidscribe` are pruned after 3 days.
+- Video gets frames by default (at most 40, or N if `-v N` asks for more) plus `index.txt`, mapping each frame to what was being said; `-a` gives a transcript only, `-v N` sets the number of evenly spaced frames (default 8).
+- `--at` pulls more frames from a previous run's video; `--scan` builds contact sheets to find a moment the speech never names.
+- Outputs live in `/tmp/vidscribe/` for 3 days.
 
-### Frames on demand (`--at`)
-
-The frames folder also holds `video.<ext>`: the downloaded video for URLs, a symlink to the original for local files. `vidscribe <frames-dir> --at 494,8:14,7:50-8:50` pulls more frames from it without transcribing again: one per time, 4 evenly spaced inside each range (seconds, `M:SS` or `H:MM:SS`, fractions with a dot). Frames are saved as `at_<mm>m<ss.s>s.jpg` in the same folder and each prints as `mm:ss.s<TAB>path`; `index.txt` is left as is. `--at` takes no other flags, and fails once the folder has been pruned: re-run on the source.
-
-### Contact sheets (`--scan`)
-
-`vidscribe <frames-dir> --scan 50:00-60:00` (several ranges with commas, or `all`) helps find a moment the transcript never leads to. Each range becomes 4x4 contact sheets, 1280x720, saved as `scan_<start>-<end>_NN.jpg` in the frames folder: one tile at the end of each scene (the same cut detection as frame mode) plus evenly spaced tiles so no two are more than 10 s apart. Stderr gives the tile and sheet count per range; stdout prints one line per sheet, `path<TAB>` then the tile times in reading order. A 10-min range is typically 5-8 sheets; scene detection takes ~7 s per 10 min of video. Tiles are too small for reliable reading: confirm with `--at` at the tile's time. Same rules as `--at`: ranges only, no other flags, fails once the folder is pruned. Probe and sizing in `MEASUREMENTS.md`, "Scan probe".
-
-### Environment
-
-- `VIDSCRIBE_MODEL`: default model (same as `-m`).
-- `VIDSCRIBE_OUTDIR`: transcript folder (same as `-o`).
-- `VIDSCRIBE_FRAMES_DIR`: frames root instead of `/tmp/vidscribe/frames`.
+Full reference (frame selection, `index.txt` format, `--at`/`--scan` output, environment variables): [`docs/usage.md`](docs/usage.md).
 
 ## Model
 
@@ -87,10 +71,6 @@ Default: `mlx-community/Qwen3-ASR-1.7B-8bit` via [mlx-audio](https://github.com/
 ## Agent skill
 
 `skill/SKILL.md` is a drop-in skill for Claude Code, Letta Code, and other agents that read SKILL.md files. Copy or symlink the `skill/` folder into your agent's skills directory (for Claude Code, `~/.claude/skills/vidscribe`).
-
-## Measurements and eval
-
-`MEASUREMENTS.md` records how the frame defaults were chosen and how agents score with and without frames, `--at` and `--scan`. `eval/` holds the question sets, reference answers, grades, prompts and helper scripts; the videos are not in git and can be rebuilt from their YouTube IDs (see `eval/README.md`).
 
 ## Not built
 

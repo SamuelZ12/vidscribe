@@ -1,6 +1,6 @@
 # Long-video eval set
 
-12 long YouTube videos (39-111 min), 6 questions each, used for the frame-selection and frames-on-demand tests in `MEASUREMENTS.md`. Videos and transcripts are not in git (~4 GB); rebuild them from the IDs below.
+12 long YouTube videos (39-111 min), 6 questions each, used for the frame-selection and frames-on-demand tests in `docs/measurements.md`. Videos and transcripts are not in git (~4 GB); rebuild them from the IDs below.
 
 | ID | Kind | Set |
 |---|---|---|
@@ -132,11 +132,11 @@ Speech questions move by about ±1 per 12 between runs from agent noise alone, e
 
 ## Hard set
 
-The 72 questions above all name their moment through speech ("when the speaker says ..."), which is the case `--at` is built for (`MEASUREMENTS.md`, "Frames on demand", caveat). The hard set asks about moments the transcript never points to: the agent must find the moment from what is on screen. Its result decides whether an OCR timeline is built.
+The 72 questions above all name their moment through speech ("when the speaker says ..."), which is the case `--at` is built for (`docs/measurements.md`, "Frames on demand", caveat). The hard set asks about moments the transcript never points to: the agent must find the moment from what is on screen. Its result decides whether an OCR timeline is built.
 
-Run 2026-11-05: `frames` 11/36, `at` 31/36; OCR not built (`MEASUREMENTS.md`, "Hard eval"). Files: `hard/questions/<ID>.json` (same fields as above plus `anchor`, `anchor_s`), `hard/grades.json` (per clip, condition and question: `score`, `answer`, `confidence`, `reason`; `miss` = not found / misread on misses; `extra_frames` on `at` h1), `hard/transcript_only.json` (validation check 2 on the final 36: `answer`, `score`), `hard/check_transcript.py` (validation check 1).
+Run 2026-11-05: `frames` 11/36, `at` 31/36; OCR not built (`docs/measurements.md`, "Hard eval"). Files: `hard/questions/<ID>.json` (same fields as above plus `anchor`, `anchor_s`), `hard/grades.json` (per clip, condition and question: `score`, `answer`, `confidence`, `reason`; `miss` = not found / misread on misses; `extra_frames` on `at` h1), `hard/transcript_only.json` (validation check 2 on the final 36: `answer`, `score`), `hard/check_transcript.py` (validation check 1).
 
-Scan probe (`MEASUREMENTS.md`, "Scan probe"): `scan_probe.py VIDEO START END OUTDIR [--method scene|even5|fill10] [--grid 4]` builds the contact sheets and prints each sheet's tile times; `hard/scan_probe.json` has the 5 windows and the 20 agents' answers (`located` = a reported tile lies inside `visible_s`). The probe used the 5 `at` misses, so the whole hard set (both splits) is now dev data.
+Scan probe (`docs/measurements.md`, "Scan probe"): `scan_probe.py VIDEO START END OUTDIR [--method scene|even5|fill10] [--grid 4]` builds the contact sheets and prints each sheet's tile times; `hard/scan_probe.json` has the 5 windows and the 20 agents' answers (`located` = a reported tile lies inside `visible_s`). The probe used the 5 `at` misses, so the whole hard set (both splits) is now dev data.
 
 Blind folder maps (per clip, condition → folder label `x`/`y`; kept out of the answer agents' reach during runs): `hard/labels.json` for the `frames`/`at` run, `hard/labels_scan.json` for the scan-eval holdout (`at`/`scan`). Grades are already stored by condition; these record how the folders were unblinded.
 
@@ -168,7 +168,7 @@ Full set: of the 30 first-round questions on the other 10 videos, 2 failed check
 - Answer prompts: `at` as above with the question count changed. The original `master` answer prompt was lost in recovery (the section above holds the question-writer prompt by mistake); `frames` uses the `at` prompt minus "Getting more frames" and the `--at` rule, and is recorded here as a reconstruction.
 - Dev clips first, then holdout once. Same grader. Leakage check per agent (paths outside its folder, `ffmpeg`).
 - Per miss, record whether any frame the agent viewed (the 40 or `--at`) falls inside `anchor_s`: **not found** if none did, **misread** otherwise.
-- Results go in `eval/hard/grades.json` and `MEASUREMENTS.md`.
+- Results go in `eval/hard/grades.json` and `docs/measurements.md`.
 
 ### Decision rule (set before the run)
 
@@ -280,7 +280,7 @@ Condition `scan`: the `frames` folder plus `video.mp4`, with `--at` and `--scan`
 - Dev: all 36 hard-set questions (the probe made both splits dev), `scan` only, compared with the existing `at` grades. The prompt below ran unchanged; it was not tuned.
 - Holdout: 4 new videos, questions from the frozen hard-set writer prompt and both validation checks, committed before any answer run; `at` and `scan` both run once, labels `x`/`y` at random per clip.
 
-Run 2026-11-05: dev `scan` 36/36 (`at` 31); holdout `at` 12/12, `scan` 12/12; shipped (`MEASUREMENTS.md`, "Scan eval"). Holdout validation: 5 of 12 first-round questions failed check 1 (speech described the moment), 1 replacement failed check 2 (guessed from general knowledge); all final 12 scored 0 transcript-only (`hard/transcript_only.json`).
+Run 2026-11-05: dev `scan` 36/36 (`at` 31); holdout `at` 12/12, `scan` 12/12; shipped (`docs/measurements.md`, "Scan eval"). Holdout validation: 5 of 12 first-round questions failed check 1 (speech described the moment), 1 replacement failed check 2 (guessed from general knowledge); all final 12 scored 0 transcript-only (`hard/transcript_only.json`).
 
 | ID | Kind |
 |---|---|
