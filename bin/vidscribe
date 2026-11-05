@@ -223,7 +223,7 @@ if (( VISUAL )); then
   FDUR="$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "$VID")"
   awk -v a="$DUR" -v v="${FDUR:-0}" 'BEGIN{ exit !(v + 0 > a + 1) }' || FDUR="$DUR"  # +0: "N/A" (unknown) means 0, not a string compare
   python3 - "$SCENES_PY" "$OUT.srt" "$FDUR" "$NFRAMES" "$FDIR" "$VID" "$OUT.txt" <<'PY' >&2
-import re, subprocess, sys; exec(sys.argv.pop(1))
+import os, re, subprocess, sys; exec(sys.argv.pop(1))
 srt, dur, n, fdir, vid, txt = sys.argv[1], float(sys.argv[2]), int(sys.argv[3]), sys.argv[4], sys.argv[5], sys.argv[6]
 def sec(t):
     h, m, s = t.replace(',', '.').split(':'); return int(h)*3600 + int(m)*60 + float(s)
@@ -265,14 +265,19 @@ refs, scenes = thin(refs, r), thin(scenes, s)
 targets = [(t, 'ref') for t in refs] + [(t, 'scene') for t in scenes]
 targets += [(t, 'even') for t in evens if all(abs(t - y) >= 3 for y, _ in targets)]
 targets.sort()
-idx = []
-for k, (t, kind) in enumerate(targets):
-    fn = f"{k:03d}_{int(t//60):02d}m{t%60:04.1f}s_{kind}.jpg"
-    subprocess.run(['ffmpeg','-nostdin','-loglevel','error','-y','-ss',f'{t:.2f}','-i',vid,'-frames:v','1','-q:v','3','-vf','scale=-2:720',f"{fdir}/{fn}"], check=False)
+idx, kept, missed = [], [], []
+for t, kind in targets:
+    fn = f"{len(idx):03d}_{int(t//60):02d}m{t%60:04.1f}s_{kind}.jpg"; fp = f"{fdir}/{fn}"
+    subprocess.run(['ffmpeg','-nostdin','-loglevel','error','-y','-ss',f'{t:.2f}','-i',vid,'-frames:v','1','-q:v','3','-vf','scale=-2:720',fp], check=False)
+    if not os.path.exists(fp) or os.path.getsize(fp) == 0:  # e.g. past the end of the picture while audio runs on
+        if os.path.exists(fp): os.remove(fp)
+        missed.append(mmss(t)); continue
     span, text = around(t, 0 if kind == 'ref' else 1)
-    idx.append(f"{mmss(t)}\t{fn}\t{span}\t{text}")
+    idx.append(f"{mmss(t)}\t{fn}\t{span}\t{text}"); kept.append(kind)
 open(f"{fdir}/index.txt", 'w', encoding='utf-8').write('\n'.join(idx) + '\n')
-print(f"frames: {fdir} ({len(refs)} on-screen refs, {len(scenes)} scene changes, {sum(1 for x in targets if x[1]=='even')} evenly spaced)")
+if missed:
+    print(f"frames: no picture at {len(missed)} of {len(targets)} times ({missed[0]}-{missed[-1]}), left out")
+print(f"frames: {fdir} ({kept.count('ref')} on-screen refs, {kept.count('scene')} scene changes, {kept.count('even')} evenly spaced)")
 PY
   [[ "$FMT" != "srt" && "$FMT" != "txt" ]] && echo "note: -v writes srt+txt; -f $FMT ignored" >&2
   [[ "$FMT" == "srt" ]] || FMT="txt"
