@@ -11,7 +11,7 @@ description: Transcribes speech from local media files or URLs (YouTube, X/Twitt
 
 1. **Pick the mode.** Default `vidscribe <file-or-URL>`: video gets transcript plus frames, audio gets a transcript only. Add `-a` when only the words matter (long podcasts on YouTube, to skip the video download). `-v N` for more evenly spaced frames.
 2. **Run it.** Output goes to `/tmp/vidscribe/` unless the user wants to keep it (`-o DIR`).
-3. **Check coverage.** Done when no `WARNING: last cue ... < duration` line printed (rare). If one did, the transcript stopped early: cut the tail with `ffmpeg -ss <last-cue-sec> -i in.mp4 -vn -ac 1 -ar 16000 tail.wav`, run `vidscribe tail.wav`, and append. A run of one repeated word ("oh, oh, oh") is applause or music, not speech.
+3. **Check coverage.** A `WARNING: last cue ... < duration` line (rare) means the transcript ends before the media does: say so instead of guessing what comes after. A run of one repeated word ("oh, oh, oh") is applause or music, not speech.
 4. **Look at frames** (video only). Read `index.txt`, then view the frame images. Done when every on-screen reference in the speech is tied to a frame you actually looked at.
 5. **Get missing frames** (video only). Long videos keep at most 40 frames, so a moment you need often has none. Find it in the transcript (srt times), then run `vidscribe <frames-dir> --at 8:14` for an exact second or `--at 7:50-8:50` (4 frames) when unsure, and view what it prints. Several times or ranges fit in one call (`--at 8:14,31:00-31:40`); fractions take a dot (`8:14.5`), not the srt comma. Ask for the moments you need, not the whole video.
 6. Answer from the transcript and frames, not from the post text or guesses.
