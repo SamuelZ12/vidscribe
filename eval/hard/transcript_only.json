@@ -1,0 +1,171 @@
+{
+ "LCEmiRjPEtQ": {
+  "h1": {
+   "answer": "512 GB of unified memory (e.g. a cluster of Mac Studios/Mac Minis running a large LLM locally)",
+   "score": 0
+  },
+  "h2": {
+   "answer": "Blender",
+   "score": 0
+  },
+  "h3": {
+   "answer": "OpenAI Operator browsing a site such as Amazon (guess)",
+   "score": 0
+  }
+ },
+ "Unzc731iCUY": {
+  "h1": {
+   "answer": "Palm trees",
+   "score": 0
+  },
+  "h2": {
+   "answer": "Gate 10",
+   "score": 0
+  },
+  "h3": {
+   "answer": "10:32 PM ET",
+   "score": 0
+  }
+ },
+ "wYSncx9zLIU": {
+  "h1": {
+   "answer": "Koopa Cafe (guess)",
+   "score": 0
+  },
+  "h2": {
+   "answer": "7:00 AM",
+   "score": 0
+  },
+  "h3": {
+   "answer": "1",
+   "score": 0
+  }
+ },
+ "H3KnMyojEQU": {
+  "h1": {
+   "answer": "Fitness Product Manager (likely Jules, who introduces AirPods Pro 3 fitness features)",
+   "score": 0
+  },
+  "h2": {
+   "answer": "Colony (Miami Beach Art Deco hotel)",
+   "score": 0
+  },
+  "h3": {
+   "answer": "Senior Vice President, Retail",
+   "score": 0
+  }
+ },
+ "gDvwRpl9erE": {
+  "h1": {
+   "answer": "Around late 2016 (guess: December 2016) — speaker says by 2016 new projects increasingly used Python 3, per Andrei from PyCharm",
+   "score": 0
+  },
+  "h2": {
+   "answer": "About 30 minutes (guess: 29:45)",
+   "score": 0
+  },
+  "h3": {
+   "answer": "Pressure (from the talk 'Design Pressure')",
+   "score": 0
+  }
+ },
+ "xAcTmDO6NTI": {
+  "h1": {
+   "answer": "6.100L (About 6.100L)",
+   "score": 0
+  },
+  "h2": {
+   "answer": "IPython 8.4.0",
+   "score": 0
+  },
+  "h3": {
+   "answer": "In [1]",
+   "score": 0
+  }
+ },
+ "ej5RsTtVvQE": {
+  "h1": {
+   "answer": "EuroPython / PyCon conference logo (guess: a university logo, e.g. Charles University / Czech Technical University in Prague)",
+   "score": 0
+  },
+  "h2": {
+   "answer": "More often than you think",
+   "score": 0
+  },
+  "h3": {
+   "answer": "get_current_user() (load_user)",
+   "score": 0
+  }
+ },
+ "JKbtWimlzAE": {
+  "h1": {
+   "answer": "Navy blue",
+   "score": 0
+  },
+  "h2": {
+   "answer": "arXiv:2412.15238",
+   "score": 0
+  },
+  "h3": {
+   "answer": "85.2",
+   "score": 0
+  }
+ },
+ "hF8swzNR1-o": {
+  "h1": {
+   "answer": "Federighi",
+   "score": 0
+  },
+  "h2": {
+   "answer": "Olive & Grove (olive oil shop newsletter)",
+   "score": 0
+  },
+  "h3": {
+   "answer": "How big is this park?",
+   "score": 0
+  }
+ },
+ "yQ6VOOd73MA": {
+  "h1": {
+   "answer": "A date in the early 1980s, e.g. 1981 (archival split-brain footage of patient Joe drawing 'Texas'/cowboy hat)",
+   "score": 0
+  },
+  "h2": {
+   "answer": "University of California, Santa Barbara",
+   "score": 0
+  },
+  "h3": {
+   "answer": "17 (guess; jewel count commonly stamped on movements)",
+   "score": 0
+  }
+ },
+ "x-wqMcYMNdg": {
+  "h1": {
+   "answer": "About 150 sources (guess; transcript only says it's a Ground News segment)",
+   "score": 0
+  },
+  "h2": {
+   "answer": "Kathryn Anne Edwards (her own book; guess)",
+   "score": 0
+  },
+  "h3": {
+   "answer": "Optimist Economy (guess)",
+   "score": 0
+  }
+ },
+ "v9DuQ1C3xH8": {
+  "h1": {
+   "answer": "MMXII",
+   "score": 0
+  },
+  "h2": {
+   "answer": "Lemons",
+   "score": 0
+  },
+  "h3": {
+   "answer": "A chocolate cake",
+   "score": 0,
+   "note": "graded 0 at validation; one re-grade when recording gave 0.5, three more gave 0"
+  }
+ }
+}

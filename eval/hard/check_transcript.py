@@ -22,8 +22,9 @@ def cues(path):
                 yield secs(a), secs(b), norm(" ".join(lines[i + 1:]))
                 break
 
-def words(text):
-    return [w for w in re.findall(r"[a-z0-9][a-z0-9.'%-]*", norm(text)) if w not in STOP and (len(w) > 2 or w.isdigit())]
+def words(text):  # unique words, trailing punctuation stripped ("sr." -> "sr", "'intermezzo'" -> "intermezzo")
+    ws = (w.rstrip(".'-") for w in re.findall(r"[a-z0-9][a-z0-9.'%-]*", norm(text)))
+    return list(dict.fromkeys(w for w in ws if w not in STOP and (len(w) > 2 or w.isdigit())))
 
 def hits(ws, cs):
     return [(round(a), w) for w in ws for a, b, txt in cs if re.search(r"(?<![a-z0-9])" + re.escape(w) + r"(?![a-z0-9])", txt)]

@@ -134,7 +134,7 @@ Speech questions move by about ±1 per 12 between runs from agent noise alone, e
 
 The 72 questions above all name their moment through speech ("when the speaker says ..."), which is the case `--at` is built for (`MEASUREMENTS.md`, "Frames on demand", caveat). The hard set asks about moments the transcript never points to: the agent must find the moment from what is on screen. Its result decides whether the OCR timeline (ROADMAP 5) is built.
 
-Run 2026-11-05: `frames` 11/36, `at` 31/36; OCR not built (`MEASUREMENTS.md`, "Hard eval"). Files: `hard/questions/<ID>.json` (same fields as above plus `anchor`, `anchor_s`), `hard/grades.json` (per clip, condition and question: `score`, `answer`, `reason`, `miss` = found / not found; `extra_frames` on `at` h1), `hard/check_transcript.py` (validation check 1).
+Run 2026-11-05: `frames` 11/36, `at` 31/36; OCR not built (`MEASUREMENTS.md`, "Hard eval"). Files: `hard/questions/<ID>.json` (same fields as above plus `anchor`, `anchor_s`), `hard/grades.json` (per clip, condition and question: `score`, `answer`, `confidence`, `reason`; `miss` = not found / misread on misses; `extra_frames` on `at` h1), `hard/transcript_only.json` (validation check 2 on the final 36: `answer`, `score`), `hard/check_transcript.py` (validation check 1).
 
 ### Questions
 
@@ -142,7 +142,7 @@ Run 2026-11-05: `frames` 11/36, `at` 31/36; OCR not built (`MEASUREMENTS.md`, "H
 - Each question names its moment only by what is on screen: a slide title, a caption, a scene, an object, a UI ("On the slide titled X, ...", "In the shot of the kitchen with the red mixer, ..."). No speech reference.
 - The answer is on screen for at least ~3 s and is short and checkable. It must not be guessable from general knowledge or the title. Vary the kinds; do not make them all slides.
 - Fields: those of the main set plus `anchor` (the on-screen cue the question names) and `anchor_s` ([start, end] it is on screen).
-- Same videos and dev/holdout split as above. The question-writer prompt (a copy of the one above with the question rules swapped) is tuned on a pilot of 2 dev videos (`LCEmiRjPEtQ`, `H3KnMyojEQU`), then frozen.
+- Same videos and dev/holdout split as above. The question-writer prompt (based on the one above: new paths, sheet description, question rules and output schema) is tuned on a pilot of 2 dev videos (`LCEmiRjPEtQ`, `H3KnMyojEQU`), then frozen.
 
 ### Validation (a failing question is replaced, then re-checked)
 
