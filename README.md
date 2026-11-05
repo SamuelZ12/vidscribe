@@ -80,9 +80,11 @@ Without Node, copy the `skill/` folder into your agent's skills directory (for C
 
 ## Not built
 
-- **A hosted video model** (e.g. Gemini behind a flag): paid, and it sends media off the device. vidscribe stays local and free; Google's [agentic video](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-agentic-video-in-gemini/) inspired the local "scan cheaply, then inspect" design of `--scan` instead.
-- **OCR of on-screen text into `index.txt`**: with `--at`, agents already answered 31/36 questions about moments the speech never names, above the bar set before the test, and `--scan` recovered the rest.
-- **Smarter scene choice within the 40-frame cap**: two methods were tried on long videos and neither improved answers; fetching frames on demand did.
+- **A hosted video model** (e.g. Gemini behind a flag): paid, and it sends media off the device ([ADR-0001](docs/decisions/0001-local-only.md)).
+- **OCR of on-screen text into `index.txt`**: with `--at`, agents answered 31/36 questions about moments the speech never names, above the bar set beforehand ([ADR-0005](docs/decisions/0005-no-ocr.md)).
+- **Smarter scene choice within the 40-frame cap**: two methods were tried on long videos and neither improved answers; fetching frames on demand did ([ADR-0004](docs/decisions/0004-frames-on-demand.md)).
+
+Why the shipped defaults are what they are: [`docs/decisions/`](docs/decisions/).
 
 ## License
 
