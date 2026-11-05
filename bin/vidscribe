@@ -37,7 +37,8 @@ WANT_VIDEO=$VFLAG
 
 # true if the file has a real video stream (cover art on mp3/m4a is an attached_pic, not video)
 has_video() {
-  local d; d="$(ffprobe -v error -select_streams v -show_entries stream_disposition=attached_pic -of csv=p=0 "$1" 2>/dev/null || true)"
+  # one value per line: csv appends a field per side_data entry ("0,"), which hid video streams
+  local d; d="$(ffprobe -v error -select_streams v -show_entries stream_disposition=attached_pic -of default=nw=1:nk=1 "$1" 2>/dev/null || true)"
   [[ $'\n'"$d"$'\n' == *$'\n0\n'* ]]
 }
 
