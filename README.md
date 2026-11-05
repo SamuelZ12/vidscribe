@@ -4,6 +4,18 @@ Local speech-to-text and video frame capture for AI agents, on Apple Silicon. Gi
 
 Transcription runs on-device with [MLX](https://github.com/ml-explore/mlx). No API keys, no cloud service; the network is only used to download the model once and to fetch URLs.
 
+## Does it help?
+
+Agents answered questions about videos and a blind grader scored them against reference answers (full method and per-video results in [`MEASUREMENTS.md`](MEASUREMENTS.md), data in [`eval/`](eval/)):
+
+| Test | Transcript only | + frames | + `--at` | + `--scan` |
+|---|---|---|---|---|
+| 12 clips, 2-111 min, 48 questions | 13 | 33 | | |
+| 12 long videos, 39-111 min, 72 questions anchored on speech | | 37.5 | 69 | |
+| Same 12 videos, 36 questions on moments the speech never names | | 11 | 31 | 36 |
+
+Frames more than double what an agent gets right. [Omni2Web](https://arxiv.org/html/2609.23417) saw a similar jump on its instruction-recovery track (Gemini 3.5 Flash, screen-recorded web edits: transcript only 18.2, silent video + transcript 38.1). The hard set's questions were kept only if a transcript-only agent failed them. Its `--scan` gain is optimistic: the design was tuned on the 5 questions `--at` missed, and a 4-video holdout scored 12/12 with and without it. Scores were measured with earlier wording of the agent instructions (last version before the rewrite: [`55c8e8b`](https://github.com/SamuelZ12/vidscribe/blob/55c8e8b/skill/SKILL.md)); the current `skill/SKILL.md` has not been re-tested.
+
 ## Requirements
 
 - A Mac with Apple Silicon (M1 or later). Intel Macs and Linux are not supported: MLX needs Apple Silicon.
@@ -78,7 +90,13 @@ Default: `mlx-community/Qwen3-ASR-1.7B-8bit` via [mlx-audio](https://github.com/
 
 ## Measurements and eval
 
-`MEASUREMENTS.md` records how the frame defaults were chosen and how agents score with and without frames and `--at`. `eval/` holds the question set, reference answers, grades, prompts and helper scripts; the videos are not in git and can be rebuilt from their YouTube IDs (see `eval/README.md`).
+`MEASUREMENTS.md` records how the frame defaults were chosen and how agents score with and without frames, `--at` and `--scan`. `eval/` holds the question sets, reference answers, grades, prompts and helper scripts; the videos are not in git and can be rebuilt from their YouTube IDs (see `eval/README.md`).
+
+## Not built
+
+- **A hosted video model** (e.g. Gemini behind a flag): paid, and it sends media off the device. vidscribe stays local and free; Google's [agentic video](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-agentic-video-in-gemini/) inspired the local "scan cheaply, then inspect" design of `--scan` instead.
+- **OCR of on-screen text into `index.txt`**: with `--at`, agents already answered 31/36 questions about moments the speech never names, above the bar set before the test, and `--scan` recovered the rest.
+- **Smarter scene choice within the 40-frame cap**: two methods were tried on long videos and neither improved answers; fetching frames on demand did.
 
 ## License
 

@@ -2,7 +2,7 @@
 
 The 12-video long-video eval (scene choice, frames on demand) is in `eval/`: questions, reference answers, grades, prompts and rebuild steps.
 
-## Frame counts on a long talk (ROADMAP step 1)
+## Frame counts on a long talk
 
 2026-11-04, Apple Silicon Mac, `master` (bb029cd), default model `mlx-community/Qwen3-ASR-1.7B-8bit`.
 
@@ -40,7 +40,7 @@ Frames cost almost nothing to produce (~60 ms each), so the cap is about the age
 
 Rule: always keep the N even frames. If even + ref exceeds 40, keep `40 - even` ref frames spread evenly across the list of refs. `-v N` with N > 40 is honored (even frames only, no refs). The clip test below checks this.
 
-## Clip test: frames vs transcript only, cap vs no cap (ROADMAP testing)
+## Clip test: frames vs transcript only, cap vs no cap
 
 2026-11-04, branch `video-default` (fbddc2b), 12 YouTube clips, default flags.
 
@@ -68,7 +68,7 @@ Method:
 
 Run time and the long clips' frame counts are from the real vidscribe runs, with truncated transcripts. The long clips' A/B/C scores used the full transcripts.
 
-By question kind (A → B): visual 1/24 → 11.5/24, mixed 0/12 → 5/12, speech 12/12 → 12/12. B never scored lower than A on any question, and every B miss was "unknown", never a wrong answer. The misses were moments no frame captured (a slide caption, a jug, a hedge): this is the gap that ROADMAP step 4 (scene-change frames) targets.
+By question kind (A → B): visual 1/24 → 11.5/24, mixed 0/12 → 5/12, speech 12/12 → 12/12. B never scored lower than A on any question, and every B miss was "unknown", never a wrong answer. The misses were moments no frame captured (a slide caption, a jug, a hedge): the gap scene-change frames (below) target.
 
 Cap: no evidence that more frames help. On the MIT lecture B = C (3/4). On the I/O keynote C did worse (0 vs 1): with 65 frames it answered even the speech question "unknown". With the full transcript, ref frames run 0.46-0.57 per minute (Karpathy 18, MIT 36, I/O 57), so with 8 even frames the cap starts trimming at about 60-65 min. 4 questions per clip can only detect large effects; keep 40.
 
@@ -93,7 +93,7 @@ Raising the budget alone (`--max-tokens 32768`, MIT) transcribed to the end, mat
 
 Result: 9 short clips byte-identical to uncapped output; MIT 319 s, full coverage, every cue identical to the uncapped run except the loop, which is 222 words instead of 3840.
 
-## Scene-change frames (ROADMAP step 4)
+## Scene-change frames
 
 2026-11-04. Cut detection: ffmpeg at 2 fps and 160 px, `scene > 0.3`; ~0.75 s per minute of video (84 s for 111 min), ~15% on top of transcription. Cuts per minute ranged from 0.2 (animated charts: gradual changes don't register) to 8.5 (Mandarin slides); every clip over ~10 min has more cuts than the cap.
 
@@ -118,7 +118,7 @@ Agent test, same method as the clip test above (every agent viewed every frame; 
 
 9 questions changed: 8 gained, 1 lost (sign test p ≈ 0.04). Of the 6 gains traced to the frame the agent cited, all 6 were scene frames, so the gain is not just from more frames (332 vs 206 on the 12 clips). The loss: MIT, where scenes took half of the slots refs used to have. No new wrong answers; misses stayed "unknown". The three long talks gained nothing (1, 1, 2 of 4): 16 of hundreds of scenes fit the cap, and a third of the Karpathy picks were stage shots. Better scene choice on long videos is the open problem.
 
-## Scene choice on long videos (ROADMAP 5, not shipped)
+## Scene choice on long videos (not shipped)
 
 2026-11-04. On long videos only ~16 of 100-650 scenes fit the cap, and master thins them evenly over the scene list. Two ways to pick better were tried; neither improved answers, so master's selection stays.
 
@@ -160,9 +160,9 @@ B does pick more content: a blind judge labeled the 209 scene frames of each con
 
 Found on the way: a video stream with side data made ffprobe's csv print `0,` instead of `0`, so `has_video` treated the WWDC 2026 keynote as audio-only and silently skipped frames. Fixed by reading one value per line.
 
-## Frames on demand (ROADMAP 5)
+## Frames on demand
 
-2026-11-04. `vidscribe <frames-dir> --at TIMES` extracts frames from the run's `video.<ext>` at chosen times (a range gives 4); SKILL.md step 5 tells agents to find the moment in the transcript and fetch it. Same 12 long videos, 72 questions, transcripts and master frame folders as the scene-choice test; the only change is that answer agents may run `--at` (prompt otherwise identical, including "view every frame"). Grading: same blind grader prompt; master scores are the existing grades. Dev clips ran first; SKILL.md wording was then frozen for the holdout clips.
+2026-11-04. `vidscribe <frames-dir> --at TIMES` extracts frames from the run's `video.<ext>` at chosen times (a range gives 4); SKILL.md tells agents to find the moment in the transcript and fetch it. Same 12 long videos, 72 questions, transcripts and master frame folders as the scene-choice test; the only change is that answer agents may run `--at` (prompt otherwise identical, including "view every frame"). Grading: same blind grader prompt; master scores are the existing grades. Dev clips ran first; SKILL.md wording was then frozen for the holdout clips.
 
 | Clip | master | C: + `--at` | extra frames |
 |---|---|---|---|
@@ -246,9 +246,9 @@ Dev 3 → 15/18, holdout 8 → 16/18. No leakage (each agent's tool calls stayed
 - Scene detection (2 fps, 160 px) took 7.4 s for 10 min and 85 s for the 111-min keynote on an M-series laptop.
 - Caveats: 5 questions, chosen because they were misses; one run per cell; the window was given, while a real agent must choose it; G was picked on these same 5, so it may be fitted to them. `yQ6VOOd73MA` was a hard-eval holdout clip and is now dev.
 
-## Scan eval: `--scan` (ROADMAP 5)
+## Scan eval: `--scan`
 
-2026-11-05. `vidscribe <frames-dir> --scan RANGES` as built (`SPEC.md`), tested on the hard set. Fresh answer agents, the same frames and grader as "Hard eval"; `scan` agents had `--at` and `--scan` with the SKILL.md step 6 wording, which was not changed during the run. Method, prompt and holdout list in `eval/README.md`, "Scan eval"; grades in `eval/hard/grades.json`.
+2026-11-05. `vidscribe <frames-dir> --scan RANGES` as built, tested on the hard set. Fresh answer agents, the same frames and grader as "Hard eval"; `scan` agents had `--at` and `--scan` with the SKILL.md scan step as of `b103a4c`, which was not changed during the run. Method, prompt and holdout list in `eval/README.md`, "Scan eval"; grades in `eval/hard/grades.json`.
 
 | Clip | at | scan | at extra frames | scan extra frames + sheets |
 |---|---|---|---|---|

@@ -132,7 +132,7 @@ Speech questions move by about ±1 per 12 between runs from agent noise alone, e
 
 ## Hard set
 
-The 72 questions above all name their moment through speech ("when the speaker says ..."), which is the case `--at` is built for (`MEASUREMENTS.md`, "Frames on demand", caveat). The hard set asks about moments the transcript never points to: the agent must find the moment from what is on screen. Its result decides whether the OCR timeline (ROADMAP 5) is built.
+The 72 questions above all name their moment through speech ("when the speaker says ..."), which is the case `--at` is built for (`MEASUREMENTS.md`, "Frames on demand", caveat). The hard set asks about moments the transcript never points to: the agent must find the moment from what is on screen. Its result decides whether an OCR timeline is built.
 
 Run 2026-11-05: `frames` 11/36, `at` 31/36; OCR not built (`MEASUREMENTS.md`, "Hard eval"). Files: `hard/questions/<ID>.json` (same fields as above plus `anchor`, `anchor_s`), `hard/grades.json` (per clip, condition and question: `score`, `answer`, `confidence`, `reason`; `miss` = not found / misread on misses; `extra_frames` on `at` h1), `hard/transcript_only.json` (validation check 2 on the final 36: `answer`, `score`), `hard/check_transcript.py` (validation check 1).
 
@@ -273,7 +273,7 @@ Write /tmp/vseval/ans/<FOLDER>/answers.json: a JSON list of {"qid", "question", 
 In your final message, state how many of the frames you viewed out of how many exist.
 ```
 
-## Scan eval (`--scan`, SPEC.md)
+## Scan eval (`--scan`)
 
 Condition `scan`: the `frames` folder plus `video.mp4`, with `--at` and `--scan`. Folders `<ID>_z`, built fresh from the master frame folders (`/tmp/vseval/frames/<ID>`: the same 39-40 frames the `at` run had). Graded with the same grader into `hard/grades.json` under `scan`; `h1` also holds the clip's cost from the agent transcript: `extra_frames` (`at_*.jpg` viewed), `sheets` (`scan_*.jpg` viewed), `at_calls`, `scan_calls`.
 
@@ -289,7 +289,7 @@ Run 2026-11-05: dev `scan` 36/36 (`at` 31); holdout `at` 12/12, `scan` 12/12; sh
 | `8qVbE9DHkEk` | DW documentary (51 min) |
 | `114i2Kz-LZA` | Stanford CME295 lecture (104 min) |
 
-Answer agent `scan` (the `at` prompt plus the scan section, which mirrors SKILL.md step 6):
+Answer agent `scan` (the `at` prompt plus the scan section, which mirrors SKILL.md step 6 as of `b103a4c`):
 
 ```
 # Goal
