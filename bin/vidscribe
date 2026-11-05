@@ -218,7 +218,11 @@ if (( VISUAL )); then
   # keep the video next to the frames: link local files (no multi-GB copy), move downloads out of $TMP
   VID="$FDIR/video.${IN##*.}"
   if [[ "$IN" == "$TMP"/* ]]; then mv "$IN" "$VID"; else ln -s "$(cd "$(dirname "$IN")" && pwd)/$(basename "$IN")" "$VID"; fi
-  python3 - "$SCENES_PY" "$OUT.srt" "$DUR" "$NFRAMES" "$FDIR" "$VID" "$OUT.txt" <<'PY' >&2
+  # even frames span the picture: use the container length (as --at does) when the video outlasts the audio;
+  # sub-second differences are codec padding, so keep the audio length there (normal runs unchanged)
+  FDUR="$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "$VID")"
+  awk -v a="$DUR" -v v="${FDUR:-0}" 'BEGIN{ exit !(v + 0 > a + 1) }' || FDUR="$DUR"  # +0: "N/A" (unknown) means 0, not a string compare
+  python3 - "$SCENES_PY" "$OUT.srt" "$FDUR" "$NFRAMES" "$FDIR" "$VID" "$OUT.txt" <<'PY' >&2
 import re, subprocess, sys; exec(sys.argv.pop(1))
 srt, dur, n, fdir, vid, txt = sys.argv[1], float(sys.argv[2]), int(sys.argv[3]), sys.argv[4], sys.argv[5], sys.argv[6]
 def sec(t):
