@@ -19,6 +19,7 @@ This installs `uv`, `ffmpeg`, `yt-dlp`, and `mlx-audio`, then symlinks `bin/vids
 
 ```
 vidscribe <file-or-URL> [-o DIR] [-l LANG] [-f txt|srt|vtt|json] [-c "hotwords"] [-m MODEL] [-v [N] | -a]
+vidscribe <frames-dir> --at TIMES
 ```
 
 - Transcripts go to `/tmp/vidscribe/transcripts/<name>.<fmt>`; txt is also printed to stdout. Use `-o DIR` to keep them elsewhere.
@@ -27,7 +28,7 @@ vidscribe <file-or-URL> [-o DIR] [-l LANG] [-f txt|srt|vtt|json] [-c "hotwords"]
 - `-v [N]`: force frame mode, with N evenly spaced frames. `-a`/`--audio-only`: transcript only, never download or save video. `-f vtt|json` on a video without `-v` also gives a transcript only.
 - `-l zh|en|...` forces a language; `-c "Letta, Qwen"` biases rare names.
 - Long media is transcribed to the end. Applause or music can show up as a short run of one repeated word ("oh, oh, oh"). A `WARNING: last cue ... < duration` line means the model still stopped early; re-run on the tail.
-- The frames folder also holds `video.<ext>`: the downloaded video for URLs, a symlink to the original for local files.
+- The frames folder also holds `video.<ext>`: the downloaded video for URLs, a symlink to the original for local files. `vidscribe <frames-dir> --at 494,8:14,7:50-8:50` pulls more frames from it without transcribing again: one per time, 4 evenly spaced inside each range (seconds, `M:SS` or `H:MM:SS`). Each prints as `mm:ss.s<TAB>path`; `index.txt` is left as is.
 - Old outputs in `/tmp/vidscribe` are pruned after 3 days.
 
 Env overrides: `VIDSCRIBE_MODEL`, `VIDSCRIBE_OUTDIR`, `VIDSCRIBE_FRAMES_DIR`.
