@@ -70,7 +70,13 @@ Default: `mlx-community/Qwen3-ASR-1.7B-8bit` via [mlx-audio](https://github.com/
 
 ## Agent skill
 
-`skill/SKILL.md` is a drop-in skill for Claude Code, Letta Code, and other agents that read SKILL.md files. Copy or symlink the `skill/` folder into your agent's skills directory (for Claude Code, `~/.claude/skills/vidscribe`).
+`skill/SKILL.md` teaches agents (Claude Code, Codex, Cursor and [others](https://github.com/vercel-labs/skills#supported-agents)) when and how to use vidscribe. Install it from your project with [`npx skills`](https://github.com/vercel-labs/skills) (Node.js 22.20+):
+
+```sh
+npx skills add SamuelZ12/vidscribe
+```
+
+Without Node, copy the `skill/` folder into your agent's skills directory (for Claude Code, `.claude/skills/vidscribe`).
 
 ## Not built
 

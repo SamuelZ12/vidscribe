@@ -7,3 +7,4 @@ uv tool install --force mlx-audio --prerelease=allow
 mkdir -p "$HOME/.local/bin"
 ln -sf "$(cd "$(dirname "$0")" && pwd)/bin/vidscribe" "$HOME/.local/bin/vidscribe"
 echo "installed: ~/.local/bin/vidscribe (make sure ~/.local/bin is on PATH)"
+echo "agent skill: run 'npx skills add SamuelZ12/vidscribe' in your project"
