@@ -1,55 +1,61 @@
-# Spec: frames on demand (ROADMAP 5, first bullet)
+# Spec: contact-sheet scan (ROADMAP 5)
 
 ## Objective
-On long videos the 40-frame cap leaves most moments unseen; pinpoint visual questions fail because no frame lands where the answer is on screen (MEASUREMENTS.md, "Scene choice on long videos": master 37.5/72, visual 19/48, free check 23/60). Let the agent fetch frames at moments it picks from the transcript, from the `video.<ext>` already kept in the frames folder, without re-downloading or re-transcribing.
+`--at` finds moments the speech points to; moments no speech relates to stay hard. The hard eval's 5 misses were all "not found" after searches of 40-52 extra frames (`MEASUREMENTS.md`, "Hard eval"). Let the agent scan a stretch of video cheaply, many small frames per image, then confirm the moment with `--at` (scan cheaply, then inspect; idea from Google's agentic video, done locally). The probe (`MEASUREMENTS.md`, "Scan probe") located all 5 misses with scene tiles plus even fill, at 5-7 sheets per 10 min.
 
-User: an AI agent following `skill/SKILL.md` after a normal `vidscribe` run.
+User: an AI agent following `skill/SKILL.md` after a normal `vidscribe` run. Local and free: ffmpeg and system python3 only.
 
 ## Interface
 ```
-vidscribe <frames-dir> --at TIMES
+vidscribe <frames-dir> --scan RANGES
 ```
-- `<frames-dir>`: the folder the normal run printed (`frames: /tmp/vidscribe/frames/<name> ...`); must contain `video.*`.
-- `TIMES`: comma-separated; each is a time (`494`, `8:14`, `1:02:05`, decimals allowed) or a range `A-B`.
-  - time → 1 frame; range → 4 frames evenly spaced inside it (at (i+0.5)/4, like even frames).
-- Writes `at_08m14.0s.jpg` (same scale/quality as other frames: 720p, `-q:v 3`) into the frames folder; prints one line per frame to stdout: `MM:SS.s<TAB>path`.
-- Does not transcribe, does not touch `index.txt`, does not prune or recreate the folder.
-- Errors (exit 1, message on stderr): no `video.*` in the folder (pruned after 3 days → "re-run vidscribe on the source"); unparseable time; time beyond the video's duration; `--at` combined with other flags.
+- `RANGES`: comma-separated ranges in `--at` syntax (`50:00-60:00`, `3000-3600`), or `all` for the whole video. Single times are an error ("use --at for single times").
+- Tiles per range: the last frame of each scene (same cut detection and dedupe as normal-run scene frames) plus evenly spaced fill so no gap between tiles, or between a range edge and a tile, exceeds 10 s.
+- Sheets: 4x4 grid, 1280x720 JPEG (tiles 318x178 with 2 px white padding), `-q:v 3`, written to the frames folder as `scan_<start>-<end>_NN.jpg` (e.g. `scan_50m00s-60m00s_01.jpg`). The last sheet of a range may be partly empty.
+- Stdout, one line per sheet: `path<TAB>t1 t2 ... t16` (tile times `MM:SS.s`, reading order). Times are not drawn on the image: this ffmpeg build has no `drawtext`, and the probe agents mapped tiles from the printed times without trouble.
+- Stderr before sheets, per range: tile count and sheet count (e.g. `50:00-60:00: 93 tiles, 6 sheets`), so the agent sees the cost.
+- Does not transcribe, does not touch `index.txt` or other frames.
+- Errors (exit 1, stderr), all checked before any extraction, as `--at` does: no `video.*` (pruned: re-run on the source); bad syntax; a range past the end; a backwards range; `--scan` with other flags.
 
 ## Code shape
-Early branch in `bin/vidscribe` before any download/transcription: parse `--at`, validate, loop `ffmpeg -ss T -i video -frames:v 1`, exit. Bash 3.2 + awk for time parsing, no new dependencies. Target: ~25 lines.
+Early branch in `bin/vidscribe` next to `--at`. Range parsing reuses the `--at` awk (ranges only). Scene detection is the normal run's (2 fps, 160 px, score > 0.3, skip < 1 s and flat frames, dHash dedupe), run with `-ss/-to` on the range only (~7 s per 10 min, ~85 s for 111 min). It lives in one place both paths use; the normal run's transcript, `index.txt` and frames stay byte-identical to master. Tiles are extracted with `ffmpeg -ss` and tiled with ffmpeg's `tile` filter. Bash 3.2, no new dependencies. Target: ~40 lines.
 
 ## Docs
-- `skill/SKILL.md` step 4: after viewing the frames, if the question is about something on screen at a moment no frame covers, find that moment in the transcript and run `--at` (a range when unsure of the exact second); view the new frames before answering. Keep requests small (guidance, not enforced).
-- `README.md`: flag + one example. Usage comment at top of `bin/vidscribe`.
-- `MEASUREMENTS.md`: eval section. `ROADMAP.md`: mark the bullet done or record why not.
+- `skill/SKILL.md`: new step after "Get missing frames": if the question is about something on screen and the transcript gives no lead (or `--at` found nothing), `--scan` the stretch where it most likely is (10 min ≈ 6 sheets), view every sheet, then `--at` the tile's time and answer from that frame. Never answer from a tile (the probe's one misread came from a 4x4 tile). `all` only as a last resort: a 111-min video is ~64 sheets.
+- `README.md`: flag + one example. Usage comment at the top of `bin/vidscribe`.
+- `MEASUREMENTS.md`: eval section. `ROADMAP.md`: mark done or record why not. `eval/README.md`: the holdout set and the `scan` condition.
 
 ## Testing strategy
-No harness in the repo; smoke runs:
-- `bash -n`, and run under `/bin/bash` (3.2).
-- Short testsrc mp4: single time, range, `M:SS` and `H:MM:SS`, multiple items; frames exist, timestamps in names match; ffprobe confirms 720p jpg.
-- Errors: missing folder, pruned folder (no `video.*`), time past duration, bad syntax.
+No harness; smoke runs:
+- `bash -n` and a run under `/bin/bash` 3.2.
+- testsrc mp4 with hard cuts (concat of different lavfi sources) and one long static stretch: one range, several ranges, `all`; check tile times include the cuts and no gap exceeds 10 s; sheets are 1280x720; stdout lines match the sheets.
+- Errors: single time, past end, backwards, bad syntax, pruned folder, extra flags; nothing written on error.
 - Symlinked local video with spaces in the path.
-- Normal run unchanged: a short clip's transcript and `index.txt` byte-identical to master.
+- Normal run byte-identical to master (transcript, `index.txt`, frames) with `VIDSCRIBE_OUTDIR`/`VIDSCRIBE_FRAMES_DIR` in a scratch dir.
+- Tile times on the probe windows match `eval/scan_probe.py --method fill10`.
 
-Eval (same method as the scene-choice test, `/tmp/vseval2`):
-- 12 long videos × 6 questions; same transcripts and master frame folders (`master/frames/<ID>/`, which link `video.mp4`).
-- Condition C: answer agents get the new SKILL.md text and may run `--at` on their folder; everything else as for master. They see questions, never `time_s`/`visible_s`.
-- Blind grading with the same `completion()` grader; compare to the existing master grades (37.5/72, visual 19/48). Also record per question: `--at` calls, extra frames, whether any extra frame fell inside `visible_s`.
-- Dev clips first; holdout clips run once with the SKILL.md wording frozen.
+## Eval
+Same method as the hard eval (`eval/README.md`, "Hard set"): fresh agents, blind x/y labels, the same grader, leakage check.
+- Conditions: `at` (frames + `--at`, the current SKILL.md) and `scan` (frames + `--at` + `--scan`, new SKILL.md). Record per question: score, confidence, `--at`/`--scan` calls, extra frames and sheets (tokens at ~1.2k each), miss type.
+- Dev: the 12 hard-set videos and 36 questions (now all dev, since the probe used 5). `at` grades exist (31/36); run `scan` only. SKILL.md wording may be tuned on dev, then frozen.
+- Holdout: 3-4 new long videos (≥ 45 min; at least one keynote with montage/demo shots, one documentary, one lecture or talk), rebuilt and transcribed like the others. 3 hard questions each from the frozen hard-set writer prompt, validated by both checks, committed under `eval/hard/questions/` before any answer run. Both `at` and `scan` run once.
+- Frame folders are pruned after 3 days: build them with `eval/frames_only.sh` right before the answer runs.
 
 ## Success criteria
 - Interface behaves as above; all smoke checks pass; normal runs byte-identical.
-- Ship (docs recommend `--at`) if C beats master on visual questions by clearly more than agent noise, holdout included: proposed bar ≥ +6/48 visual overall and holdout visual not lower than master, speech within ±1.
-- Otherwise: record the result in MEASUREMENTS.md and don't recommend it in SKILL.md (user decides whether the flag stays).
+- Ship (SKILL.md recommends `--scan`) if all hold:
+  1. Dev: `scan` ≥ 33/36 (at least 2 of the 5 `at` misses recovered, no other losses beyond 0.5 grader noise).
+  2. Holdout: `scan` ≥ `at`.
+  3. Confident wrong answers (graded 0 with high confidence) in `scan` no more than in `at` + 1, dev and holdout combined.
+- Cost is recorded, not gated; if `scan` uses more than 2x `at`'s extra tokens per video, report it with the results.
+- Otherwise: record in `MEASUREMENTS.md`, keep the flag out of SKILL.md; the user decides whether the code stays.
 
 ## Boundaries
-- Always: feature branch; small Conventional Commits; README + SKILL.md updated with the code; bash 3.2 compatible; one reviewer subagent over the branch diff before asking to merge.
-- Ask first: merge, push, deleting `/tmp/vseval2`, changing normal-run output or the frame cap.
-- Never: edit `bin/vidscribe` while another run uses it on master (work on the branch; the installed symlink follows the checkout, so switch back to master between sessions); touch `/tmp/vidscribe` contents other than fresh test folders; tune SKILL.md wording on holdout results.
+- Always: feature branch `scan`; small Conventional Commits; README + SKILL.md updated with the code; bash 3.2; one reviewer subagent over the branch diff before asking to merge.
+- Ask first: merge, push; changing normal-run output, the frame cap or scene detection settings; downloading the holdout videos (list proposed first); deleting `/tmp/vseval` or `/tmp/vsprobe`.
+- Never: tune SKILL.md wording, G or the grid on holdout results; touch `/tmp/vidscribe` contents other than fresh test folders; send media off the device.
 
-## Decisions (approved 2026-11-04)
-1. Address by frames folder path, not the original source.
-2. Print only; `index.txt` untouched.
-3. Range: fixed 4 frames.
-4. Ship bar as proposed.
+## Open questions
+1. `all`: allow it (agents may burn ~64 sheets on a long keynote), or require explicit ranges? Proposed: allow, with the stderr cost line and SKILL.md guidance.
+2. Fill gap 10 s and 4x4 grid were chosen on the 5 probe windows; fix them now (proposed), or tune on dev?
+3. Ship bar as above?
