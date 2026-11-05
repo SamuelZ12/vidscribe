@@ -130,7 +130,7 @@ Do not modify anything else under /tmp/vseval2.
 
 Speech questions move by about ±1 per 12 between runs from agent noise alone, even with identical transcripts. Compare conditions within a run when the expected difference is small.
 
-## Hard set (draft spec, not run)
+## Hard set (spec; questions frozen 2026-11-04, not run)
 
 The 72 questions above all name their moment through speech ("when the speaker says ..."), which is the case `--at` is built for (`MEASUREMENTS.md`, "Frames on demand", caveat). The hard set asks about moments the transcript never points to: the agent must find the moment from what is on screen. Its result decides whether the OCR timeline (ROADMAP 5) is built.
 
@@ -145,9 +145,11 @@ The 72 questions above all name their moment through speech ("when the speaker s
 ### Validation (a failing question is replaced, then re-checked)
 
 1. Transcript check (script, reviewed by hand): the answer is not said anywhere in the transcript, and the anchor is not said within 60 s of `anchor_s`.
-2. Transcript-only agent: an agent given only `transcript.srt` answers all 3; any question it scores 0.5 or 1 on is replaced.
+2. Transcript-only agent: an agent given only `transcript.srt` answers every question, guessing from general knowledge when the transcript has nothing ("unknown" not allowed). Any question the grader scores 0.5 or 1 is replaced.
 
 Questions are committed under `eval/hard/questions/<ID>.json` before any answer run.
+
+Pilot (`LCEmiRjPEtQ`, `H3KnMyojEQU`): 1 of 6 failed check 2 (a famous compute cluster, guessed from general knowledge) and one asked for two facts, with the "accept either" rule only in the notes the grader never sees. The two rules marked *(pilot)* in the writer prompt come from these; pilot questions were fixed to meet them.
 
 ### Runs
 
@@ -163,3 +165,53 @@ Questions are committed under `eval/hard/questions/<ID>.json` before any answer 
 ### Decision rule (set before the run)
 
 Build the OCR timeline if `at` scores below 27/36 (75%) **and** at least half its misses are "not found". OCR helps an agent find a moment, not read it; if misses are mostly misreads, or `at` is at 75% or above, OCR is not built and the result is recorded.
+
+### Prompts (verbatim)
+
+Contact sheets: one tile every 20 s (first at 10 s), 36 per sheet, from `sheet.py`.
+
+Question writer (one fresh `task` subagent per video, task `ID = <ID>`; a failed question goes back to the same writer with the reason and a request for one replacement):
+
+```
+# Goal
+Write hard evaluation questions for a tool that gives AI agents a video's transcript, ~40 still frames, and a command to fetch more frames at chosen times. These questions test whether an agent can find and read a moment that the transcript never points to. Write 3 questions with reference answers for ONE video. You will never see the tool's frames.
+
+# Inputs
+- Contact sheets: /tmp/vseval/q/<ID>/sheet_*.jpg. One tile every 20 s, labeled `#k m:ss.s` (video time). View EVERY sheet with the read tool.
+- Transcript with timestamps: /tmp/vseval/tr/<ID>.srt
+- The video: /tmp/vseval/src/<ID>.mp4. To check details, extract frames: `ffmpeg -nostdin -loglevel error -y -ss <seconds> -i /tmp/vseval/src/<ID>.mp4 -frames:v 1 -vf scale=-2:720 /tmp/vseval/q/<ID>/check_<seconds>.jpg`, then read the file. Delete your check_*.jpg files when done.
+
+# Questions: exactly 3
+- h1 from the first third of the video, h2 from the middle third, h3 from the last third.
+- The ANCHOR: each question names its moment ONLY by something visible on screen (a slide title, a caption, a scene, an object, a UI screen). Examples: "On the slide titled X, ...", "In the shot of the kitchen with the red mixer, ...". No reference to speech, no timestamps, no position hints like "near the end".
+- The anchor must match exactly one moment. Check the sheets: if the same slide or scene appears again elsewhere with a different answer, pick another.
+- The anchor must NOT be spoken within 60 s of when it is on screen. Search the transcript for its key words.
+- The ANSWER: visible on screen for at least ~3 s; NOT spoken anywhere in the transcript (search for it, including numbers written as words); short and checkable (a word, number, short phrase); not guessable from general knowledge, the video title, or the anchor itself.
+- Before keeping a question, ask: could someone who knows this field answer it without the video? If yes, pick another.
+- Ask for one fact only.
+- Vary the kinds. If the video has non-slide shots (people, products, demos, places, name captions), use at least one. Prefer things a viewer might plausibly ask about.
+
+# Output
+Write /tmp/vseval/q/<ID>/questions.json: a JSON list of 3 objects:
+{"qid": "h1"|"h2"|"h3", "time_s": <second the answer is clearly visible>, "visible_s": [<start>, <end>] (span the answer is on screen), "anchor": "<the on-screen cue the question names>", "anchor_s": [<start>, <end>] (span the anchor is on screen), "question": "...", "answer": "...", "notes": "transcript words you searched and why neither anchor nor answer is spoken"}
+Do not modify anything else under /tmp/vseval.
+```
+
+The two lines "Before keeping a question ..." and "Ask for one fact only." are the *(pilot)* additions.
+
+Transcript-only agent (fresh `task` subagent, task `ID = <ID>`; folder holds `transcript.srt` and `questions.json` with `qid` + `question` only):
+
+```
+# Goal
+You are checking whether questions about a video can be answered WITHOUT seeing it. You get only the video's transcript. For each question, find the answer in the transcript if you can; if the transcript doesn't give it, give your best guess anyway (from general knowledge or reasoning). Never answer "unknown".
+
+# Your folder: /tmp/vseval/tonly/<ID>/
+- transcript.srt: the full timestamped transcript.
+- questions.json: the questions.
+
+# Rules
+- Use ONLY the two files in your folder. Do not open anything else under /tmp/vseval, do not search the web, do not run ffmpeg or open any video or image.
+
+# Output
+Write /tmp/vseval/tonly/<ID>/answers.json: a JSON list of {"qid", "answer", "source": "transcript"|"guess", "cue": "<srt time if from transcript, else null>"}.
+```
