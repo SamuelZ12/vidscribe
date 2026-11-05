@@ -270,3 +270,47 @@ You are testing how well an AI agent can answer questions about a video using a 
 Write /tmp/vseval/ans/<FOLDER>/answers.json: a JSON list of {"qid", "question", "answer", "frame": "<file name you used, or null>", "confidence": "high"|"low"}.
 In your final message, state how many of the frames you viewed out of how many exist.
 ```
+
+## Scan eval (`--scan`, SPEC.md)
+
+Condition `scan`: the `frames` folder plus `video.mp4`, with `--at` and `--scan`. Folders `<ID>_z`, built fresh from the master frame folders (`/tmp/vseval/frames/<ID>`: the same 39-40 frames the `at` run had). Graded with the same grader into `hard/grades.json` under `scan`; `h1` also holds the clip's cost from the agent transcript: `extra_frames` (`at_*.jpg` viewed), `sheets` (`scan_*.jpg` viewed), `at_calls`, `scan_calls`.
+
+- Dev: all 36 hard-set questions (the probe made both splits dev), `scan` only, compared with the existing `at` grades. The prompt below ran unchanged; it was not tuned.
+- Holdout: 4 new videos, questions from the frozen hard-set writer prompt and both validation checks, committed before any answer run; `at` and `scan` both run once, labels `x`/`y` at random per clip.
+
+| ID | Kind |
+|---|---|
+| `Nul7mPL7Nt4` | Samsung Galaxy Unpacked keynote (83 min) |
+| `FFMm454fxNA` | Microsoft Build 2026 keynote (143 min) |
+| `8qVbE9DHkEk` | DW documentary (51 min) |
+| `114i2Kz-LZA` | Stanford CME295 lecture (104 min) |
+
+Answer agent `scan` (the `at` prompt plus the scan section, which mirrors SKILL.md step 6):
+
+```
+# Goal
+You are testing how well an AI agent can answer questions about a video using a transcript, a set of still frames from it, and commands that extract more frames and contact sheets on demand. Answer honestly from your folder; a wrong guess is worse than "unknown".
+
+# Your folder: /tmp/vseval/ans/<FOLDER>/
+- transcript.srt: the full timestamped transcript.
+- frames/index.txt: one line per frame: time, frame file name, spoken span, text spoken around that time.
+- frames/*.jpg: the frames (about 40).
+- frames/video.mp4: the video. Do not open it directly; use the commands below.
+- questions.json: 3 questions.
+
+# Getting more frames
+Long videos keep at most 40 frames, so a moment you need often has none. Find it in the transcript (srt times), then run `vidscribe /tmp/vseval/ans/<FOLDER>/frames --at 8:14` for an exact second or `--at 7:50-8:50` (4 frames) when unsure, and view what it prints. Several times or ranges fit in one call (`--at 8:14,31:00-31:40`). Ask for the moments you need, not the whole video.
+
+# Scanning when nothing points to the moment
+If a question is about something on screen that the transcript never leads to, or `--at` didn't find it, run `vidscribe /tmp/vseval/ans/<FOLDER>/frames --scan 50:00-60:00` on the stretch where it most likely is. It prints 4x4 contact sheets (a tile at every scene change, at most 10 s apart) with each tile's time. View every sheet, pick the tile, then `--at` its time and answer from that frame, never from the tile (small text misreads). 10 min is 5-8 sheets, each about the cost of one frame; widen the range step by step, and use `--scan all` only as a last resort.
+
+# Rules
+- Use ONLY files inside your folder and the vidscribe --at and --scan commands above. Do not open anything else under /tmp/vseval, do not search the web, do not run ffmpeg or any other tool on the video.
+- First read index.txt and the transcript. Then view EVERY frame image in frames/ with the read tool, one by one; do not skip any, even if there are many. Keep a count.
+- Then, for any question the frames and transcript don't answer, get more frames or scan as described above and view every frame and sheet the commands print.
+- Answer each question. If the frames and transcript do not show the answer, answer exactly "unknown". Do not guess from general knowledge.
+
+# Output
+Write /tmp/vseval/ans/<FOLDER>/answers.json: a JSON list of {"qid", "question", "answer", "frame": "<file name you used, or null>", "confidence": "high"|"low"}.
+In your final message, state how many of the original frames you viewed out of how many exist, how many extra frames you extracted and viewed, and how many scan sheets you viewed.
+```
