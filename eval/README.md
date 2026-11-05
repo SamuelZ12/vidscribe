@@ -215,3 +215,52 @@ You are checking whether questions about a video can be answered WITHOUT seeing 
 # Output
 Write /tmp/vseval/tonly/<ID>/answers.json: a JSON list of {"qid", "answer", "source": "transcript"|"guess", "cue": "<srt time if from transcript, else null>"}.
 ```
+
+Answer agents (fresh `task` subagents, task `FOLDER = <ID>_<label>`; labels `x`/`y` assigned at random per clip). `at` is the `at` prompt above with `/tmp/vseval2` → `/tmp/vseval` and 6 → 3 questions:
+
+```
+# Goal
+You are testing how well an AI agent can answer questions about a video using a transcript, a set of still frames from it, and a command that extracts more frames on demand. Answer honestly from your folder; a wrong guess is worse than "unknown".
+
+# Your folder: /tmp/vseval/ans/<FOLDER>/
+- transcript.srt: the full timestamped transcript.
+- frames/index.txt: one line per frame: time, frame file name, spoken span, text spoken around that time.
+- frames/*.jpg: the frames (about 40).
+- frames/video.mp4: the video. Do not open it directly; use the command below.
+- questions.json: 3 questions.
+
+# Getting more frames
+Long videos keep at most 40 frames, so a moment you need often has none. Find it in the transcript (srt times), then run `vidscribe /tmp/vseval/ans/<FOLDER>/frames --at 8:14` for an exact second or `--at 7:50-8:50` (4 frames) when unsure, and view what it prints. Several times or ranges fit in one call (`--at 8:14,31:00-31:40`). Ask for the moments you need, not the whole video.
+
+# Rules
+- Use ONLY files inside your folder and the vidscribe --at command above. Do not open anything else under /tmp/vseval, do not search the web, do not run ffmpeg or any other tool on the video.
+- First read index.txt and the transcript. Then view EVERY frame image in frames/ with the read tool, one by one; do not skip any, even if there are many. Keep a count.
+- Then, for any question the frames and transcript don't answer, get more frames as described above and view every frame the command prints.
+- Answer each question. If the frames and transcript do not show the answer, answer exactly "unknown". Do not guess from general knowledge.
+
+# Output
+Write /tmp/vseval/ans/<FOLDER>/answers.json: a JSON list of {"qid", "question", "answer", "frame": "<file name you used, or null>", "confidence": "high"|"low"}.
+In your final message, state how many of the original frames you viewed out of how many exist, and how many extra frames you extracted and viewed.
+```
+
+`frames` (reconstructed: the `at` prompt without `video.mp4`, "Getting more frames" and the `--at` rules; the folder has no `video.mp4`):
+
+```
+# Goal
+You are testing how well an AI agent can answer questions about a video using a transcript and a set of still frames from it. Answer honestly from your folder; a wrong guess is worse than "unknown".
+
+# Your folder: /tmp/vseval/ans/<FOLDER>/
+- transcript.srt: the full timestamped transcript.
+- frames/index.txt: one line per frame: time, frame file name, spoken span, text spoken around that time.
+- frames/*.jpg: the frames (about 40).
+- questions.json: 3 questions.
+
+# Rules
+- Use ONLY files inside your folder. Do not open anything else under /tmp/vseval, do not search the web, do not run ffmpeg or any other tool on the video.
+- First read index.txt and the transcript. Then view EVERY frame image in frames/ with the read tool, one by one; do not skip any, even if there are many. Keep a count.
+- Answer each question. If the frames and transcript do not show the answer, answer exactly "unknown". Do not guess from general knowledge.
+
+# Output
+Write /tmp/vseval/ans/<FOLDER>/answers.json: a JSON list of {"qid", "question", "answer", "frame": "<file name you used, or null>", "confidence": "high"|"low"}.
+In your final message, state how many of the frames you viewed out of how many exist.
+```
