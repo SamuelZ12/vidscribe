@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # vidscribe: local multilingual speech-to-text (Qwen3-ASR 1.7B via mlx-audio).
 # Usage: vidscribe <file-or-URL> [-o OUTDIR] [-l LANG] [-f txt|srt|vtt|json] [-c "hotwords"] [-m MODEL] [-v [N] | -a]
-#        vidscribe <frames-dir> --at TIMES: more frames from a previous run's video, e.g. --at 494,8:14,7:50-8:50 (a range gives 4).
+#        vidscribe <frames-dir> --at TIMES | --scan RANGES: from a previous run's video, frames (--at 494,8:14,7:50-8:50; a range gives 4) or 4x4 contact sheets (--scan 50:00-60:00 or all).
 # URLs (X, YouTube, etc.) are fetched with yt-dlp. Prints the transcript path; text to stdout for txt.
 # Frames are on by default when the input has a video stream (-f txt|srt). -a/--audio-only: transcript only.
 # -v [N]: force frames, N evenly spaced (default 8) plus a frame at every cue with an on-screen reference
@@ -19,22 +19,55 @@ FMT="txt"; LANG_ARG=(); CTX_ARG=(); VFLAG=0; AFLAG=0; NFRAMES=8
 
 [[ $# -ge 1 ]] || { sed -n '2,5p' "$0"; exit 1; }
 case "$1" in -h|--help) sed -n '2,5p' "$0"; exit 0;; esac
-# frames on demand: more frames from the video a normal run kept in its frames folder; no transcription
-if [[ "${2:-}" == "--at" ]]; then
-  (( $# == 3 )) || { echo "usage: vidscribe <frames-dir> --at TIMES (e.g. 494,8:14,7:50-8:50; no other flags)" >&2; exit 1; }
+# scene ends, shared by frame mode and --scan: one 2 fps pass gives each frame a scene score and a 9x8 gray thumbnail (for dedupe)
+IFS= read -r -d '' SCENES_PY <<'PY' || true
+import os, re, subprocess, tempfile
+def scene_ends(vid, ss=None, t=None):
+    fd, scf = tempfile.mkstemp(suffix='.txt'); os.close(fd)  # metadata file: path must be filtergraph-safe
+    rng = [] if ss is None else ['-ss', f'{ss:.3f}', '-t', f'{t:.3f}']  # input seek: times restart at 0
+    raw = subprocess.run(['ffmpeg','-nostdin','-loglevel','error'] + rng + ['-i',vid,'-an','-vf',
+        f"fps=2,scale=160:-2,select='gte(scene,0)',metadata=print:key=lavfi.scene_score:file={scf},scale=9:8,format=gray",
+        '-f','rawvideo','-'], capture_output=True).stdout
+    meta = open(scf).read(); os.unlink(scf)
+    pts = [float(x) + (ss or 0) for x in re.findall(r'pts_time:([\d.]+)', meta)]
+    score = [float(x) for x in re.findall(r'scene_score=([\d.]+)', meta)]
+    nf = min(len(raw)//72, len(pts), len(score))
+    def dhash(i):
+        b = raw[i*72:(i+1)*72]
+        return sum(1 << (r*8+c) for r in range(8) for c in range(8) if b[r*9+c] > b[r*9+c+1])
+    # one frame per scene, at its last sampled frame (slide builds and typed text are complete by then);
+    # skip scenes under 1 s, flat frames (black/fades), and repeats of an already kept scene
+    cuts = [0] + [i for i in range(1, nf) if score[i] > 0.3] + [nf]
+    ends, seen = [], []
+    for a, b in zip(cuts, cuts[1:]):
+        i = b - 1
+        th = raw[i*72:(i+1)*72]
+        if b - a < 2 or max(th) - min(th) < 12: continue
+        h = dhash(i)
+        if any(bin(h ^ k).count('1') <= 6 for k in seen): continue
+        seen.append(h); ends.append(pts[i])
+    return ends
+PY
+# from the video a normal run kept in its frames folder, no transcription: frames on demand (--at)
+# or contact sheets to find moments the transcript gives no lead to (--scan)
+if [[ "${2:-}" == "--at" || "${2:-}" == "--scan" ]]; then
+  MODE="${2#--}"
+  (( $# == 3 )) || { echo "usage: vidscribe <frames-dir> --at TIMES | --scan RANGES (e.g. --at 494,8:14,7:50-8:50; --scan 50:00-60:00 or all; no other flags)" >&2; exit 1; }
   D="${1%/}"; VID=""
   for f in "$D"/video.*; do [[ -e "$f" ]] && VID="$f"; break; done
   [[ -n "$VID" ]] || { echo "no video in $D (folders are pruned after 3 days; local originals may have moved): re-run vidscribe on the source" >&2; exit 1; }
   DUR="$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "$VID")"
-  # one line per frame: seconds, mm:ss.s, file name; a range A-B gets 4 frames evenly spaced inside it
-  TS="$(awk -v at="$3" -v d="${DUR:-0}" '
+  # --at: one line per frame: seconds, mm:ss.s, file name; a range A-B gets 4 frames evenly spaced inside it
+  # --scan: one line per range: start and end seconds
+  TS="$(awk -v at="$3" -v d="${DUR:-0}" -v mode="$MODE" '
     function sec(s,  p, n, i, t) { n = split(s, p, ":"); t = 0; for (i = 1; i <= n; i++) t = t*60 + p[i]; return t }
     function out(t,  m, s, fn) {  # round before splitting so 119.97 names 02m00.0s, not 01m60.0s; skip duplicate names
       s = int(t*10 + 0.5)/10; m = int(s/60); s -= 60*m; fn = sprintf("at_%02dm%04.1fs.jpg", m, s)
       if (!(fn in seen)) printf "%.2f\t%02d:%04.1f\t%s\n", t, m, s, fn; seen[fn] = 1
     }
-    function die(msg) { print "--at: " msg > "/dev/stderr"; exit 1 }
+    function die(msg) { print "--" mode ": " msg > "/dev/stderr"; exit 1 }
     BEGIN {
+      if (mode == "scan" && at == "all") { printf "0\t%.3f\n", d; exit }
       T = "[0-9]+(:[0-5]?[0-9]){0,2}([.][0-9]+)?"
       n = split(at, it, ","); if (n == 0) die("no times given")
       for (i = 1; i <= n; i++) {
@@ -43,11 +76,59 @@ if [[ "${2:-}" == "--at" ]]; then
         p = x
         if (x !~ ("^" T "(-" T ")?$")) die("bad time \"" it[i] "\" (use 494, 8:14, 1:02:05 or 7:50-8:50)")
         k = split(x, r, "-"); a = sec(r[1]); b = (k == 2) ? sec(r[2]) : a
-        if (b >= d) die(it[i] " is past the end of the video (" int(d) " s)")
+        if (mode == "scan" && k == 1) die("\"" it[i] "\" is a single time: --scan takes ranges or all (use --at for single times)")
+        if (b > d || (b == d && mode == "at")) die(it[i] " is past the end of the video (" int(d) " s)")
         if (k == 2 && b <= a) die("range " it[i] " ends before it starts")
-        if (k == 1) out(a); else for (j = 0; j < 4; j++) out(a + (b-a)*(j+0.5)/4)
+        if (mode == "scan") printf "%.3f\t%.3f\n", a, b
+        else if (k == 1) out(a); else for (j = 0; j < 4; j++) out(a + (b-a)*(j+0.5)/4)
       }
     }')"
+  if [[ "$MODE" == "scan" ]]; then
+    python3 - "$SCENES_PY" "$VID" "$D" "$TS" <<'PY'
+import sys; exec(sys.argv.pop(1))
+import glob, math, shutil
+from concurrent.futures import ThreadPoolExecutor
+vid, d, ranges = sys.argv[1:4]
+# tiles: every scene end plus even fill so no gap exceeds G s; 4x4 sheets of WxH tiles with 2 px padding
+# and 1 px margin = 1280x720 (fill gap and grid from MEASUREMENTS.md, "Scan probe")
+G, W, H = 10, 318, 178
+mm = lambda t: f"{int(t//60):02d}:{t%60:04.1f}"
+tag = lambda t: f"{int(t//60):02d}m{int(t%60):02d}s"
+tmp = tempfile.mkdtemp()
+try:
+    for k, line in enumerate(ranges.splitlines()):
+        a, b = map(float, line.split('\t'))
+        s0 = math.floor(a*2)/2  # sample on the same 0.5 s grid as a whole-video pass
+        ts = sorted(t for t in scene_ends(vid, s0, b - s0) if a <= t < b)
+        edges = [a] + ts + [b]
+        for p, q in zip(edges, edges[1:]):
+            m = math.ceil((q - p) / G) - 1
+            ts += [p + (q - p)*j/(m + 1) for j in range(1, m + 1)]
+        ts.sort()
+        print(f"{mm(a)}-{mm(b)}: {len(ts)} tiles, {math.ceil(len(ts)/16)} sheets", file=sys.stderr)
+        tdir = f"{tmp}/{k}"; os.mkdir(tdir)
+        def grab(it):
+            i, t = it; f = f"{tdir}/{i:04d}.jpg"
+            subprocess.run(['ffmpeg','-nostdin','-loglevel','quiet','-y','-ss',f'{t:.2f}','-i',vid,'-frames:v','1','-q:v','2','-vf',
+                f'scale={W}:{H}:force_original_aspect_ratio=decrease,pad={W}:{H}:(ow-iw)/2:(oh-ih)/2',f])
+            return t if os.path.exists(f) and os.path.getsize(f) > 0 else None
+        with ThreadPoolExecutor(4) as ex: got = list(ex.map(grab, enumerate(ts)))
+        kept = []  # renumber without gaps: the image sequence input stops at a missing number
+        for i, t in enumerate(got):
+            if t is None: print(f"no frame at {mm(ts[i])}", file=sys.stderr); continue
+            os.rename(f"{tdir}/{i:04d}.jpg", f"{tdir}/s{len(kept):04d}.jpg"); kept.append(t)
+        prefix = f"{d}/scan_{tag(a)}-{tag(b)}_"
+        for old in glob.glob(glob.escape(prefix) + '*.jpg'): os.unlink(old)
+        if not kept: continue
+        subprocess.run(['ffmpeg','-nostdin','-loglevel','error','-y','-framerate','1','-i',f'{tdir}/s%04d.jpg',
+            '-vf','tile=4x4:padding=2:margin=1:color=white','-q:v','3',prefix.replace('%', '%%') + '%02d.jpg'], check=True)
+        for s in range(math.ceil(len(kept)/16)):
+            print(f"{prefix}{s+1:02d}.jpg\t" + ' '.join(mm(t) for t in kept[s*16:(s+1)*16]))
+finally:
+    shutil.rmtree(tmp)
+PY
+    exit 0
+  fi
   while IFS=$'\t' read -r t mm fn; do
     if ffmpeg -nostdin -loglevel quiet -y -ss "$t" -i "$VID" -frames:v 1 -q:v 3 -vf scale=-2:720 "$D/$fn" && [[ -s "$D/$fn" ]]; then
       printf '%s\t%s\n' "$mm" "$D/$fn"
@@ -136,8 +217,8 @@ if (( VISUAL )); then
   # keep the video next to the frames: link local files (no multi-GB copy), move downloads out of $TMP
   VID="$FDIR/video.${IN##*.}"
   if [[ "$IN" == "$TMP"/* ]]; then mv "$IN" "$VID"; else ln -s "$(cd "$(dirname "$IN")" && pwd)/$(basename "$IN")" "$VID"; fi
-  python3 - "$OUT.srt" "$DUR" "$NFRAMES" "$FDIR" "$VID" "$OUT.txt" <<'PY' >&2
-import os, re, subprocess, sys, tempfile
+  python3 - "$SCENES_PY" "$OUT.srt" "$DUR" "$NFRAMES" "$FDIR" "$VID" "$OUT.txt" <<'PY' >&2
+import re, subprocess, sys; exec(sys.argv.pop(1))
 srt, dur, n, fdir, vid, txt = sys.argv[1], float(sys.argv[2]), int(sys.argv[3]), sys.argv[4], sys.argv[5], sys.argv[6]
 def sec(t):
     h, m, s = t.replace(',', '.').split(':'); return int(h)*3600 + int(m)*60 + float(s)
@@ -166,30 +247,7 @@ def around(t, w=1):
     win = sents[max(0, i-w):i+w+1]
     return f"{mmss(win[0][0])}-{mmss(win[-1][1])}", ' '.join(s[2] for s in win)
 refs = [s0 + min(1.0, (s1-s0)/2) for s0, s1, x in sents if DEIX.search(x) and s1 > s0]  # stay inside even a sub-second sentence
-# scene changes: one 2 fps pass gives each frame a scene score and a 9x8 gray thumbnail (for dedupe)
-fd, scf = tempfile.mkstemp(suffix='.txt'); os.close(fd)  # metadata file: path must be filtergraph-safe
-raw = subprocess.run(['ffmpeg','-nostdin','-loglevel','error','-i',vid,'-an','-vf',
-    f"fps=2,scale=160:-2,select='gte(scene,0)',metadata=print:key=lavfi.scene_score:file={scf},scale=9:8,format=gray",
-    '-f','rawvideo','-'], capture_output=True).stdout
-meta = open(scf).read(); os.unlink(scf)
-pts = [float(x) for x in re.findall(r'pts_time:([\d.]+)', meta)]
-score = [float(x) for x in re.findall(r'scene_score=([\d.]+)', meta)]
-nf = min(len(raw)//72, len(pts), len(score))
-def dhash(i):
-    b = raw[i*72:(i+1)*72]
-    return sum(1 << (r*8+c) for r in range(8) for c in range(8) if b[r*9+c] > b[r*9+c+1])
-# one frame per scene, at its last sampled frame (slide builds and typed text are complete by then);
-# skip scenes under 1 s, flat frames (black/fades), and repeats of an already kept scene
-cuts = [0] + [i for i in range(1, nf) if score[i] > 0.3] + [nf]
-scenes, seen = [], []
-for a, b in zip(cuts, cuts[1:]):
-    i = b - 1
-    th = raw[i*72:(i+1)*72]
-    if b - a < 2 or max(th) - min(th) < 12: continue
-    h = dhash(i)
-    if any(bin(h ^ k).count('1') <= 6 for k in seen): continue
-    seen.append(h)
-    if all(abs(pts[i] - t) >= 3 for t in refs): scenes.append(pts[i])
+scenes = [t for t in scene_ends(vid) if all(abs(t - r) >= 3 for r in refs)]
 def thin(xs, k): return xs if len(xs) <= k else [xs[int((i+0.5)*len(xs)/k)] for i in range(k)]
 # cap total frames (see MEASUREMENTS.md): keep all even frames; refs and scenes split the rest,
 # either side's unused share goes to the other, and each is thinned evenly over time
