@@ -1,0 +1,476 @@
+{
+ "LCEmiRjPEtQ": {
+  "frames": {
+   "h1": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate answered \"unknown\" and didn't give the figure. The reference answer is 496GB, so no credit can be given.",
+    "miss": "not found"
+   },
+   "h2": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate answered \"unknown,\" so it never named the software. The reference says the screenshot is labeled Unreal Engine.",
+    "miss": "not found"
+   },
+   "h3": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate said \"unknown\" and never named a website. The reference answer is Tripadvisor, so the candidate gave no correct content.",
+    "miss": "not found"
+   }
+  },
+  "at": {
+   "h1": {
+    "score": 1,
+    "answer": "496GB (Guillermo Flor's post: DeepSeek R1 across 7 M4 Pro Mac Minis and 1 M4 Max MacBook Pro)",
+    "reason": "The candidate gives 496GB, which matches the reference. The added details about the post don't contradict it.",
+    "extra_frames": 12
+   },
+   "h2": {
+    "score": 1,
+    "answer": "Unreal engine",
+    "reason": "The candidate's answer, \"Unreal engine,\" is the same as the reference answer. The only difference is capitalization."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "Tripadvisor (OpenAI Operator booking a Rome tour)",
+    "reason": "The candidate says Tripadvisor, which matches the reference. The extra detail about OpenAI Operator booking a Rome tour doesn't contradict it."
+   }
+  }
+ },
+ "Unzc731iCUY": {
+  "frames": {
+   "h1": {
+    "score": 1,
+    "answer": "A Joshua tree (desert cactus-like tree)",
+    "reason": "The candidate names a Joshua tree, which is the plant given in the reference answer. Leaving out the rock and mesa silhouettes doesn't matter, because the question only asks about the plant."
+   },
+   "h2": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate said \"unknown,\" so it never gave a gate label. The reference answer is A12, and with nothing to compare against it, the answer can't count as correct.",
+    "miss": "not found"
+   },
+   "h3": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate answered \"unknown,\" so it gave no time at all. The reference time is 11:23 pm ET, or the equivalent 8:23 pm PT.",
+    "miss": "not found"
+   }
+  },
+  "at": {
+   "h1": {
+    "score": 1,
+    "answer": "A Joshua tree",
+    "reason": "The candidate names a Joshua tree, which is the plant the question asks about and matches the reference. The rock and mesa silhouettes in the reference are extra detail, not part of the question.",
+    "extra_frames": 12
+   },
+   "h2": {
+    "score": 1,
+    "answer": "A12",
+    "reason": "The candidate's answer, A12, is the same as the reference answer."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "8:23 pm PT",
+    "reason": "The reference accepts 8:23 pm PT as a correct answer, and the candidate gave exactly that time."
+   }
+  }
+ },
+ "wYSncx9zLIU": {
+  "frames": {
+   "h1": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate answered \"unknown,\" which doesn't give the brand name. The reference answer is \"BLK & Bold,\" so the candidate gets no credit.",
+    "miss": "not found"
+   },
+   "h2": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate said \"unknown\" and gave no time. The reference answer is 12:15 PM.",
+    "miss": "not found"
+   },
+   "h3": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate answered \"unknown\" and gave no trail number, while the reference answer is 35A.",
+    "miss": "not found"
+   }
+  },
+  "at": {
+   "h1": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate answered \"unknown\" and didn't name a brand. The reference answer is \"BLK & Bold\", so the candidate's answer doesn't match it.",
+    "extra_frames": 40,
+    "miss": "not found"
+   },
+   "h2": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate answered \"unknown\" and gave no time. The reference answer is 12:15 PM, so the candidate does not match it.",
+    "miss": "not found"
+   },
+   "h3": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate answered \"unknown\" and gave no trail number, but the reference answer is 35A, so it gets no credit.",
+    "miss": "not found"
+   }
+  }
+ },
+ "H3KnMyojEQU": {
+  "frames": {
+   "h1": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate answered \"unknown\" and did not give the job title. The reference says the caption reads \"Sr. Director, Fitness Technologies.\"",
+    "miss": "not found"
+   },
+   "h2": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate said \"unknown\" and didn't give the name. The reference answer is \"The Carlyle.\"",
+    "miss": "found"
+   },
+   "h3": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate answered \"unknown\" and gave no job title. The reference answer is \"SVP, Worldwide Marketing\", so the candidate did not provide the correct information.",
+    "miss": "not found"
+   }
+  },
+  "at": {
+   "h1": {
+    "score": 1,
+    "answer": "Sr. Director, Fitness Technologies (caption: Julz Arney)",
+    "reason": "The job title matches the reference exactly. The name added in the candidate doesn't contradict anything in the reference.",
+    "extra_frames": 20
+   },
+   "h2": {
+    "score": 1,
+    "answer": "The Carlyle",
+    "reason": "The candidate's answer, \"The Carlyle\", is exactly the same as the reference answer."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "SVP, Worldwide Marketing (caption: Greg \"Joz\" Joswiak)",
+    "reason": "The candidate gives the job title as \"SVP, Worldwide Marketing\", which matches the reference exactly. The name it adds from the caption doesn't conflict with the reference."
+   }
+  }
+ },
+ "gDvwRpl9erE": {
+  "frames": {
+   "h1": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate answered \"unknown,\" so it gives no year or month. The reference answer is December 2017 (written as 2017-12), so the candidate does not match it.",
+    "miss": "not found"
+   },
+   "h2": {
+    "score": 1,
+    "answer": "1:11:21",
+    "reason": "The candidate's answer, 1:11:21, is exactly the same as the reference answer."
+   },
+   "h3": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate said \"unknown\" and never named a word. The reference answer is \"unreflected\", so the candidate's answer doesn't match it.",
+    "miss": "not found"
+   }
+  },
+  "at": {
+   "h1": {
+    "score": 1,
+    "answer": "December 2017 (\"3 outgrows 2 by 2017-12\")",
+    "reason": "The candidate says December 2017 and quotes it as \"2017-12\", which matches the reference answer.",
+    "extra_frames": 16
+   },
+   "h2": {
+    "score": 1,
+    "answer": "1:11:21",
+    "reason": "The candidate's answer, 1:11:21, is exactly the same as the reference."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "unreflected",
+    "reason": "The candidate's answer, \"unreflected\", is exactly the same as the reference answer."
+   }
+  }
+ },
+ "xAcTmDO6NTI": {
+  "frames": {
+   "h1": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate answered \"unknown\" and never gave the course number. The correct answer is 6.S061.",
+    "miss": "not found"
+   },
+   "h2": {
+    "score": 1,
+    "answer": "7.20.0",
+    "reason": "The candidate's answer, 7.20.0, is exactly the same as the reference answer."
+   },
+   "h3": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate answered \"unknown\", so it never gave the prompt number. The reference answer is In [25].",
+    "miss": "not found"
+   }
+  },
+  "at": {
+   "h1": {
+    "score": 1,
+    "answer": "6.S061 (menu reads 'About 6.S061'; the site logo shows 6.100L)",
+    "reason": "The candidate gives 6.S061, which matches the reference. The extra detail about the logo doesn't contradict the answer.",
+    "extra_frames": 12
+   },
+   "h2": {
+    "score": 1,
+    "answer": "7.20.0",
+    "reason": "The candidate's answer, 7.20.0, is exactly the same as the reference answer."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "25 (In [25]: x)",
+    "reason": "The candidate says 25, which is the same as the reference answer."
+   }
+  }
+ },
+ "ej5RsTtVvQE": {
+  "frames": {
+   "h1": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate answered \"unknown,\" so it doesn't name the institution. The reference answer is Hochschule Burgenland (University of Applied Sciences).",
+    "miss": "not found"
+   },
+   "h2": {
+    "score": 1,
+    "answer": "The More Common The Bigger The Impact",
+    "reason": "The candidate's answer is word-for-word the same as the reference subtitle."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "get_user_from_session(request.session)",
+    "reason": "The candidate names the same function as the reference, get_user_from_session, and shows it called with request.session, so it matches fully."
+   }
+  },
+  "at": {
+   "h1": {
+    "score": 1,
+    "answer": "Hochschule Burgenland (University of Applied Sciences), shown next to the PyCon Austria logo",
+    "reason": "The candidate names the same institution as the reference, Hochschule Burgenland (University of Applied Sciences). It also says a PyCon Austria logo appears next to it. That detail isn't in the reference, but it doesn't contradict the main answer.",
+    "extra_frames": 4
+   },
+   "h2": {
+    "score": 1,
+    "answer": "The More Common The Bigger The Impact",
+    "reason": "The candidate's answer is word-for-word the same as the reference subtitle."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "get_user_from_session(request.session)",
+    "reason": "The candidate names get_user_from_session called with request.session, which matches the reference answer exactly."
+   }
+  }
+ },
+ "JKbtWimlzAE": {
+  "frames": {
+   "h1": {
+    "score": 1,
+    "answer": "Dark green",
+    "reason": "The candidate says \"dark green,\" which matches the reference answer of green (dark/olive green)."
+   },
+   "h2": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate answered \"unknown\" and never gave the arXiv identifier. The reference answer is 2412.15285.",
+    "miss": "not found"
+   },
+   "h3": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate said \"unknown\" and gave no value. The reference answer is 55.1%, so the candidate did not provide the right accuracy.",
+    "miss": "not found"
+   }
+  },
+  "at": {
+   "h1": {
+    "score": 1,
+    "answer": "Dark green",
+    "reason": "The candidate says \"dark green.\" That matches the reference answer, which gives the color as green (dark/olive green).",
+    "extra_frames": 16
+   },
+   "h2": {
+    "score": 1,
+    "answer": "2412.15285 (arxiv.org/abs/2412.15285)",
+    "reason": "The candidate gives the same arXiv identifier as the reference, 2412.15285."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "55.1%",
+    "reason": "The candidate's answer of 55.1% is the same as the reference answer."
+   }
+  }
+ },
+ "hF8swzNR1-o": {
+  "frames": {
+   "h1": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate said \"unknown\" and gave no surname. The reference answer is \"Bose\", so this response doesn't match.",
+    "miss": "not found"
+   },
+   "h2": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate answered \"unknown\" and gave no sender name. The reference answer is Gema's Gourmet Market, so the candidate's answer doesn't match.",
+    "miss": "not found"
+   },
+   "h3": {
+    "score": 1,
+    "answer": "What archeological discoveries were made here? (text small and partly cut off: 'What archeological dis... were made here?')",
+    "reason": "The candidate gives exactly the reference question, \"What archeological discoveries were made here?\" The note that the on-screen text is partly cut off doesn't change the answer."
+   }
+  },
+  "at": {
+   "h1": {
+    "score": 1,
+    "answer": "Bose (caption: Raja Bose, Director, Trust, Safety, and Values Product Marketing)",
+    "reason": "The candidate answer is the same as the reference: the surname is Bose, from the caption \"Raja Bose, Director, Trust, Safety, and Values Product Marketing\".",
+    "extra_frames": 67
+   },
+   "h2": {
+    "score": 1,
+    "answer": "Gema's Gourmet Market",
+    "reason": "The candidate's answer, \"Gema's Gourmet Market\", is exactly the same as the reference answer."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "What archeological discoveries were made here?",
+    "reason": "The candidate's answer is word-for-word the same as the reference: \"What archeological discoveries were made here?\""
+   }
+  }
+ },
+ "yQ6VOOd73MA": {
+  "frames": {
+   "h1": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate answered \"unknown\" and never gave a date. The reference answer is Sep. 25, 1983, so the answer is wrong.",
+    "miss": "not found"
+   },
+   "h2": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate answered \"unknown\" and never named an institution. The reference answer is Dartmouth, so the candidate's answer doesn't match it.",
+    "miss": "not found"
+   },
+   "h3": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate answered \"unknown\" and didn't give a number. The reference answer is 0898, so the answer doesn't match it.",
+    "miss": "not found"
+   }
+  },
+  "at": {
+   "h1": {
+    "score": 1,
+    "answer": "SEP. 25 1983",
+    "reason": "The candidate gives the same date as the reference, September 25, 1983. Only the capitalization and the missing comma differ.",
+    "extra_frames": 52
+   },
+   "h2": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate answered \"unknown,\" so it doesn't name an institution. The reference answer is Dartmouth.",
+    "miss": "not found"
+   },
+   "h3": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate answered \"unknown\" and gave no number. The reference answer is 0898, so the answer doesn't match it.",
+    "miss": "not found"
+   }
+  }
+ },
+ "x-wqMcYMNdg": {
+  "frames": {
+   "h1": {
+    "score": 1,
+    "answer": "18 sources",
+    "reason": "The candidate says 18 sources, which is the same as the reference answer."
+   },
+   "h2": {
+    "score": 1,
+    "answer": "Sally Rooney (the book is Intermezzo)",
+    "reason": "The candidate gives the same answer as the reference: the author is Sally Rooney and the book is Intermezzo."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "Dark Money (Jane Mayer)",
+    "reason": "The candidate's answer is exactly the same as the reference: Dark Money by Jane Mayer."
+   }
+  },
+  "at": {
+   "h1": {
+    "score": 1,
+    "answer": "18 sources",
+    "reason": "The candidate says 18 sources, which is the same as the reference answer of \"18 Sources\".",
+    "extra_frames": 0
+   },
+   "h2": {
+    "score": 1,
+    "answer": "Sally Rooney (the book is Intermezzo)",
+    "reason": "The candidate gives the same author, Sally Rooney, and the same book, Intermezzo, as the reference answer."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "Dark Money (Jane Mayer)",
+    "reason": "The candidate's answer, \"Dark Money (Jane Mayer)\", is exactly the same as the reference answer."
+   }
+  }
+ },
+ "v9DuQ1C3xH8": {
+  "frames": {
+   "h1": {
+    "score": 1,
+    "answer": "MMVIII",
+    "reason": "The candidate's answer, MMVIII, is the same as the reference answer."
+   },
+   "h2": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate answered \"unknown,\" so it doesn't name the food in the painting. The reference answer is bread rolls, so this gets no credit.",
+    "miss": "not found"
+   },
+   "h3": {
+    "score": 0,
+    "answer": "unknown",
+    "reason": "The candidate said \"unknown\" and didn't name a dessert. The reference answer is a tart (a fluted pastry shell with a dark filling), so nothing in the reference was matched.",
+    "miss": "not found"
+   }
+  },
+  "at": {
+   "h1": {
+    "score": 1,
+    "answer": "MMVIII (2008)",
+    "reason": "The candidate gives MMVIII (2008), which is exactly the reference answer.",
+    "extra_frames": 12
+   },
+   "h2": {
+    "score": 1,
+    "answer": "Bread rolls / brioche-style buns (beside a white napkin on a table)",
+    "reason": "The candidate correctly says the painting shows bread rolls / brioche-style buns next to a white napkin, which matches the reference. It leaves out the small blue cup, but that's a minor detail. The key fact, what food is shown, is correct."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "A tart (a dark-fruit tart in a pastry crust)",
+    "reason": "The candidate says it's a tart with a pastry crust and dark filling, which is the same as the reference answer."
+   }
+  }
+ }
+}
