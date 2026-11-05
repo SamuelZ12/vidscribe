@@ -157,3 +157,30 @@ By kind (master → B): visual 19 → 19/48, mixed 6.5 → 6.5/12, speech 12 →
 B does pick more content: a blind judge labeled the 209 scene frames of each condition as content / speaker or stage with a legible slide / speaker, stage or audience only / blank: 71 / 37 / 101 / 0 (master) and 122 / 21 / 57 / 9 (B; the blanks are near-black or logo-only cards, which a plain-background score favors). But with 16 slots across hundreds of scenes, whether a frame lands on the moment a question asks about is luck either way: on long videos, the number of frames limits pinpoint questions, not which scenes are chosen. Not shipped.
 
 Found on the way: a video stream with side data made ffprobe's csv print `0,` instead of `0`, so `has_video` treated the WWDC 2026 keynote as audio-only and silently skipped frames. Fixed by reading one value per line.
+
+## Frames on demand (ROADMAP 5)
+
+2026-11-04. `vidscribe <frames-dir> --at TIMES` extracts frames from the run's `video.<ext>` at chosen times (a range gives 4); SKILL.md step 5 tells agents to find the moment in the transcript and fetch it. Same 12 long videos, 72 questions, transcripts and master frame folders as the scene-choice test; the only change is that answer agents may run `--at` (prompt otherwise identical, including "view every frame"). Grading: same blind grader prompt; master scores are the existing grades. Dev clips ran first; SKILL.md wording was then frozen for the holdout clips.
+
+| Clip | master | C: + `--at` | extra frames |
+|---|---|---|---|
+| LCEmiRjPEtQ | 3 | 6 | 13 |
+| Unzc731iCUY | 4 | 5 | 23 |
+| wYSncx9zLIU | 2 | 6 | 16 |
+| H3KnMyojEQU | 2 | 6 | 22 |
+| gDvwRpl9erE | 3 | 6 | 16 |
+| xAcTmDO6NTI | 5 | 6 | 4 |
+| ej5RsTtVvQE (holdout) | 4 | 6 | 12 |
+| JKbtWimlzAE (holdout) | 2 | 6 | 20 |
+| hF8swzNR1-o (holdout) | 2.5 | 6 | 20 |
+| yQ6VOOd73MA (holdout) | 2 | 5 | 21 |
+| x-wqMcYMNdg (holdout) | 5 | 5 | 14 |
+| v9DuQ1C3xH8 (holdout) | 3 | 6 | 12 |
+| **Total /72** | **37.5** | **69** | 16 per clip |
+
+By kind (master → C): visual 19 → 46/48 (holdout 10 → 22/24), mixed 6.5 → 11/12, speech 12 → 12/12. 33 questions went up, 1 down. Well past the agreed ship bar (≥ +6/48 visual, holdout visual not lower, speech within ±1).
+
+- Cost: 1-3 `--at` calls and 4-23 extra frames per video (about 19k tokens at ~1.2k per frame); extraction takes ~0.05 s per frame. Agents asked for single times or 10-50 s ranges around the cue the question pointed at.
+- The 3 misses are all precision, not missing coverage: a card on screen for 0.75 s (the agent read the next card), a 4 s phone screen in a collage (a neighbouring outlet; master got this one right), and a slide whose bullets appeared 6 s after the agent's last frame (it guessed instead of fetching a wider range). All three are confident wrong answers.
+- One agent passed a range past the end; the call fails as a whole with a clear message, and it retried.
+- Caveat: the questions anchor on speech ("when the speaker says ..."), which is the case `--at` is built for. Moments the transcript never hints at still depend on the automatic 40 frames.

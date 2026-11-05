@@ -22,7 +22,7 @@ Each frame line gets the cue start/end of the text next to it, not only the fram
 Add frames at scene changes (ffmpeg `select='gt(scene,0.3)'` or similar) on top of evenly spaced ones; dedupe near-identical frames.
 
 ## 5. Later
-- Frames on demand for long videos: the agent finds the moment in the transcript ("the slide about X") and extracts frames from `video.<ext>` in the frames folder. Choosing better scenes within the 40-frame cap was tried and didn't help answers: on long videos the frame count, not the choice, limits pinpoint questions (see `MEASUREMENTS.md`, "Scene choice on long videos").
+- Frames on demand for long videos (done): `vidscribe <frames-dir> --at TIMES`; the agent finds the moment in the transcript and extracts frames from `video.<ext>`. 37.5 → 69/72 on 12 long videos (see `MEASUREMENTS.md`, "Frames on demand"). Choosing better scenes within the 40-frame cap had been tried first and didn't help: on long videos the frame count, not the choice, limits pinpoint questions ("Scene choice on long videos").
 - OCR of on-screen text into index.txt.
 - Optional escalation to a hosted model (Gemini Flash via Google's `gemini-api` CLI, `gemini-api agent run`) behind an explicit flag; needs `GEMINI_API_KEY`. Never default.
 
