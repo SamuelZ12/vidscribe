@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # vidscribe: local multilingual speech-to-text (Qwen3-ASR 1.7B via mlx-audio).
 # Usage: vidscribe <file-or-URL> [-o OUTDIR] [-l LANG] [-f txt|srt|vtt|json] [-c "hotwords"] [-m MODEL] [-v [N] | -a]
+#        vidscribe <frames-dir> --at TIMES: more frames from a previous run's video, e.g. --at 494,8:14,7:50-8:50 (a range gives 4).
 # URLs (X, YouTube, etc.) are fetched with yt-dlp. Prints the transcript path; text to stdout for txt.
 # Frames are on by default when the input has a video stream (-f txt|srt). -a/--audio-only: transcript only.
 # -v [N]: force frames, N evenly spaced (default 8) plus a frame at every cue with an on-screen reference
@@ -16,7 +17,37 @@ OUTDIR="${VIDSCRIBE_OUTDIR:-/tmp/vidscribe/transcripts}"
 [[ -d /tmp/vidscribe/transcripts ]] && find /tmp/vidscribe/transcripts -mindepth 1 -maxdepth 1 -mtime +3 -exec rm -rf {} + 2>/dev/null || true
 FMT="txt"; LANG_ARG=(); CTX_ARG=(); VFLAG=0; AFLAG=0; NFRAMES=8
 
-[[ $# -ge 1 ]] || { sed -n '2,4p' "$0"; exit 1; }
+[[ $# -ge 1 ]] || { sed -n '2,5p' "$0"; exit 1; }
+# frames on demand: more frames from the video a normal run kept in its frames folder; no transcription
+if [[ "${2:-}" == "--at" ]]; then
+  (( $# == 3 )) || { echo "usage: vidscribe <frames-dir> --at TIMES (e.g. 494,8:14,7:50-8:50; no other flags)" >&2; exit 1; }
+  D="${1%/}"; VID=""
+  for f in "$D"/video.*; do [[ -e "$f" ]] && VID="$f"; break; done
+  [[ -n "$VID" ]] || { echo "no video in $D (frames folders are pruned after 3 days): re-run vidscribe on the source" >&2; exit 1; }
+  DUR="$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "$VID")"
+  # one line per frame: seconds, mm:ss.s, file name; a range A-B gets 4 frames evenly spaced inside it
+  TS="$(awk -v at="$3" -v d="${DUR:-0}" '
+    function sec(s,  p, n, i, t) { n = split(s, p, ":"); t = 0; for (i = 1; i <= n; i++) t = t*60 + p[i]; return t }
+    function out(t,  m, s) { m = int(t/60); s = t - 60*m; printf "%.2f\t%02d:%04.1f\tat_%02dm%04.1fs.jpg\n", t, m, s, m, s }
+    function die(msg) { print "--at: " msg > "/dev/stderr"; exit 1 }
+    BEGIN {
+      T = "[0-9]+(:[0-5]?[0-9]){0,2}([.][0-9]+)?"
+      n = split(at, it, ","); if (n == 0) die("no times given")
+      for (i = 1; i <= n; i++) {
+        x = it[i]; gsub(/ /, "", x)
+        if (x !~ ("^" T "(-" T ")?$")) die("bad time \"" it[i] "\" (use 494, 8:14, 1:02:05 or 7:50-8:50)")
+        k = split(x, r, "-"); a = sec(r[1]); b = (k == 2) ? sec(r[2]) : a
+        if (b >= d) die(it[i] " is past the end of the video (" int(d) " s)")
+        if (k == 2 && b <= a) die("range " it[i] " ends before it starts")
+        if (k == 1) out(a); else for (j = 0; j < 4; j++) out(a + (b-a)*(j+0.5)/4)
+      }
+    }')"
+  while IFS=$'\t' read -r t mm fn; do
+    ffmpeg -nostdin -loglevel error -y -ss "$t" -i "$VID" -frames:v 1 -q:v 3 -vf scale=-2:720 "$D/$fn"
+    if [[ -s "$D/$fn" ]]; then printf '%s\t%s\n' "$mm" "$D/$fn"; else echo "no frame at $mm" >&2; fi
+  done <<< "$TS"
+  exit 0
+fi
 SRC="$1"; shift
 while [[ $# -gt 0 ]]; do
   case "$1" in
