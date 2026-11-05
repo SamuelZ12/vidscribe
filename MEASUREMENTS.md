@@ -115,3 +115,45 @@ Agent test, same method as the clip test above (every agent viewed every frame; 
 | 4 holdout clips | 5/16 | 11.5/16 | 12.5/16 |
 
 9 questions changed: 8 gained, 1 lost (sign test p ≈ 0.04). Of the 6 gains traced to the frame the agent cited, all 6 were scene frames, so the gain is not just from more frames (332 vs 206 on the 12 clips). The loss: MIT, where scenes took half of the slots refs used to have. No new wrong answers; misses stayed "unknown". The three long talks gained nothing (1, 1, 2 of 4): 16 of hundreds of scenes fit the cap, and a third of the Karpathy picks were stage shots. Better scene choice on long videos is the open problem.
+
+## Scene choice on long videos (ROADMAP 5, not shipped)
+
+2026-11-04. On long videos only ~16 of 100-650 scenes fit the cap, and master thins them evenly over the scene list. Two ways to pick better were tried; neither improved answers, so master's selection stays.
+
+Probe (16 scene slots, frames counted by hand, not blind): picked frames that mainly show content (slide, screen, graphic) rather than speaker, stage or audience.
+
+| Clip | master | A: skip recurring shots | B: content score |
+|---|---|---|---|
+| Karpathy keynote | 5 | 13 | 12 |
+| MIT lecture (Unzc731iCUY) | 3 | 1 | 5 |
+| MIT 6.100L lecture (xAcTmDO6NTI) | 7 | 1-2 | 13 |
+| Google I/O | 8 | 9 | 13 |
+| PyCon UK keynote (gDvwRpl9erE) | 9 | 10 | 10 |
+| Apple event (H3KnMyojEQU) | ~8 | ~7 | 16 |
+
+- A: count how often a scene's look (9x8 dHash within 10 bits) recurs; prefer looks seen fewer than 3 (or 8) times, keep one frame of each recurring look. It works when one camera angle dominates (Karpathy's close-up). It backfires on lectures, where the same slide template or IDE recurs and handheld lecturer shots don't. On I/O every slide shown on the stage screen hashes like the stage; a 32x18 dHash didn't separate them either (two slides 88 bits apart, two close-ups of one speaker 73).
+- B: score each scene by the share of 32x18 pixels at its most common brightness (plain backgrounds = slides, screens, cards), split the video into as many equal spans as slots, keep the best scene per span. Same ffmpeg pass; uncapped clips byte-identical.
+
+Agent test of B, same method as above: 12 long videos where the cap binds, 6 questions each (4 visual, one per quarter; 1 mixed; 1 speech), written by separate agents from dense contact sheets. Both conditions used the same transcript; only the frame-selection code differed. Every answer agent viewed every frame; grading was blind. Dev = the 6 probe clips; holdout = 6 clips nobody had looked at under B.
+
+| Clip | Kind | Length | master | B |
+|---|---|---|---|---|
+| LCEmiRjPEtQ | Karpathy keynote | 39 m | 3 | 2 |
+| Unzc731iCUY | MIT lecture | 63 m | 4 | 4 |
+| wYSncx9zLIU | Google I/O keynote | 111 m | 2 | 2 |
+| H3KnMyojEQU | Apple event | 71 m | 2 | 2 |
+| gDvwRpl9erE | PyCon UK keynote | 65 m | 3 | 3 |
+| xAcTmDO6NTI | MIT 6.100L lecture | 63 m | 5 | 4 |
+| ej5RsTtVvQE | PyCon Austria talk (holdout) | 48 m | 4 | 5 |
+| JKbtWimlzAE | Stanford CS25 lecture (holdout) | 61 m | 2 | 3 |
+| hF8swzNR1-o | WWDC 2026 keynote (holdout) | 76 m | 2.5 | 2.5 |
+| yQ6VOOd73MA | NOVA documentary (holdout) | 53 m | 2 | 2 |
+| x-wqMcYMNdg | Jon Stewart podcast (holdout) | 88 m | 5 | 4 |
+| v9DuQ1C3xH8 | Food Network cooking (holdout) | 47 m | 3 | 3 |
+| **Total /72** | | | **37.5** | **36.5** |
+
+By kind (master → B): visual 19 → 19/48, mixed 6.5 → 6.5/12, speech 12 → 11/12 (the speech loss is agent noise: same transcript). 7 questions changed, 3 up and 4 down. Free check (a frame inside the span where the answer is on screen): 23 vs 23 of 60.
+
+B does pick more content: a blind judge labeled the 209 scene frames of each condition as content / speaker or stage with a legible slide / speaker, stage or audience only / blank: 71 / 37 / 101 / 0 (master) and 122 / 21 / 57 / 9 (B; the blanks are near-black or logo-only cards, which a plain-background score favors). But with 16 slots across hundreds of scenes, whether a frame lands on the moment a question asks about is luck either way: on long videos, the number of frames limits pinpoint questions, not which scenes are chosen. Not shipped.
+
+Found on the way: a video stream with side data made ffprobe's csv print `0,` instead of `0`, so `has_video` treated the WWDC 2026 keynote as audio-only and silently skipped frames. Fixed by reading one value per line.
