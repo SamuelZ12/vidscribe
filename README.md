@@ -14,7 +14,7 @@ Agents answered questions about videos and a blind grader scored them against re
 | 12 long videos, 39-111 min, 72 questions anchored on speech | | 37.5 | 69 | |
 | Same 12 videos, 36 questions on moments the speech never names | | 11 | 31 | 36 |
 
-Frames more than double what an agent gets right; [Omni2Web](https://arxiv.org/html/2609.23417) saw a similar jump on its instruction-recovery track (Gemini 3.5 Flash on screen-recorded web edits: transcript only 18.2, silent video + transcript 38.1). Caveats: the last row's questions were kept only if a transcript-only agent failed them; the `--scan` gain is optimistic (tuned on the 5 questions `--at` missed; a 4-video holdout scored 12/12 with and without it); scores were measured with the [`55c8e8b`](https://github.com/SamuelZ12/vidscribe/blob/55c8e8b/skill/SKILL.md) wording of `skill/SKILL.md`, and the current one has not been re-tested ([#1](https://github.com/SamuelZ12/vidscribe/issues/1)).
+Frames more than double what an agent gets right; [Omni2Web](https://arxiv.org/html/2609.23417) saw a similar jump on its instruction-recovery track (Gemini 3.5 Flash on screen-recorded web edits: transcript only 18.2, silent video + transcript 38.1). Caveats: the last row's questions were kept only if a transcript-only agent failed them; the `--scan` gain is optimistic (tuned on the 5 questions `--at` missed; a 4-video holdout scored 12/12 with and without it, [#2](https://github.com/SamuelZ12/vidscribe/issues/2)); scores were measured with the [`55c8e8b`](https://github.com/SamuelZ12/vidscribe/blob/55c8e8b/skill/SKILL.md) wording of `skill/SKILL.md`, and the current one has not been re-tested ([#1](https://github.com/SamuelZ12/vidscribe/issues/1)).
 
 ## Requirements
 
