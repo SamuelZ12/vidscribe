@@ -129,3 +129,37 @@ Do not modify anything else under /tmp/vseval2.
 ## Noise
 
 Speech questions move by about ±1 per 12 between runs from agent noise alone, even with identical transcripts. Compare conditions within a run when the expected difference is small.
+
+## Hard set (draft spec, not run)
+
+The 72 questions above all name their moment through speech ("when the speaker says ..."), which is the case `--at` is built for (`MEASUREMENTS.md`, "Frames on demand", caveat). The hard set asks about moments the transcript never points to: the agent must find the moment from what is on screen. Its result decides whether the OCR timeline (ROADMAP 5) is built.
+
+### Questions
+
+- 3 per video, 36 total, `qid` `h1`-`h3`: one from each third of the video.
+- Each question names its moment only by what is on screen: a slide title, a caption, a scene, an object, a UI ("On the slide titled X, ...", "In the shot of the kitchen with the red mixer, ..."). No speech reference.
+- The answer is on screen for at least ~3 s and is short and checkable. It must not be guessable from general knowledge or the title. Vary the kinds; do not make them all slides.
+- Fields: those of the main set plus `anchor` (the on-screen cue the question names) and `anchor_s` ([start, end] it is on screen).
+- Same videos and dev/holdout split as above. The question-writer prompt (a copy of the one above with the question rules swapped) is tuned on a pilot of 2 dev videos (`LCEmiRjPEtQ`, `H3KnMyojEQU`), then frozen.
+
+### Validation (a failing question is replaced, then re-checked)
+
+1. Transcript check (script, reviewed by hand): the answer is not said anywhere in the transcript, and the anchor is not said within 60 s of `anchor_s`.
+2. Transcript-only agent: an agent given only `transcript.srt` answers all 3; any question it scores 0.5 or 1 on is replaced.
+
+Questions are committed under `eval/hard/questions/<ID>.json` before any answer run.
+
+### Runs
+
+- Videos and transcripts rebuilt per "Rebuild" with master `b3fa881` (`/tmp/vseval`). Questions are written on these downloads, so there is no re-download drift.
+- Conditions, blind folder labels as above:
+  - `frames`: the master frame folder (`index.txt` + up to 40 frames), no `--at`.
+  - `at`: the same plus `vidscribe <frames-dir> --at`.
+- Answer prompts: `at` as above with the question count changed. The original `master` answer prompt was lost in recovery (the section above holds the question-writer prompt by mistake); `frames` uses the `at` prompt minus "Getting more frames" and the `--at` rule, and is recorded here as a reconstruction.
+- Dev clips first, then holdout once. Same grader. Leakage check per agent (paths outside its folder, `ffmpeg`).
+- Per miss, record whether any frame the agent viewed (the 40 or `--at`) falls inside `anchor_s`: **not found** if none did, **misread** otherwise.
+- Results go in `eval/hard/grades.json` and `MEASUREMENTS.md`.
+
+### Decision rule (set before the run)
+
+Build the OCR timeline if `at` scores below 27/36 (75%) **and** at least half its misses are "not found". OCR helps an agent find a moment, not read it; if misses are mostly misreads, or `at` is at 75% or above, OCR is not built and the result is recorded.
