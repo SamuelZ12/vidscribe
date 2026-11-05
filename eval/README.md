@@ -138,6 +138,8 @@ Run 2026-11-05: `frames` 11/36, `at` 31/36; OCR not built (`MEASUREMENTS.md`, "H
 
 Scan probe (`MEASUREMENTS.md`, "Scan probe"): `scan_probe.py VIDEO START END OUTDIR [--method scene|even5|fill10] [--grid 4]` builds the contact sheets and prints each sheet's tile times; `hard/scan_probe.json` has the 5 windows and the 20 agents' answers (`located` = a reported tile lies inside `visible_s`). The probe used the 5 `at` misses, so the whole hard set (both splits) is now dev data.
 
+Blind folder maps (per clip, condition → folder label `x`/`y`; kept out of the answer agents' reach during runs): `hard/labels.json` for the `frames`/`at` run, `hard/labels_scan.json` for the scan-eval holdout (`at`/`scan`). Grades are already stored by condition; these record how the folders were unblinded.
+
 ### Questions
 
 - 3 per video, 36 total, `qid` `h1`-`h3`: one from each third of the video.
