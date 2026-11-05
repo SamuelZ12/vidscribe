@@ -74,7 +74,7 @@ if [[ "${2:-}" == "--at" || "${2:-}" == "--scan" ]]; then
         x = it[i]; gsub(/ /, "", x)
         if (i > 1 && x ~ /^[0-9][0-9][0-9]$/ && p ~ /^[0-9]+:[0-9]+:[0-9]+$/) die("\"" p "," x "\" looks like an srt time: use a dot (" p "." x ")")
         p = x
-        if (x !~ ("^" T "(-" T ")?$")) die("bad time \"" it[i] "\" (use 494, 8:14, 1:02:05 or 7:50-8:50)")
+        if (x !~ ("^" T "(-" T ")?$")) die("bad time \"" it[i] "\" (use " (mode == "scan" ? "7:50-8:50, 3000-3600 or all" : "494, 8:14, 1:02:05 or 7:50-8:50") ")")
         k = split(x, r, "-"); a = sec(r[1]); b = (k == 2) ? sec(r[2]) : a
         if (mode == "scan" && k == 1) die("\"" it[i] "\" is a single time: --scan takes ranges or all (use --at for single times)")
         if (b > d || (b == d && mode == "at")) die(it[i] " is past the end of the video (" int(d) " s)")
@@ -104,7 +104,7 @@ try:
         for p, q in zip(edges, edges[1:]):
             m = math.ceil((q - p) / G) - 1
             ts += [p + (q - p)*j/(m + 1) for j in range(1, m + 1)]
-        ts.sort()
+        ts = sorted(ts) or [(a + b)/2]  # a short range with no scene end still gets a tile
         print(f"{mm(a)}-{mm(b)}: {len(ts)} tiles, {math.ceil(len(ts)/16)} sheets", file=sys.stderr)
         tdir = f"{tmp}/{k}"; os.mkdir(tdir)
         def grab(it):
