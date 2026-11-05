@@ -151,6 +151,8 @@ Questions are committed under `eval/hard/questions/<ID>.json` before any answer 
 
 Pilot (`LCEmiRjPEtQ`, `H3KnMyojEQU`): 1 of 6 failed check 2 (a famous compute cluster, guessed from general knowledge) and one asked for two facts, with the "accept either" rule only in the notes the grader never sees. The two rules marked *(pilot)* in the writer prompt come from these; pilot questions were fixed to meet them.
 
+Full set: of the 30 first-round questions on the other 10 videos, 2 failed check 1 on hand review (the speaker describes the moment: "Sundar used Google Antigravity ... to fix a bug" over the code-review screen; "Python Tutor" named over its web page) and 4 failed check 2 (IAP 2018 on the famous MIT "How to Speak" lecture, Piazza for an MIT course, Anil Seth's University of Sussex, an editable-install `.pth` file at 0.5). All 6 replacements passed both checks. One position hint ("In the opening montage") was removed from a replacement by hand. Final transcript-only score on all 36: 0.
+
 ### Runs
 
 - Videos and transcripts rebuilt per "Rebuild" with master `b3fa881` (`/tmp/vseval`). Questions are written on these downloads, so there is no re-download drift.
