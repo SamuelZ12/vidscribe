@@ -23,18 +23,23 @@ if [[ "${2:-}" == "--at" ]]; then
   (( $# == 3 )) || { echo "usage: vidscribe <frames-dir> --at TIMES (e.g. 494,8:14,7:50-8:50; no other flags)" >&2; exit 1; }
   D="${1%/}"; VID=""
   for f in "$D"/video.*; do [[ -e "$f" ]] && VID="$f"; break; done
-  [[ -n "$VID" ]] || { echo "no video in $D (frames folders are pruned after 3 days): re-run vidscribe on the source" >&2; exit 1; }
+  [[ -n "$VID" ]] || { echo "no video in $D (folders are pruned after 3 days; local originals may have moved): re-run vidscribe on the source" >&2; exit 1; }
   DUR="$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "$VID")"
   # one line per frame: seconds, mm:ss.s, file name; a range A-B gets 4 frames evenly spaced inside it
   TS="$(awk -v at="$3" -v d="${DUR:-0}" '
     function sec(s,  p, n, i, t) { n = split(s, p, ":"); t = 0; for (i = 1; i <= n; i++) t = t*60 + p[i]; return t }
-    function out(t,  m, s) { m = int(t/60); s = t - 60*m; printf "%.2f\t%02d:%04.1f\tat_%02dm%04.1fs.jpg\n", t, m, s, m, s }
+    function out(t,  m, s, fn) {  # round before splitting so 119.97 names 02m00.0s, not 01m60.0s; skip duplicate names
+      s = int(t*10 + 0.5)/10; m = int(s/60); s -= 60*m; fn = sprintf("at_%02dm%04.1fs.jpg", m, s)
+      if (!(fn in seen)) printf "%.2f\t%02d:%04.1f\t%s\n", t, m, s, fn; seen[fn] = 1
+    }
     function die(msg) { print "--at: " msg > "/dev/stderr"; exit 1 }
     BEGIN {
       T = "[0-9]+(:[0-5]?[0-9]){0,2}([.][0-9]+)?"
       n = split(at, it, ","); if (n == 0) die("no times given")
       for (i = 1; i <= n; i++) {
         x = it[i]; gsub(/ /, "", x)
+        if (i > 1 && x ~ /^[0-9][0-9][0-9]$/ && p ~ /^[0-9]+:[0-9]+:[0-9]+$/) die("\"" p "," x "\" looks like an srt time: use a dot (" p "." x ")")
+        p = x
         if (x !~ ("^" T "(-" T ")?$")) die("bad time \"" it[i] "\" (use 494, 8:14, 1:02:05 or 7:50-8:50)")
         k = split(x, r, "-"); a = sec(r[1]); b = (k == 2) ? sec(r[2]) : a
         if (b >= d) die(it[i] " is past the end of the video (" int(d) " s)")
@@ -43,8 +48,9 @@ if [[ "${2:-}" == "--at" ]]; then
       }
     }')"
   while IFS=$'\t' read -r t mm fn; do
-    ffmpeg -nostdin -loglevel error -y -ss "$t" -i "$VID" -frames:v 1 -q:v 3 -vf scale=-2:720 "$D/$fn"
-    if [[ -s "$D/$fn" ]]; then printf '%s\t%s\n' "$mm" "$D/$fn"; else echo "no frame at $mm" >&2; fi
+    if ffmpeg -nostdin -loglevel quiet -y -ss "$t" -i "$VID" -frames:v 1 -q:v 3 -vf scale=-2:720 "$D/$fn" && [[ -s "$D/$fn" ]]; then
+      printf '%s\t%s\n' "$mm" "$D/$fn"
+    else echo "no frame at $mm" >&2; fi
   done <<< "$TS"
   exit 0
 fi
