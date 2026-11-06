@@ -198,7 +198,7 @@ MLXPY="$(sed -n '1s/^#!//p' "$(command -v mlx_audio.stt.generate)")"
 MAXTOK="$(awk -v d="$DUR" 'BEGIN{ printf "%d", 8192 + 32*d }')"
 "$MLXPY" - --model "$MODEL" --audio "$WAV" --output-path "$OUT" --format "$RUNFMT" --max-tokens "$MAXTOK" \
   ${LANG_ARG[@]+"${LANG_ARG[@]}"} ${CTX_ARG[@]+"${CTX_ARG[@]}"} >&2 <<'PY'
-import sys, time
+import sys, time, json
 import numpy as np
 from mlx_audio.stt.generate import main
 try:
@@ -229,6 +229,10 @@ try:
     M._generate_single_chunk = capped
 except (ImportError, AttributeError) as e:
     print(f"warning: mlx-audio changed, per-piece token cap off ({e})", file=sys.stderr)
+# mlx-audio drops --context (not a Qwen3-ASR generate() argument); the model's hotword field is system_prompt
+if "--context" in sys.argv:
+    i = sys.argv.index("--context")
+    sys.argv[i:i + 2] = ["--gen-kwargs", json.dumps({"system_prompt": sys.argv[i + 1]})]
 sys.argv[0] = "mlx_audio.stt.generate"
 main()
 PY
