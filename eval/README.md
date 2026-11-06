@@ -372,3 +372,9 @@ The hard set failed by 2 ([#8](https://github.com/SamuelZ12/vidscribe/issues/8))
 | ≥ 35 | 33.5-34.5 | unclear | compare searches per miss in the transcripts; record before deciding |
 
 Run 2026-11-05: `skill_old` 34/36, `skill_2` 34/36 (row 4). Misses: `skill_2` `hF8swzNR1-o` h1, h2 (not found; 5 sheets, then stopped), `skill_old` `v9DuQ1C3xH8` h2 (misread: "unknown" with a viewed frame inside the span), `skill_old` `wYSncx9zLIU` h3 (not found after 25 sheets). Costs and viewed counts (counted from the agent transcripts' `read` calls: `orig_viewed`, `at_viewed`, `sheets_viewed`) are on each clip's h1. No agent touched a path outside its folder or ran ffmpeg; the earlier runs' `answers.json` files were last read before this run began. Four agents tried Python (every call failed); one cropped a frame with `sips` (`Unzc731iCUY` `skill_old`, h1, graded correct). The rules cover the video, not frames.
+
+### Step 5 "Done when" (`skill_done`)
+
+Row 4's next step. SKILL.md step 5 gains a "Done when": the answer comes from a full frame you viewed, or every stretch where it could plausibly appear was scanned without finding it. Condition `skill_done`: the `skill` prompt with `<SKILL>` = the body of `skill/SKILL.md` at the commit that adds this section; hard set only, one agent per clip, folders `<ID>_d` built fresh from `tr/` and `frames/`; same grader, cost fields and miss labels as the control. The main set is not re-run: its questions name their moment in speech, which step 4 handles.
+
+- **Bar (set before the run):** ≥ 35/36 keeps the wording, and the 4-video scan holdout is next (it needs downloads and ~1 h of transcription, so it waits for approval). Below 35, step 5 goes back to the `c5fbe83` wording and #8 is recorded as not fixed by wording.
