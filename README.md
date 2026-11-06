@@ -89,4 +89,11 @@ Why the shipped defaults are what they are: [`docs/decisions/`](docs/decisions/)
 
 ## License
 
-MIT
+vidscribe is MIT ([`LICENSE`](LICENSE)). It doesn't ship model weights; they download from Hugging Face on first use, under their own licenses:
+
+| Model | License |
+|---|---|
+| `mlx-community/Qwen3-ASR-1.7B-8bit` (default), converted from [`Qwen/Qwen3-ASR-1.7B`](https://huggingface.co/Qwen/Qwen3-ASR-1.7B) | Apache 2.0 |
+| `mlx-community/whisper-large-v3-turbo-asr-fp16` (`-m`), converted from OpenAI's [`whisper-large-v3-turbo`](https://huggingface.co/openai/whisper-large-v3-turbo) | MIT (the original's; the MLX copy states none) |
+
+[mlx-audio](https://github.com/Blaizzy/mlx-audio) is MIT; `ffmpeg` and `yt-dlp` are installed separately under their own licenses.
