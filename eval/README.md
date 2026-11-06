@@ -352,3 +352,21 @@ You are testing how well an AI agent can answer questions about a video using th
 Write /tmp/vseval/ans/<FOLDER>/answers.json: a JSON list of {"qid", "question", "answer", "frame": "<file name you used, or null>", "confidence": "high"|"low"}.
 In your final message, state how many of the original frames you viewed out of how many exist, how many extra frames you extracted and viewed, and how many scan sheets you viewed.
 ```
+
+### Control: old wording and a repeat (`skill_old`, `skill_2`)
+
+The hard set failed by 2 ([#8](https://github.com/SamuelZ12/vidscribe/issues/8)), but 2 of the 3 misses came from one agent, and there was no control. Before any rewording, this run asks whether the rewrite caused the drop.
+
+- Hard set only (36 questions, 12 agents per condition), same folders, transcripts, frames, prompt and grader as `skill`. The main set passed and is not re-run.
+- `skill_old`: `<SKILL>` = the body of `skill/SKILL.md` at `55c8e8b` (the wording the recorded prompts paraphrased). `skill_2`: the `skill` prompt again, SKILL.md at `c5fbe83` (unchanged at the time of the run).
+- Fresh folders `<ID>_p` and `<ID>_q` built from `tr/` and `frames/`; which label gets which condition is random per clip, recorded in `hard/labels_skill2.json` after grading. Each wave of 12 agents mixes both conditions; each clip's two agents run in different waves. Grader blind as before.
+- Cost per agent, from files on disk (agents' self-counts proved approximate): `at_files` (`at_*.jpg` written), `scan_files` (`scan_*.jpg` written). Each miss: **not found** / **misread** from the agent transcript, as above.
+- **Decision rule (set before the run)**, with `skill` = 33:
+
+| `skill_old` | `skill_2` | Reading | Next |
+|---|---|---|---|
+| ≥ 35 | ≤ 33 | the rewrite caused the drop | reword steps 4-5, re-run the hard set, then ask before the holdout |
+| ≥ 35 | ≥ 35 | the first 33 was agent noise | record, close #8 |
+| < 35 | ≥ 35 | the first 33 was agent noise | record, close #8 |
+| < 35 | < 35 | neither wording gets agents to search as the scan prompt did | add a "Done when" to step 5, re-run the hard set once |
+| ≥ 35 | 33.5-34.5 | unclear | compare searches per miss in the transcripts; record before deciding |
