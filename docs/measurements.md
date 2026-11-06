@@ -97,6 +97,21 @@ Result: 9 short clips byte-identical to uncapped output; MIT 319 s, full coverag
 
 MIT lecture (Unzc731iCUY, 63.7 min, `-a -f srt`): 344 s, one warning (`01:03:25-01:03:29`, the closing applause), last cue at 01:03:42 (the end). The loop is now ~105 words, down from 222 with the per-piece cap alone.
 
+## Language default: forced en vs auto-detect
+
+2026-11-05. Without `-l`, mlx-audio's `--language` default prompted every piece with `language en`. Each clip was transcribed over 90 s from its middle (16 kHz mono) four ways: forced `en` (old default), mlx-audio's auto-detect (`language=None`, which locks later pieces to the first piece's language), auto-detect per piece (shipped), and the full name (`Chinese`/`Hindi`). CER is per character against the uploader's human subtitles, after converting to simplified characters and removing punctuation and spaces.
+
+| Clip | Kind | forced `en` | auto, locked | per piece | full name |
+|---|---|---|---|---|---|
+| ive5H8hCBFs | Mandarin vlog, CER | 0.197 | 0.197 | 0.197 | 0.197 |
+| bjO2ijV5izQ | Mandarin + English terms, CER | 0.074 | 0.074 | 0.074 | 0.074 |
+| Pe6xbLd94z0 (276-366 s) | Mandarin vlog, CER | 0.173 | 0.173 | 0.168 | 0.173 |
+| Pe6xbLd94z0 (138-228 s) | background music with vocals | 4704 chars of "oh, oh", 176 s | empty | empty | 11 chars |
+| speech 30 s + that music 60 s, English | | 6 warnings, 66 s | 2 warnings, 47 s | clean, 7 s | |
+| speech 30 s + that music 60 s, Mandarin | | 6 warnings, 65 s | 2 stray words | clean, 6 s | |
+
+The 0.197 is mostly digits ("1.19" vs "一点一九"). D1PjB0cwiKg, SXqUyVzHgeE (no subtitles) and English 30 s followed by Mandarin 60 s read the same in every mode except spacing around English words and digits. English (up1xuwn_euk, 360 words): 2 quote marks differ. Hindi (C-39pLx6QTQ, ZwJ1zktkSfk): auto-detect and `Hindi` write English terms in Devanagari without punctuation, once wrongly (`VideoWriter` → `वीडियो राइट करता`); forced `en` and `English` keep them in Latin script. `-l zh` gave the same text as `-l Chinese`; `-l hi` was a mix of the `en` and `Hindi` outputs. The last 80 s of the MIT lecture alone didn't loop in either mode, so the applause there is inconclusive. Decision: [ADR-0006](decisions/0006-detect-language-per-piece.md).
+
 ## Scene-change frames
 
 2026-11-04. Cut detection: ffmpeg at 2 fps and 160 px, `scene > 0.3`; ~0.75 s per minute of video (84 s for 111 min), ~15% on top of transcription. Cuts per minute ranged from 0.2 (animated charts: gradual changes don't register) to 8.5 (Mandarin slides); every clip over ~10 min has more cuts than the cap.

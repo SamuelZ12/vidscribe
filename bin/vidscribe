@@ -201,6 +201,7 @@ MAXTOK="$(awk -v d="$DUR" 'BEGIN{ printf "%d", 8192 + 32*d }')"
 import sys, time, json
 import numpy as np
 from mlx_audio.stt.generate import main
+AUTO = "--language" not in sys.argv  # no -l: detect the language of every piece (mlx-audio would force "en")
 try:
     from mlx_audio.stt.models.qwen3_asr.qwen3_asr import Qwen3ASRModel as M
     piece = M._generate_single_chunk
@@ -223,16 +224,31 @@ try:
         t2, p2, g2 = run(self, audio[cut:], start + cut, max_tokens - g1, kw)
         t2 = self.extract_language(t2)[1] if t2.startswith("language ") else t2  # one language tag per piece
         return " ".join(t for t in (t1.strip(), t2.strip()) if t), p1 + p2, g1 + g2
-    def capped(self, audio, *, max_tokens, **kw):
+    # Qwen3-ASR's prompt wants full names: "language zh" is an unknown tag
+    NAMES = dict(zh="Chinese", en="English", yue="Cantonese", ar="Arabic", de="German", fr="French", es="Spanish",
+                 pt="Portuguese", id="Indonesian", it="Italian", ko="Korean", ru="Russian", th="Thai", vi="Vietnamese",
+                 ja="Japanese", tr="Turkish", hi="Hindi", ms="Malay", nl="Dutch", sv="Swedish", da="Danish", fi="Finnish",
+                 pl="Polish", cs="Czech", fil="Filipino", tl="Filipino", fa="Persian", el="Greek", ro="Romanian",
+                 hu="Hungarian", mk="Macedonian")
+    def capped(self, audio, *, max_tokens, language=None, **kw):
         start = seen[0]; seen[0] += len(audio)
-        return run(self, audio, start, max_tokens, kw)
+        # mlx-audio locks later pieces to the first one's language, so music after English speech
+        # looped as "oh, oh, ..."; detect per piece instead (upstream strips only the first piece's tag)
+        lang = None if AUTO else NAMES.get(language.lower(), language)
+        text, p, g = run(self, audio, start, max_tokens, dict(kw, language=lang))
+        if AUTO and language is not None and text.startswith("language "):
+            text = self.extract_language(text)[1]
+        return text, p, g
     M._generate_single_chunk = capped
 except (ImportError, AttributeError) as e:
     print(f"warning: mlx-audio changed, per-piece token cap off ({e})", file=sys.stderr)
 # mlx-audio drops --context (not a Qwen3-ASR generate() argument); the model's hotword field is system_prompt
+gen = {"language": None} if AUTO else {}
 if "--context" in sys.argv:
     i = sys.argv.index("--context")
-    sys.argv[i:i + 2] = ["--gen-kwargs", json.dumps({"system_prompt": sys.argv[i + 1]})]
+    gen["system_prompt"] = sys.argv[i + 1]; del sys.argv[i:i + 2]
+if gen:
+    sys.argv += ["--gen-kwargs", json.dumps(gen)]
 sys.argv[0] = "mlx_audio.stt.generate"
 main()
 PY

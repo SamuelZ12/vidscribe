@@ -25,4 +25,4 @@ vidscribe <frames-dir> --at TIMES | --scan RANGES|all
 
 - Output lives in `/tmp/vidscribe/` (`transcripts/`, `frames/<name>/`) for 3 days; `-o DIR` keeps the transcript elsewhere. Once a frames folder is pruned, `--at` and `--scan` fail: run vidscribe on the source again.
 - `-v N`: N evenly spaced frames (default 8) alongside frames where the speech points at the screen and at scene changes; at most max(40, N) in total. On video without `-v`, `-f vtt|json` gives a transcript only.
-- `-l zh|en|...` when language auto-detection fails; `-c "Name1, Name2"` for rare names; for languages outside Qwen3-ASR's ~30, `-m mlx-community/whisper-large-v3-turbo-asr-fp16`.
+- The language is auto-detected per ~30 s piece. `-l zh|en|hi|...` only when detection fails, or `-l en` to keep English terms in Latin script in Hindi; `-c "Name1, Name2"` for rare names; for languages outside Qwen3-ASR's ~30, `-m mlx-community/whisper-large-v3-turbo-asr-fp16`.
