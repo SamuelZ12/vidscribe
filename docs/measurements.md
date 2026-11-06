@@ -346,4 +346,10 @@ Hard set again, same folders, prompt and grader: `skill_old` (SKILL.md at `55c8e
 - **The rewrite did not cause the drop.** The old wording also scores 34; neither reaches the bar of 35. Counts in this table come from the agents' `read` calls, not their self-reports.
 - **Both wordings stop short of the eval prompt**, which required a fetch or scan for every unanswered question. Under the current wording, both misses on `hF8swzNR1-o` (not found) came from an agent that viewed 5 sheets and stopped, the same pattern as `Unzc731iCUY` in the first run. Under the old wording, `wYSncx9zLIU` h3 was not found after 25 sheets, and `v9DuQ1C3xH8` h2 was "unknown" although the agent had viewed a frame inside the answer's span.
 - **The current step 3 works.** 9 of 12 agents viewed every frame (0 of 12 under the old "view the frame images"). They also viewed fewer sheets (65 vs 104); one run per condition can't show whether the frames crowd out scanning.
-- Next, per the rule: a "Done when" for step 5, then one more hard-set run.
+
+### Step 5 "Done when": not kept
+
+A "Done when" for step 5 (answer from a full frame you viewed, or every plausible stretch scanned) scored 34/36 on one more hard-set run (`skill_done`), below the bar of 35, so step 5 went back to the earlier wording. Sheets viewed barely moved (68 vs 65). One miss was a search that stopped after 8 sheets (`hF8swzNR1-o` h1, also missed by `skill_2`); the other a misread S as 5 on a frame the agent had fetched.
+
+- **Not fixable by wording, as far as these runs show.** Four SKILL.md-only runs scored 33, 34, 34, 34; the eval prompt scored 36 once. The misses are spread over 8 questions, none missed by more than 2 of the 4 runs: a gap of 2 or so in 36, from searches that stop early and small-text misreads, not a step agents reliably skip.
+- Closes [#8](https://github.com/SamuelZ12/vidscribe/issues/8). The scan holdout was not run: it was only needed to confirm a gain.
