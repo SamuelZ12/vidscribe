@@ -370,3 +370,5 @@ The hard set failed by 2 ([#8](https://github.com/SamuelZ12/vidscribe/issues/8))
 | < 35 | ≥ 35 | the first 33 was agent noise | record, close #8 |
 | < 35 | < 35 | neither wording gets agents to search as the scan prompt did | add a "Done when" to step 5, re-run the hard set once |
 | ≥ 35 | 33.5-34.5 | unclear | compare searches per miss in the transcripts; record before deciding |
+
+Run 2026-11-05: `skill_old` 34/36, `skill_2` 34/36 (row 4). Misses: `skill_2` `hF8swzNR1-o` h1, h2 (not found; 5 sheets, then stopped), `skill_old` `v9DuQ1C3xH8` h2 (misread: "unknown" with a viewed frame inside the span), `skill_old` `wYSncx9zLIU` h3 (not found after 25 sheets). Costs and viewed counts (counted from the agent transcripts' `read` calls: `orig_viewed`, `at_viewed`, `sheets_viewed`) are on each clip's h1. No agent touched a path outside its folder or ran ffmpeg; the earlier runs' `answers.json` files were last read before this run began. Four agents tried Python (every call failed); one cropped a frame with `sips` (`Unzc731iCUY` `skill_old`, h1, graded correct). The rules cover the video, not frames.

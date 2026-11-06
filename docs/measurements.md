@@ -331,3 +331,19 @@ Dev `at` numbers are from the hard eval (agent-reported extra frames); `scan` co
 - **Step 3 ("View every frame") was mostly skipped.** By their own count, 2 of 12 main agents and 7 of 12 hard agents viewed all ~40 frames; 6 viewed none and went straight from the transcript to `--at`. Many also left frames `--at` printed unopened. In the recorded runs the eval prompt itself required both, so those scores never showed whether SKILL.md alone gets agents to do it. No miss traces to a skipped frame: none of the missed moments had one among the ~40.
 - **Searches stopped earlier.** Step 5 (scan) has no "Done when", and the eval prompts' rule to fetch or scan for every unanswered question is gone. Whether the old SKILL.md wording would do better is untested: this run had no control condition.
 - Agents' self-reports are approximate: one listed 4 `--at` frames that a re-run of its exact command shows were never written. No agent opened a path outside its folder or ran ffmpeg.
+
+### Control: old wording vs a repeat
+
+Hard set again, same folders, prompt and grader: `skill_old` (SKILL.md at `55c8e8b`) and `skill_2` (the current one, re-run), one agent each per clip, labels random. Method and decision rule were committed before the run (`eval/README.md`, "Control").
+
+| Hard set, 36 questions | Score | Agents viewing all ~40 frames | Sheets viewed | `--at` frames viewed |
+|---|---|---|---|---|
+| `skill` (first run) | 33 | 7 of 12 (self-reported) | | |
+| `skill_2` (repeat) | 34 | 9 of 12 | 65 | 131 |
+| `skill_old` | 34 | 0 of 12 | 104 | 111 |
+| `scan` (eval prompt) | 36 | | | |
+
+- **The rewrite did not cause the drop.** The old wording also scores 34; neither reaches the bar of 35. Counts in this table come from the agents' `read` calls, not their self-reports.
+- **Both wordings stop short of the eval prompt**, which required a fetch or scan for every unanswered question. Under the current wording, both misses on `hF8swzNR1-o` (not found) came from an agent that viewed 5 sheets and stopped, the same pattern as `Unzc731iCUY` in the first run. Under the old wording, `wYSncx9zLIU` h3 was not found after 25 sheets, and `v9DuQ1C3xH8` h2 was "unknown" although the agent had viewed a frame inside the answer's span.
+- **The current step 3 works.** 9 of 12 agents viewed every frame (0 of 12 under the old "view the frame images"). They also viewed fewer sheets (65 vs 104); one run per condition can't show whether the frames crowd out scanning.
+- Next, per the rule: a "Done when" for step 5, then one more hard-set run.
