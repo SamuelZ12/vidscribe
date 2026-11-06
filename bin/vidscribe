@@ -192,17 +192,40 @@ RUNFMT="$FMT"; (( VISUAL )) && RUNFMT="srt"
 # mlx-audio spends one --max-tokens budget (default 8192) on the whole file: dense speech ran out
 # after ~13-55 min, and a repetition loop ("oh, oh, ..." over applause) could burn it all. So give the
 # file a budget that never binds, and cap each ~30 s piece at 25 tok/s instead (real speech peaks ~16).
+# A piece that hits its cap was cut off (the end token is never counted): split it at its quietest
+# point and redo the halves, so a loop shrinks to a few seconds; one still capped under 8 s is warned.
 MLXPY="$(sed -n '1s/^#!//p' "$(command -v mlx_audio.stt.generate)")"
 MAXTOK="$(awk -v d="$DUR" 'BEGIN{ printf "%d", 8192 + 32*d }')"
 "$MLXPY" - --model "$MODEL" --audio "$WAV" --output-path "$OUT" --format "$RUNFMT" --max-tokens "$MAXTOK" \
   ${LANG_ARG[@]+"${LANG_ARG[@]}"} ${CTX_ARG[@]+"${CTX_ARG[@]}"} >&2 <<'PY'
-import sys
+import sys, time
+import numpy as np
 from mlx_audio.stt.generate import main
 try:
     from mlx_audio.stt.models.qwen3_asr.qwen3_asr import Qwen3ASRModel as M
     piece = M._generate_single_chunk
+    seen = [0]  # samples in earlier pieces, for warning times
+    def run(self, audio, start, max_tokens, kw):
+        sr = self.sample_rate
+        cap = min(max_tokens, 32 + int(25 * len(audio) / sr))
+        if cap <= 0:
+            return "", 0, 0
+        text, p, g = piece(self, audio, max_tokens=cap, **kw)
+        if g < cap:
+            return text, p, g
+        if len(audio) < 8 * sr:
+            span = "-".join(time.strftime("%H:%M:%S", time.gmtime(t / sr)) for t in (start, start + len(audio)))
+            print(f"warning: transcript cut off in {span} (likely a repetition loop)", file=sys.stderr)
+            return text, p, g
+        lo, hi, w = len(audio) // 4, 3 * len(audio) // 4, sr // 10  # quietest 100 ms in the middle half
+        cut = lo + int(np.argmin(np.convolve(np.square(audio[lo:hi], dtype=np.float32), np.ones(w), "valid"))) + w // 2
+        t1, p1, g1 = run(self, audio[:cut], start, max_tokens, kw)
+        t2, p2, g2 = run(self, audio[cut:], start + cut, max_tokens - g1, kw)
+        t2 = self.extract_language(t2)[1] if t2.startswith("language ") else t2  # one language tag per piece
+        return " ".join(t for t in (t1.strip(), t2.strip()) if t), p1 + p2, g1 + g2
     def capped(self, audio, *, max_tokens, **kw):
-        return piece(self, audio, max_tokens=min(max_tokens, 32 + int(25 * len(audio) / self.sample_rate)), **kw)
+        start = seen[0]; seen[0] += len(audio)
+        return run(self, audio, start, max_tokens, kw)
     M._generate_single_chunk = capped
 except (ImportError, AttributeError) as e:
     print(f"warning: mlx-audio changed, per-piece token cap off ({e})", file=sys.stderr)

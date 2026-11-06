@@ -12,7 +12,7 @@ vidscribe -h | --help
 - If the picture ends before the audio, frames past its end are left out (even frames are not respaced over the shorter picture) and stderr shows `frames: no picture at N of M times (...), left out`; e.g. a 3 s picture with 9.2 s of speech gets 1 even frame instead of 5. If you hit this on a real file, add it to [#3](https://github.com/SamuelZ12/vidscribe/issues/3).
 - `-v [N]`: force frame mode, with N evenly spaced frames. `-a`/`--audio-only`: transcript only, never download or save video. `-f vtt|json` on a video without `-v` also gives a transcript only.
 - `-l zh|en|...` forces a language; `-c "Letta, Qwen"` biases rare names; `-m` picks another mlx-audio model.
-- Long media is transcribed to the end. Applause or music can show up as a short run of one repeated word ("oh, oh, oh"). A `WARNING: last cue ... < duration` line means the transcript ends before the media does: either the model stopped early or there is no speech near the end.
+- Long media is transcribed to the end. Applause or music can show up as a short run of one repeated word ("oh, oh, oh"). `warning: transcript cut off in 00:12:03-00:12:09` means the model got stuck there (almost always such a loop): that stretch keeps only its first words, and the rest of the file is unaffected. A `WARNING: last cue ... < duration` line means the transcript ends before the media does: either the model stopped early or there is no speech near the end.
 - Old outputs in `/tmp/vidscribe` are pruned after 3 days.
 
 ## Frames on demand (`--at`)

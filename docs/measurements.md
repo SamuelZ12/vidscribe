@@ -93,6 +93,8 @@ Raising the budget alone (`--max-tokens 32768`, MIT) transcribed to the end, mat
 
 Result: 9 short clips byte-identical to uncapped output; MIT 319 s, full coverage, every cue identical to the uncapped run except the loop, which is 222 words instead of 3840.
 
+2026-11-05. A piece that hit its cap was still cut off silently (the end token is never counted, so hitting the cap exactly means cut off). Now it is split at its quietest 100 ms in the middle half and each half is redone with its own cap. A loop shrinks to a piece under 8 s, which keeps its capped text and prints `warning: transcript cut off in HH:MM:SS-HH:MM:SS`. Under 8 s the cap allows over 29 tok/s, nearly twice the real-speech peak. A 30 s piece that loops throughout costs up to 11 decodes (~3.4k tokens instead of 782), and each leaf's 32-token base lets a split piece slightly exceed its share of the file budget; the 8192 slack covers that unless hours of audio loop. Checked with a 41 s `say` clip in throwaway copies of the script. A cap of 20 on every piece used to give 38 of 174 words with no warning; it now gives 113 words and six warnings. A cap of 20 only on pieces over 20 s recovers all 174 words (6 commas differ) with no warning. txt, srt and frame-mode outputs are byte-identical to master.
+
 ## Scene-change frames
 
 2026-11-04. Cut detection: ffmpeg at 2 fps and 160 px, `scene > 0.3`; ~0.75 s per minute of video (84 s for 111 min), ~15% on top of transcription. Cuts per minute ranged from 0.2 (animated charts: gradual changes don't register) to 8.5 (Mandarin slides); every clip over ~10 min has more cuts than the cap.
