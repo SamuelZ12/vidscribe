@@ -307,3 +307,12 @@ Dev `at` numbers are from the hard eval (agent-reported extra frames); `scan` co
 - The hard set names moments the transcript never speaks about, so speech timing can't help there; `--scan` already reaches 36/36 dev and 12/12 holdout.
 - Cost: a second model (1.28 GB 8-bit), a pass per 30 s piece (it accepts up to 5 min of speech), and only 11 of Qwen3-ASR's ~30 languages (Chinese, Cantonese, English, German, Spanish, French, Italian, Portuguese, Russian, Korean, Japanese), so the rest would keep interpolated times.
 - **Decision: not built.** Revisit if someone needs word-level output, or if a new eval shows frame-timing misses.
+
+## Readable transcript (S1-mini): not built
+
+2026-11-05. A paper check, no runs: should vidscribe offer a "readable" output that cleans the raw transcript with [S1-mini](https://huggingface.co/mlx-community/S1-mini-MLX-8bit) by Superwhisper (8-bit MLX, 0.65 GB)? Its model card lists punctuation, truecasing and text normalization for dictation, in English only.
+
+- The reader is an agent, which already reads the raw transcript well: speech questions scored 11-12/12 in every eval that had them (the one miss was agent noise on an unchanged transcript). It can tidy text itself when a person needs it.
+- A rewrite risks changing words an agent quotes or matches against frames (`index.txt` maps each frame to what was being said), so the raw transcript would still have to be kept and output twice.
+- Cost: a second model and pass, English only (the default handles ~30 languages), and a custom license (`other`, `s1-mini-license`) that requires crediting "S1-mini" by "Superwhisper".
+- **Decision: not built.** Revisit if people (not agents) become the main readers.

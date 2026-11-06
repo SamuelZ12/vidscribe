@@ -84,6 +84,7 @@ Without Node, copy the `skill/` folder into your agent's skills directory (for C
 - **OCR of on-screen text into `index.txt`**: with `--at`, agents answered 31/36 questions about moments the speech never names, above the bar set beforehand ([ADR-0005](docs/decisions/0005-no-ocr.md)).
 - **Smarter scene choice within the 40-frame cap**: two methods were tried on long videos and neither improved answers; fetching frames on demand did ([ADR-0004](docs/decisions/0004-frames-on-demand.md)).
 - **Word timestamps (forced aligner)**: at most 1 of 72 misses came from frame timing, and the aligner covers only 11 languages ([measurements](docs/measurements.md#word-timestamps-forced-aligner-not-built)).
+- **A readable-transcript mode (S1-mini cleanup)**: agents read the raw text fine, and a rewrite could change quoted words; English only ([measurements](docs/measurements.md#readable-transcript-s1-mini-not-built)).
 
 Why the shipped defaults are what they are: [`docs/decisions/`](docs/decisions/).
 
