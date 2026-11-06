@@ -318,3 +318,35 @@ If a question is about something on screen that the transcript never leads to, o
 Write /tmp/vseval/ans/<FOLDER>/answers.json: a JSON list of {"qid", "question", "answer", "frame": "<file name you used, or null>", "confidence": "high"|"low"}.
 In your final message, state how many of the original frames you viewed out of how many exist, how many extra frames you extracted and viewed, and how many scan sheets you viewed.
 ```
+
+## SKILL.md re-test (`skill`)
+
+Every score above came from prompts that paraphrase `skill/SKILL.md` as of `55c8e8b`/`b103a4c`; `0434746` rewrote it. Condition `skill` gives answer agents the current SKILL.md instead, so the wording itself is what is tested ([#1](https://github.com/SamuelZ12/vidscribe/issues/1)).
+
+- Videos and transcripts rebuilt per "Rebuild" with master `c5fbe83` (`/tmp/vseval`). The main set's reference times were written on older downloads: before answering, every visual, mixed and hard question's `time_s` is checked on a contact sheet of the new download, and a question whose answer is no longer on screen there is dropped from both sides of the comparison.
+- All 12 videos, both sets: 72 main questions (6 per agent) compared with `at` (69/72; that run had no `--scan`), 36 hard questions (3 per agent) compared with `scan` (36/36). One condition, so no folder labels; the grader is blind as before. Nothing is tuned: the prompt runs once, unchanged.
+- Folders `<ID>_main` and `<ID>_hard`: `transcript.srt`, `frames/` (the run's folder: `index.txt`, frames, `video.mp4`), `questions.json` (`qid` + `question`). Same grader. Leakage check per agent (paths outside its folder, `ffmpeg`).
+- **Pass bar (set before the run):** main ≥ 68/72 and hard ≥ 35/36, i.e. at most one point below the recorded scores. Below that, each miss is checked against the agent transcript (frame not viewed, moment not fetched, misread) to tell wording from noise; the result is recorded either way.
+
+Answer agent `skill` (`<SKILL>` = the body of `skill/SKILL.md` at `c5fbe83`, from `# vidscribe` to the end; `<N>` = 6 or 3). Compared with the prompts above, the skill replaces "Getting more frames", "Scanning ..." and the rules that repeat its steps (view every frame, fetch more); the eval's own rules (folder only, "unknown") and output stay:
+
+```
+# Goal
+You are testing how well an AI agent can answer questions about a video using the vidscribe skill below. vidscribe has already been run on the video (step 1 is done) and its output is in your folder. Answer honestly from your folder; a wrong guess is worse than "unknown".
+
+# Your folder: /tmp/vseval/ans/<FOLDER>/
+- transcript.srt: the full timestamped transcript.
+- frames/: the run's frames folder (`<dir>` in the skill): index.txt, the frames (about 40), and video.mp4. Do not open video.mp4 directly; use the skill's vidscribe commands.
+- questions.json: <N> questions.
+
+# The vidscribe skill
+<SKILL>
+
+# Rules
+- Use ONLY files inside your folder and the `vidscribe /tmp/vseval/ans/<FOLDER>/frames --at` and `--scan` commands. Do not open anything else under /tmp/vseval, do not search the web, do not run ffmpeg or any other tool on the video.
+- Answer each question. If the frames and transcript do not show the answer, answer exactly "unknown". Do not guess from general knowledge.
+
+# Output
+Write /tmp/vseval/ans/<FOLDER>/answers.json: a JSON list of {"qid", "question", "answer", "frame": "<file name you used, or null>", "confidence": "high"|"low"}.
+In your final message, state how many of the original frames you viewed out of how many exist, how many extra frames you extracted and viewed, and how many scan sheets you viewed.
+```
