@@ -307,6 +307,7 @@ Dev `at` numbers are from the hard eval (agent-reported extra frames); `scan` co
 - The hard set names moments the transcript never speaks about, so speech timing can't help there; `--scan` already reaches 36/36 dev and 12/12 holdout.
 - Cost: a second model (1.28 GB 8-bit), a pass per 30 s piece (it accepts up to 5 min of speech), and only 11 of Qwen3-ASR's ~30 languages (Chinese, Cantonese, English, German, Spanish, French, Italian, Portuguese, Russian, Korean, Japanese), so the rest would keep interpolated times.
 - **Decision: not built.** Revisit if someone needs word-level output, or if a new eval shows frame-timing misses.
+- **Outside support (2026-11-06).** In [SleuthVLM](https://arxiv.org/abs/2611.06083)'s ablation (Table 5: Qwen3.8-27B as the agent, the same Qwen3-ASR plus this aligner), dropping word-level times cost 1.3 points on both Daily-Omni and LVOmniBench, with no change in turns. Most of the loss was on LVOmniBench's music and sound questions (6.6 and 6.1 points), which vidscribe doesn't cover (README "Limits"). That agrees with not building it.
 
 ## Readable transcript (S1-mini): not built
 
