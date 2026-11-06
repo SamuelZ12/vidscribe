@@ -316,3 +316,18 @@ Dev `at` numbers are from the hard eval (agent-reported extra frames); `scan` co
 - A rewrite risks changing words an agent quotes or matches against frames (`index.txt` maps each frame to what was being said), so the raw transcript would still have to be kept and output twice.
 - Cost: a second model and pass, English only (the default handles ~30 languages), and a custom license (`other`, `s1-mini-license`) that requires crediting "S1-mini" by "Superwhisper".
 - **Decision: not built.** Revisit if people (not agents) become the main readers.
+
+## SKILL.md re-test
+
+2026-11-05. Every score above came from eval prompts that paraphrase SKILL.md as of `55c8e8b`; `0434746` rewrote it. Do agents score the same when given the current SKILL.md itself? All 12 videos re-downloaded and transcribed with master `c5fbe83` (no warnings); every visual, mixed and hard reference answer was still on screen at its time (one slide visible a few seconds later, inside its span), so no question was dropped. Fresh agents, one per clip and set, got the SKILL.md body verbatim plus the eval's own rules (folder only, "unknown" over guessing); "view every frame" and "fetch more" were left to the skill. Same blind grader. Method, prompt and bar in `eval/README.md`, "SKILL.md re-test"; grades under `skill` in `eval/grades.json` and `eval/hard/grades.json`.
+
+| Set | Recorded | `skill` | Bar (set before) |
+|---|---|---|---|
+| Main, 72 questions anchored on speech | 69 (`at`) | 69 | ≥ 68 |
+| Hard, 36 questions the speech never names | 36 (`scan`) | 33 | ≥ 35 |
+
+- **Main: passes.** 2 up (`Unzc731iCUY` mixed, `x-wqMcYMNdg` v1), 2 down: `H3KnMyojEQU` v4 (fetched the end card 10 s late and read the fine print of the next card) and `yQ6VOOd73MA` mixed ("unknown" after scanning only 20 s).
+- **Hard: fails by 2.** All 3 misses are "unknown" and "not found" (no viewed frame inside the anchor's span); no confident wrong answers. `Unzc731iCUY` h1 and h2, which `at` and `scan` both got: the agent scanned 5 sheets in the wrong stretches and stopped (the `scan` agent used 30). `yQ6VOOd73MA` h3: one of the 5 questions `at` missed and the scan probe was tuned on; 17 sheets didn't find it.
+- **Step 3 ("View every frame") was mostly skipped.** By their own count, 2 of 12 main agents and 7 of 12 hard agents viewed all ~40 frames; 6 viewed none and went straight from the transcript to `--at`. Many also left frames `--at` printed unopened. In the recorded runs the eval prompt itself required both, so those scores never showed whether SKILL.md alone gets agents to do it. No miss traces to a skipped frame: none of the missed moments had one among the ~40.
+- **Searches stopped earlier.** Step 5 (scan) has no "Done when", and the eval prompts' rule to fetch or scan for every unanswered question is gone. Whether the old SKILL.md wording would do better is untested: this run had no control condition.
+- Agents' self-reports are approximate: one listed 4 `--at` frames that a re-run of its exact command shows were never written. No agent opened a path outside its folder or ran ffmpeg.

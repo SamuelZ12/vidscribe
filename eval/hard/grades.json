@@ -67,6 +67,26 @@
     "confidence": "high",
     "reason": "The candidate names Tripadvisor, which matches the reference. The extra detail about OpenAI Operator booking a Rome tour doesn't contradict the reference answer."
    }
+  },
+  "skill": {
+   "h1": {
+    "score": 1,
+    "answer": "496GB",
+    "confidence": "high",
+    "reason": "The candidate's answer, 496GB, is exactly the same as the reference answer."
+   },
+   "h2": {
+    "score": 1,
+    "answer": "Unreal engine",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"Unreal engine\", is the same as the reference, \"Unreal Engine\". The only difference is capitalization."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "Tripadvisor (OpenAI Operator booking a Rome tour)",
+    "confidence": "high",
+    "reason": "The candidate names Tripadvisor, which matches the reference. The extra detail about Operator booking a Rome tour doesn't contradict anything in the reference."
+   }
   }
  },
  "Unzc731iCUY": {
@@ -135,6 +155,28 @@
     "answer": "11:23 pm ET (the label alternates with 8:23 pm PT, the same moment in Pacific time)",
     "confidence": "high",
     "reason": "The candidate's answer is the same as the reference: 11:23 pm ET, which alternates with 8:23 pm PT."
+   }
+  },
+  "skill": {
+   "h1": {
+    "score": 0,
+    "answer": "unknown",
+    "confidence": "low",
+    "reason": "The candidate said \"unknown\" and didn't name the plant. The reference answer is a Joshua tree, so this gets no credit.",
+    "miss": "not found"
+   },
+   "h2": {
+    "score": 0,
+    "answer": "unknown",
+    "confidence": "low",
+    "reason": "The candidate answered \"unknown\" and did not name a gate label. The reference answer is A12, so the candidate gets no credit.",
+    "miss": "not found"
+   },
+   "h3": {
+    "score": 1,
+    "answer": "8:23 pm PT",
+    "confidence": "high",
+    "reason": "The candidate gives 8:23 pm PT. The reference says the overlay switches between 11:23 pm ET and 8:23 pm PT and accepts either one, so this answer is correct."
    }
   }
  },
@@ -209,6 +251,26 @@
     "confidence": "high",
     "reason": "The candidate correctly gives 35A as the trail number on the arrow tips. The extra detail about a sign marked 36 doesn't contradict the main answer."
    }
+  },
+  "skill": {
+   "h1": {
+    "score": 1,
+    "answer": "BLK & BOLD (Specialty Coffee)",
+    "confidence": "high",
+    "reason": "The candidate gives the brand as BLK & BOLD, which matches the reference \"BLK & Bold\". The only difference is capitalization, and the added \"Specialty Coffee\" descriptor doesn't contradict it."
+   },
+   "h2": {
+    "score": 1,
+    "answer": "12:15 PM",
+    "confidence": "high",
+    "reason": "The candidate's answer, 12:15 PM, is exactly the same as the reference answer."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "35A",
+    "confidence": "high",
+    "reason": "The candidate's answer, 35A, is the same as the reference answer."
+   }
   }
  },
  "H3KnMyojEQU": {
@@ -279,6 +341,26 @@
     "confidence": "high",
     "reason": "The candidate gives the same job title as the reference, \"SVP, Worldwide Marketing.\" The extra name it adds is consistent with the caption."
    }
+  },
+  "skill": {
+   "h1": {
+    "score": 1,
+    "answer": "Sr. Director, Fitness Technologies (Julz Arney)",
+    "confidence": "high",
+    "reason": "The candidate gives the same job title as the reference, \"Sr. Director, Fitness Technologies.\" The added name doesn't contradict anything."
+   },
+   "h2": {
+    "score": 1,
+    "answer": "The Carlyle",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"The Carlyle,\" is exactly the same as the reference answer."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "SVP, Worldwide Marketing (Greg \"Joz\" Joswiak)",
+    "confidence": "high",
+    "reason": "The candidate gives the same job title as the reference, \"SVP, Worldwide Marketing.\" It also adds the presenter's name, which doesn't contradict anything in the reference."
+   }
   }
  },
  "gDvwRpl9erE": {
@@ -335,6 +417,26 @@
     "sheets": 0,
     "at_calls": 3,
     "scan_calls": 0
+   },
+   "h2": {
+    "score": 1,
+    "answer": "1:11:21",
+    "confidence": "high",
+    "reason": "The candidate's answer, 1:11:21, is exactly the same as the reference answer."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "unreflected",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"unreflected\", is exactly the same as the reference answer."
+   }
+  },
+  "skill": {
+   "h1": {
+    "score": 1,
+    "answer": "2017-12 (December 2017)",
+    "confidence": "high",
+    "reason": "The candidate says December 2017, written as '2017-12'. This is the same answer as the reference."
    },
    "h2": {
     "score": 1,
@@ -417,6 +519,26 @@
     "confidence": "high",
     "reason": "The candidate's answer of 25 matches the reference answer."
    }
+  },
+  "skill": {
+   "h1": {
+    "score": 1,
+    "answer": "6.S061 (menu reads 'About 6.S061')",
+    "confidence": "high",
+    "reason": "The candidate gives 6.S061, which matches the reference answer."
+   },
+   "h2": {
+    "score": 1,
+    "answer": "7.20.0",
+    "confidence": "high",
+    "reason": "The candidate answer, 7.20.0, is the same as the reference answer."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "25",
+    "confidence": "high",
+    "reason": "The candidate's answer, 25, is the same as the reference answer."
+   }
   }
  },
  "ej5RsTtVvQE": {
@@ -484,6 +606,26 @@
     "answer": "get_user_from_session (called as get_user_from_session(request.session))",
     "confidence": "high",
     "reason": "The candidate names the same function as the reference, get_user_from_session, and also says it is called with request.session."
+   }
+  },
+  "skill": {
+   "h1": {
+    "score": 1,
+    "answer": "Hochschule Burgenland (University of Applied Sciences), shown next to a small PyCon Austria logo",
+    "confidence": "high",
+    "reason": "The candidate names the same institution as the reference, Hochschule Burgenland. It also says a PyCon Austria logo appears next to it. The reference doesn't confirm that detail, but it doesn't contradict the main answer either."
+   },
+   "h2": {
+    "score": 1,
+    "answer": "The More Common The Bigger The Impact",
+    "confidence": "high",
+    "reason": "The candidate's answer is word-for-word the same as the reference subtitle."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "get_user_from_session(request.session)",
+    "confidence": "high",
+    "reason": "The candidate names the same function as the reference, get_user_from_session, and also gives the same argument, request.session."
    }
   }
  },
@@ -554,6 +696,26 @@
     "confidence": "high",
     "reason": "The candidate's answer, 55.1%, is the same as the reference answer."
    }
+  },
+  "skill": {
+   "h1": {
+    "score": 1,
+    "answer": "Dark green",
+    "confidence": "high",
+    "reason": "The candidate says \"dark green\", which matches the reference answer of green (dark/olive green)."
+   },
+   "h2": {
+    "score": 1,
+    "answer": "2412.15285",
+    "confidence": "high",
+    "reason": "The candidate's arXiv identifier, 2412.15285, is exactly the same as the reference answer."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "55.1%",
+    "confidence": "high",
+    "reason": "The candidate's answer of 55.1% is the same as the reference answer."
+   }
   }
  },
  "hF8swzNR1-o": {
@@ -622,6 +784,26 @@
     "answer": "What archeological discoveries were made here?",
     "confidence": "high",
     "reason": "The candidate's answer is exactly the same as the reference answer."
+   }
+  },
+  "skill": {
+   "h1": {
+    "score": 1,
+    "answer": "Bose (caption: Raja Bose, Director, Trust, Safety, and Values Product Marketing)",
+    "confidence": "high",
+    "reason": "The candidate answer is identical to the reference: the surname is Bose, and the full caption matches word for word."
+   },
+   "h2": {
+    "score": 1,
+    "answer": "Gema's Gourmet Market",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"Gema's Gourmet Market\", is word-for-word the same as the reference answer."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "What archeological discoveries were made here?",
+    "confidence": "high",
+    "reason": "The candidate's answer is word-for-word the same as the reference answer."
    }
   }
  },
@@ -695,6 +877,27 @@
     "confidence": "high",
     "reason": "The candidate's answer, 0898, is exactly the same as the reference answer."
    }
+  },
+  "skill": {
+   "h1": {
+    "score": 1,
+    "answer": "SEP. 25 1983 (September 25, 1983)",
+    "confidence": "high",
+    "reason": "The candidate gives the same date as the reference, September 25, 1983."
+   },
+   "h2": {
+    "score": 1,
+    "answer": "Dartmouth (caption: Luke Chang, PhD)",
+    "confidence": "high",
+    "reason": "The candidate says Dartmouth, which matches the reference. The extra name detail doesn't contradict anything."
+   },
+   "h3": {
+    "score": 0,
+    "answer": "unknown",
+    "confidence": "low",
+    "reason": "The candidate answered \"unknown\" and didn't give the number. The reference answer is 0898.",
+    "miss": "not found"
+   }
   }
  },
  "x-wqMcYMNdg": {
@@ -761,6 +964,26 @@
     "answer": "Dark Money (Jane Mayer)",
     "confidence": "high",
     "reason": "The candidate answer is identical to the reference answer: Dark Money (Jane Mayer)."
+   }
+  },
+  "skill": {
+   "h1": {
+    "score": 1,
+    "answer": "18 sources",
+    "confidence": "high",
+    "reason": "The candidate says 18 sources, which is the same as the reference answer."
+   },
+   "h2": {
+    "score": 1,
+    "answer": "Sally Rooney (the book is Intermezzo)",
+    "confidence": "high",
+    "reason": "The candidate gives the same author, Sally Rooney, and the same book, Intermezzo, as the reference answer."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "Dark Money (by Jane Mayer)",
+    "confidence": "high",
+    "reason": "The candidate gives the same title and author as the reference: Dark Money by Jane Mayer."
    }
   }
  },
@@ -830,6 +1053,26 @@
     "answer": "A tart (fluted-crust tart with a dark filling)",
     "confidence": "high",
     "reason": "The candidate's answer matches the reference: a tart with a fluted crust and a dark filling."
+   }
+  },
+  "skill": {
+   "h1": {
+    "score": 1,
+    "answer": "MMVIII (© MMVIII Television Food Network, G.P.)",
+    "confidence": "high",
+    "reason": "The candidate gives MMVIII, which matches the reference year (2008). The extra copyright detail doesn't contradict anything."
+   },
+   "h2": {
+    "score": 1,
+    "answer": "Brown baked bread rolls/loaves (brioche-like) on a plate",
+    "confidence": "low",
+    "reason": "The candidate correctly says the painting shows bread rolls (brioche-like) on a plate. That is the substance of the reference answer. Leaving out the napkin and the cup is a minor omission."
+   },
+   "h3": {
+    "score": 1,
+    "answer": "A tart (fluted-crust tart with a dark topping)",
+    "confidence": "high",
+    "reason": "The candidate says it is a tart with a fluted crust and a dark topping. That matches the reference on every point."
    }
   }
  },

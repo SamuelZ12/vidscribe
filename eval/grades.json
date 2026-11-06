@@ -77,6 +77,44 @@
     "score": 1,
     "reason": "The candidate's answer of $5 is the same as the reference answer."
    }
+  },
+  "skill": {
+   "v1": {
+    "score": 1,
+    "answer": "xAI Colossus cluster (100K H100 GPUs)",
+    "confidence": "high",
+    "reason": "The candidate answer is the same as the reference: the xAI Colossus cluster with 100K H100 GPUs."
+   },
+   "v2": {
+    "score": 1,
+    "answer": "Calculator, Python interpreter, Terminal (followed by '....')",
+    "confidence": "high",
+    "reason": "The candidate names the same three tools as the reference: Calculator, Python interpreter and Terminal. The extra mention of a trailing ellipsis doesn't contradict the reference."
+   },
+   "v3": {
+    "score": 1,
+    "answer": "meta buys scale ai",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"meta buys scale ai\", is word-for-word the same as the reference answer."
+   },
+   "v4": {
+    "score": 1,
+    "answer": "Running locally (ez)",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"Running locally (ez)\", is exactly the same as the reference answer."
+   },
+   "mixed": {
+    "score": 1,
+    "answer": "Human+AI UIUX for Coding",
+    "confidence": "high",
+    "reason": "The candidate answer is identical to the reference: \"Human+AI UIUX for Coding\"."
+   },
+   "speech": {
+    "score": 1,
+    "answer": "$5 in credits (transcript ~32:05)",
+    "confidence": "high",
+    "reason": "The candidate says $5 in credits, which is the same as the reference answer."
+   }
   }
  },
  "Unzc731iCUY": {
@@ -157,6 +195,44 @@
     "score": 1,
     "reason": "The candidate says \"duct tape,\" which matches the reference. The added detail that the tape is red isn't in the reference and can't be checked, but it doesn't change the core answer."
    }
+  },
+  "skill": {
+   "v1": {
+    "score": 1,
+    "answer": "White rectangular blocks (two upright white blocks with a block on top), arranged on the table",
+    "confidence": "low",
+    "reason": "The candidate gives the same answer as the reference: white blocks on the table, two standing upright with one across the top."
+   },
+   "v2": {
+    "score": 1,
+    "answer": "MIT (bottom left) and CSAIL (bottom right)",
+    "confidence": "high",
+    "reason": "The candidate answer is the same as the reference: MIT in the bottom left and CSAIL in the bottom right."
+   },
+   "v3": {
+    "score": 1,
+    "answer": "29-Jan-2015",
+    "confidence": "high",
+    "reason": "The candidate's answer, 29-Jan-2015, is exactly the same as the reference answer."
+   },
+   "v4": {
+    "score": 1,
+    "answer": "11:23 pm ET",
+    "confidence": "high",
+    "reason": "The candidate's answer, 11:23 pm ET, is exactly the same as the reference answer."
+   },
+   "mixed": {
+    "score": 1,
+    "answer": "Newton noted that F = ma.",
+    "confidence": "high",
+    "reason": "The candidate's answer is exactly the same as the reference: \"Newton noted that F = ma.\""
+   },
+   "speech": {
+    "score": 1,
+    "answer": "Duct tape (red)",
+    "confidence": "high",
+    "reason": "The candidate says duct tape, which matches the reference. The added detail that it is red can't be checked against the reference, but it doesn't change the main answer."
+   }
   }
  },
  "wYSncx9zLIU": {
@@ -235,6 +311,44 @@
    },
    "speech": {
     "score": 1,
+    "reason": "The candidate's answer of 93 is the same as the reference answer."
+   }
+  },
+  "skill": {
+   "v1": {
+    "score": 1,
+    "answer": "A gray tabby cat wearing white-and-pink bunny ears, sitting in a cream/navy pet bed",
+    "confidence": "high",
+    "reason": "The candidate matches the reference: a gray cat wearing bunny ears in a pet bed. The extra details it adds don't contradict anything in the reference."
+   },
+   "v2": {
+    "score": 1,
+    "answer": "BioNTech SE (BTNX)",
+    "confidence": "high",
+    "reason": "The candidate names BioNTech SE, which matches the reference. The ticker is wrong (it should be BNTX, not BTNX), but that small mistake doesn't change which company the answer identifies."
+   },
+   "v3": {
+    "score": 1,
+    "answer": "ASUS TUF Gaming Z790-Plus WIFI Motherboard ($249.99, Best Buy)",
+    "confidence": "high",
+    "reason": "The candidate names the same motherboard as the reference, the ASUS TUF Gaming Z790-Plus WIFI. The price and retailer it adds don't conflict with the reference."
+   },
+   "v4": {
+    "score": 1,
+    "answer": "Willamette Pizza Co.",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"Willamette Pizza Co.\", is exactly the same as the reference answer."
+   },
+   "mixed": {
+    "score": 1,
+    "answer": "1656 (GDPval-AA Elo; 3.1 Pro 1314)",
+    "confidence": "high",
+    "reason": "The candidate's score of 1656 on GDPval-AA Elo matches the reference, and its comparison figure of 1314 for 3.1 Pro is also correct."
+   },
+   "speech": {
+    "score": 1,
+    "answer": "93",
+    "confidence": "high",
     "reason": "The candidate's answer of 93 is the same as the reference answer."
    }
   }
@@ -317,6 +431,44 @@
     "score": 1,
     "reason": "The candidate's answer is the same as the reference: For All Mankind, all 40 episodes."
    }
+  },
+  "skill": {
+   "v1": {
+    "score": 1,
+    "answer": "8x Bicep Curl • Alternating (30 lbs)",
+    "confidence": "high",
+    "reason": "The candidate gives the same exercise as the reference, an alternating bicep curl (8x, 30 lbs), so it matches in substance."
+   },
+   "v2": {
+    "score": 1,
+    "answer": "\"Kneel\" by Nilüfer Yanya",
+    "confidence": "high",
+    "reason": "The candidate answer gives the same song and artist as the reference: \"Kneel\" by Nilüfer Yanya."
+   },
+   "v3": {
+    "score": 1,
+    "answer": "VP, Platform Architecture (Tim Millet)",
+    "confidence": "high",
+    "reason": "The candidate answer is the same as the reference: VP, Platform Architecture (Tim Millet)."
+   },
+   "v4": {
+    "score": 0,
+    "answer": "Only small legal fine print: \"U.S. pricing and availability shown. See apple.com for pricing and availability in your region.\" (later card: \"TM and © 2025 Apple Inc. All Rights Reserved...\")",
+    "confidence": "low",
+    "reason": "The reference says the text under the logo is \"Shot on iPhone. Edited on Mac.\" The candidate instead gives legal fine print about pricing and copyright, which is wrong."
+   },
+   "mixed": {
+    "score": 1,
+    "answer": "Apple Watch Ultra 3 (presenter Eugene); up to 42 hours of battery life",
+    "confidence": "high",
+    "reason": "The candidate names the same product (Apple Watch Ultra 3) and the same battery life (up to 42 hours) as the reference. The extra presenter name doesn't change that."
+   },
+   "speech": {
+    "score": 1,
+    "answer": "For All Mankind (all 40 episodes)",
+    "confidence": "high",
+    "reason": "The candidate answer is the same as the reference: For All Mankind (all 40 episodes)."
+   }
   }
  },
  "gDvwRpl9erE": {
@@ -395,6 +547,44 @@
    },
    "speech": {
     "score": 1,
+    "reason": "The candidate answer is the same as the reference: 90 seconds over a 250 megabit connection."
+   }
+  },
+  "skill": {
+   "v1": {
+    "score": 1,
+    "answer": "2.8",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"2.8\", is exactly the same as the reference answer."
+   },
+   "v2": {
+    "score": 1,
+    "answer": "38%",
+    "confidence": "high",
+    "reason": "The candidate says 38%, which is exactly the reference answer."
+   },
+   "v3": {
+    "score": 1,
+    "answer": "le_package.pth",
+    "confidence": "high",
+    "reason": "The candidate's answer, le_package.pth, is exactly the same as the reference answer."
+   },
+   "v4": {
+    "score": 1,
+    "answer": "All sneks are good",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"All sneks are good,\" is exactly the same as the reference answer."
+   },
+   "mixed": {
+    "score": 1,
+    "answer": "A white coffee mug",
+    "confidence": "high",
+    "reason": "The candidate says the man is holding a coffee mug, which matches the reference. Calling it white adds a detail but doesn't contradict the reference."
+   },
+   "speech": {
+    "score": 1,
+    "answer": "90 seconds over a 250 megabit connection",
+    "confidence": "high",
     "reason": "The candidate answer is the same as the reference: 90 seconds over a 250 megabit connection."
    }
   }
@@ -477,6 +667,44 @@
     "score": 1,
     "reason": "The candidate's \"almost 10 years\" matches the reference in substance. Leaving out the hedge \"probably\" doesn't change that."
    }
+  },
+  "skill": {
+   "v1": {
+    "score": 1,
+    "answer": "5 minutes (Bake at 350F for 5 minutes)",
+    "confidence": "high",
+    "reason": "The candidate answer is the same as the reference: bake at 350F for 5 minutes."
+   },
+   "v2": {
+    "score": 1,
+    "answer": "Python 3.8.5",
+    "confidence": "high",
+    "reason": "The candidate's answer, Python 3.8.5, is exactly the same as the reference answer."
+   },
+   "v3": {
+    "score": 1,
+    "answer": "flag",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"flag\", is exactly the same as the reference answer."
+   },
+   "v4": {
+    "score": 1,
+    "answer": "Dell",
+    "confidence": "low",
+    "reason": "The candidate's answer, \"Dell\", is the same as the reference answer."
+   },
+   "mixed": {
+    "score": 1,
+    "answer": "ok",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"ok\", is exactly the same as the reference answer."
+   },
+   "speech": {
+    "score": 1,
+    "answer": "Probably almost 10 years (transcript 00:00-00:58)",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"probably almost 10 years,\" is the same as the reference answer."
+   }
   }
  },
  "ej5RsTtVvQE": {
@@ -556,6 +784,44 @@
    "speech": {
     "score": 1,
     "reason": "The candidate's answer of 50 is the same as the reference answer."
+   }
+  },
+  "skill": {
+   "v1": {
+    "score": 1,
+    "answer": "A wooden chair; one of its (shorter/patched) legs is propped up on a small stack of books/papers (shims) to keep it level",
+    "confidence": "low",
+    "reason": "The candidate's answer matches the reference: a chair with one leg propped up on a stack of books or papers. The extra details it adds don't contradict the reference."
+   },
+   "v2": {
+    "score": 1,
+    "answer": "Cut from the Same Cloth",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"Cut from the Same Cloth\", is word-for-word the same as the reference answer."
+   },
+   "v3": {
+    "score": 1,
+    "answer": "Throw Away",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"Throw Away\", is the same as the reference answer."
+   },
+   "v4": {
+    "score": 1,
+    "answer": "dispatch_request(request)",
+    "confidence": "high",
+    "reason": "The candidate's answer, dispatch_request(request), is the same function and call the reference gives."
+   },
+   "mixed": {
+    "score": 1,
+    "answer": "You will not reuse (subtitle: Except when you do)",
+    "confidence": "high",
+    "reason": "The candidate's answer is identical to the reference: the title \"You will not reuse\" with the subtitle \"Except when you do\"."
+   },
+   "speech": {
+    "score": 1,
+    "answer": "50 updates (transcript ~47:21-47:50)",
+    "confidence": "high",
+    "reason": "The candidate says 50 updates, which is the same as the reference answer."
    }
   }
  },
@@ -637,6 +903,44 @@
     "score": 1,
     "reason": "The candidate answer is the same as the reference: EMNLP, in Miami, last November."
    }
+  },
+  "skill": {
+   "v1": {
+    "score": 1,
+    "answer": "Binghamton (Applied Math + Neuroscience)",
+    "confidence": "high",
+    "reason": "The candidate answer is exactly the same as the reference: Binghamton, Applied Math + Neuroscience."
+   },
+   "v2": {
+    "score": 1,
+    "answer": "Approximately 29 million words",
+    "confidence": "high",
+    "reason": "The candidate says about 29 million words, which is the same as the reference answer."
+   },
+   "v3": {
+    "score": 1,
+    "answer": "A white humanoid robot sitting at and typing on a laptop, with holographic 'processing'/brain displays in front of it",
+    "confidence": "high",
+    "reason": "The candidate's main point matches the reference: a white humanoid robot using a laptop. The holographic display detail is extra and can't be checked against the reference, but it doesn't contradict it."
+   },
+   "v4": {
+    "score": 1,
+    "answer": "AutoGPT and ChatGPT \"plug-ins\"",
+    "confidence": "high",
+    "reason": "The candidate names the same two products as the reference, AutoGPT and ChatGPT plug-ins. The quotation marks around \"plug-ins\" don't change the meaning."
+   },
+   "mixed": {
+    "score": 1,
+    "answer": "CHILDES: Reverse ordering, Zorro 77.6% (± 1.3)",
+    "confidence": "high",
+    "reason": "The candidate gives the same answer as the reference: reverse ordering, with a score of 77.6% (± 1.3). It also correctly names the dataset as CHILDES."
+   },
+   "speech": {
+    "score": 1,
+    "answer": "EMNLP, in Miami (last November)",
+    "confidence": "high",
+    "reason": "The candidate's answer is the same as the reference: EMNLP, in Miami, last November."
+   }
   }
  },
  "hF8swzNR1-o": {
@@ -716,6 +1020,44 @@
    "speech": {
     "score": 1,
     "reason": "The candidate answer, \"Up to 70% faster,\" is exactly the same as the reference answer."
+   }
+  },
+  "skill": {
+   "v1": {
+    "score": 1,
+    "answer": "WITH ME (John Summit & Julia Wolf)",
+    "confidence": "high",
+    "reason": "The candidate gives the same song and artists as the reference. The only difference is capitalization (\"WITH ME\" vs \"With Me\"), which doesn't change the answer."
+   },
+   "v2": {
+    "score": 1,
+    "answer": "cyberpetsgame.net",
+    "confidence": "high",
+    "reason": "The candidate's answer, cyberpetsgame.net, is exactly the same as the reference answer."
+   },
+   "v3": {
+    "score": 1,
+    "answer": "Cervantes Bank",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"Cervantes Bank\", is exactly the same as the reference answer."
+   },
+   "v4": {
+    "score": 1,
+    "answer": "Lydia",
+    "confidence": "high",
+    "reason": "The candidate's answer, Lydia, is the same name given in the reference answer."
+   },
+   "mixed": {
+    "score": 1,
+    "answer": "Daydream; first shirt (Rhone) is $138",
+    "confidence": "high",
+    "reason": "The candidate gets both parts right. The app is Daydream, and the first shirt result is the Rhone shirt at $138, which matches the reference."
+   },
+   "speech": {
+    "score": 1,
+    "answer": "Up to 70% faster (transcript ~10:43-11:09)",
+    "confidence": "high",
+    "reason": "The candidate says \"up to 70% faster,\" which is the same as the reference answer."
    }
   }
  },
@@ -797,6 +1139,44 @@
     "score": 1,
     "reason": "The candidate's answer, \"Almond\", is the same as the reference answer."
    }
+  },
+  "skill": {
+   "v1": {
+    "score": 1,
+    "answer": "MIT McGovern Institute (caption: Nancy Kanwisher, PhD)",
+    "confidence": "high",
+    "reason": "The candidate names the same institution as the reference, MIT McGovern Institute. The extra caption detail doesn't contradict it."
+   },
+   "v2": {
+    "score": 1,
+    "answer": "A model of a human brain on a white stand",
+    "confidence": "high",
+    "reason": "The candidate correctly says it's a model of a human brain, which matches the reference. The extra mention of a white stand doesn't change that."
+   },
+   "v3": {
+    "score": 0,
+    "answer": "YOU WILL CHOOSE NOT TO SIT HERE",
+    "confidence": "high",
+    "reason": "The reference says the card reads \"You will choose to sit here.\" The candidate answer adds \"NOT,\" which reverses the meaning, so it is wrong."
+   },
+   "v4": {
+    "score": 1,
+    "answer": "Saxophone",
+    "confidence": "high",
+    "reason": "The candidate answer, \"Saxophone,\" is the same as the reference answer."
+   },
+   "mixed": {
+    "score": 0,
+    "answer": "unknown",
+    "confidence": "low",
+    "reason": "The candidate said \"unknown,\" so it never named the shape. The reference answer is a square, which means the candidate's answer does not match."
+   },
+   "speech": {
+    "score": 1,
+    "answer": "Almond",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"Almond,\" is the same as the reference answer."
+   }
   }
  },
  "x-wqMcYMNdg": {
@@ -875,6 +1255,44 @@
    },
    "speech": {
     "score": 1,
+    "reason": "The candidate's answer, \"about nine million,\" is the same as the reference answer."
+   }
+  },
+  "skill": {
+   "v1": {
+    "score": 1,
+    "answer": "Breitbart",
+    "confidence": "high",
+    "reason": "The candidate's answer, Breitbart, is the same as the reference answer."
+   },
+   "v2": {
+    "score": 1,
+    "answer": "White wired earbuds (earphones)",
+    "confidence": "high",
+    "reason": "The candidate says white wired earbuds, which is the same as the reference answer."
+   },
+   "v3": {
+    "score": 1,
+    "answer": "Hires",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"Hires,\" is exactly the brand name given in the reference answer."
+   },
+   "v4": {
+    "score": 1,
+    "answer": "The Weekly Questions",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"The Weekly Questions\", is exactly the same as the reference answer."
+   },
+   "mixed": {
+    "score": 1,
+    "answer": "Brittany (Brittany Mamedevic per transcript spelling; Jon addresses her as Brittany ~1:23)",
+    "confidence": "high",
+    "reason": "The candidate names her as Brittany, which matches the reference. The small difference in how the surname is spelled doesn't matter."
+   },
+   "speech": {
+    "score": 1,
+    "answer": "About nine million",
+    "confidence": "high",
     "reason": "The candidate's answer, \"about nine million,\" is the same as the reference answer."
    }
   }
@@ -956,6 +1374,44 @@
    "speech": {
     "score": 1,
     "reason": "The candidate gives the same herb (basil) and the same reason (she hates cilantro) as the reference. The extra remark about flavor doesn't contradict anything."
+   }
+  },
+  "skill": {
+   "v1": {
+    "score": 1,
+    "answer": "8 (\"8 TURKEY LASAGNA\")",
+    "confidence": "high",
+    "reason": "The candidate's answer is 8 with the title \"8 TURKEY LASAGNA\", which is the same as the reference."
+   },
+   "v2": {
+    "score": 1,
+    "answer": "basics: roasted chicken",
+    "confidence": "high",
+    "reason": "The candidate's answer, \"basics: roasted chicken,\" is word-for-word the same as the reference answer."
+   },
+   "v3": {
+    "score": 1,
+    "answer": "Yellow",
+    "confidence": "high",
+    "reason": "The candidate says \"Yellow,\" which is the same as the reference answer."
+   },
+   "v4": {
+    "score": 1,
+    "answer": "Pyrex",
+    "confidence": "high",
+    "reason": "The candidate's answer, Pyrex, is the same as the reference answer."
+   },
+   "mixed": {
+    "score": 1,
+    "answer": "Green (green enameled pot with white/cream interior)",
+    "confidence": "high",
+    "reason": "The candidate says the pot is green and enameled, which matches the reference. The extra detail about the white/cream interior doesn't contradict anything."
+   },
+   "speech": {
+    "score": 1,
+    "answer": "Basil, because she personally hates cilantro (basil gives it great flavor) — transcript ~24:24-24:58",
+    "confidence": "high",
+    "reason": "The candidate gives the same herb as the reference (basil) and the same reason (she hates cilantro). The extra details it adds don't contradict the reference."
    }
   }
  }

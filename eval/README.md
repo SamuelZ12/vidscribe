@@ -22,7 +22,7 @@ Holdout clips must not be used to tune wording or code; run them once, after dev
 ## Files
 
 - `questions/<ID>.json`: 6 questions with reference answers: `v1`-`v4` visual-only (one per quarter of the video), `mixed` (speech + screen), `speech` (transcript only). Fields: `qid`, `time_s`, `visible_s` (span the answer is on screen), `question`, `answer`, `notes`. Give answer agents only `qid` and `question`.
-- `grades.json`: blind grades per clip, condition and question (`score` 1 / 0.5 / 0, `reason`). Conditions: `master` (frames as of 4438e45), `scene_b` (content-score scene choice, not shipped), `at` (master frames + `--at`). Totals /72: 37.5, 36.5, 69.
+- `grades.json`: blind grades per clip, condition and question (`score` 1 / 0.5 / 0, `reason`; `skill` also keeps `answer` and `confidence`). Conditions: `master` (frames as of 4438e45), `scene_b` (content-score scene choice, not shipped), `at` (master frames + `--at`), `skill` (current SKILL.md, "SKILL.md re-test" below). Totals /72: 37.5, 36.5, 69, 69.
 - `frames_only.sh SCRIPT SRT VIDEO OUTDIR`: runs the frame-selection heredoc of any vidscribe script on an existing srt, so frame code can be compared without transcribing again.
 - `sheet.py VIDEO OUT.jpg t1 t2 ...`: contact sheet of labelled 320 px frames (`uv run --with pillow eval/sheet.py ...`); used to write questions.
 
@@ -323,10 +323,12 @@ In your final message, state how many of the original frames you viewed out of h
 
 Every score above came from prompts that paraphrase `skill/SKILL.md` as of `55c8e8b`/`b103a4c`; `0434746` rewrote it. Condition `skill` gives answer agents the current SKILL.md instead, so the wording itself is what is tested ([#1](https://github.com/SamuelZ12/vidscribe/issues/1)).
 
-- Videos and transcripts rebuilt per "Rebuild" with master `c5fbe83` (`/tmp/vseval`). The main set's reference times were written on older downloads: before answering, every visual, mixed and hard question's `time_s` is checked on a contact sheet of the new download, and a question whose answer is no longer on screen there is dropped from both sides of the comparison.
+- Videos and transcripts rebuilt per "Rebuild" with master `c5fbe83` (`/tmp/vseval`). The main set's reference times were written on older downloads: before answering, every visual, mixed and hard question's `time_s` is checked on a full frame of the new download (one checker agent per video, searching ±60 s if needed), and a question whose answer is no longer on screen there is dropped from both sides of the comparison.
 - All 12 videos, both sets: 72 main questions (6 per agent) compared with `at` (69/72; that run had no `--scan`), 36 hard questions (3 per agent) compared with `scan` (36/36). One condition, so no folder labels; the grader is blind as before. Nothing is tuned: the prompt runs once, unchanged.
 - Folders `<ID>_main` and `<ID>_hard`: `transcript.srt`, `frames/` (the run's folder: `index.txt`, frames, `video.mp4`), `questions.json` (`qid` + `question`). Same grader. Leakage check per agent (paths outside its folder, `ffmpeg`).
 - **Pass bar (set before the run):** main ≥ 68/72 and hard ≥ 35/36, i.e. at most one point below the recorded scores. Below that, each miss is checked against the agent transcript (frame not viewed, moment not fetched, misread) to tell wording from noise; the result is recorded either way.
+
+Run 2026-11-05: no question dropped (all on screen; one slide a few seconds later, inside `visible_s`). Main 69/72 (passes), hard 33/36 (fails by 2; all 3 misses "unknown", "not found"). Most main agents skipped "view every frame"; see `docs/measurements.md`, "SKILL.md re-test". Hard-set `skill` misses carry `miss` as above; cost fields were not recorded (agents' self-counts proved approximate).
 
 Answer agent `skill` (`<SKILL>` = the body of `skill/SKILL.md` at `c5fbe83`, from `# vidscribe` to the end; `<N>` = 6 or 3). Compared with the prompts above, the skill replaces "Getting more frames", "Scanning ..." and the rules that repeat its steps (view every frame, fetch more); the eval's own rules (folder only, "unknown") and output stay:
 
