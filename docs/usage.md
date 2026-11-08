@@ -15,6 +15,16 @@ vidscribe -h | --help
 - Long media is transcribed to the end. Applause or music can show up as a short run of one repeated word ("oh, oh, oh"). `warning: transcript cut off in 00:12:03-00:12:09` means the model got stuck there (almost always such a loop): that stretch keeps only its first words, and the rest of the file is unaffected. A `WARNING: last cue ... < duration` line means the transcript ends before the media does: either the model stopped early or there is no speech near the end.
 - Old outputs in `/tmp/vidscribe` are pruned after 3 days.
 
+## Install
+
+Requirements: an Apple Silicon Mac (M1 or later; MLX doesn't run on Intel or Linux), `uv`, `ffmpeg` (with `ffprobe`), `yt-dlp`, [`mlx-audio`](https://github.com/Blaizzy/mlx-audio), and `python3` for frame selection (standard library only; the Xcode Command Line Tools one is enough).
+
+`install.sh` runs `brew install uv ffmpeg yt-dlp` and `uv tool install --force mlx-audio --prerelease=allow`, then symlinks `bin/vidscribe` into `~/.local/bin`. To install by hand, run those two commands and put `bin/vidscribe` anywhere on your `PATH`; the script finds `mlx_audio.stt.generate` on `PATH` and also adds `~/.local/bin` and `/opt/homebrew/bin` itself.
+
+Uninstall: `rm ~/.local/bin/vidscribe` and `uv tool uninstall mlx-audio`. The model stays in the Hugging Face cache (`~/.cache/huggingface`) until you delete it.
+
+Model licenses: `mlx-community/Qwen3-ASR-1.7B-8bit` (default) is converted from [`Qwen/Qwen3-ASR-1.7B`](https://huggingface.co/Qwen/Qwen3-ASR-1.7B), Apache 2.0. `mlx-community/whisper-large-v3-turbo-asr-fp16` is converted from OpenAI's [`whisper-large-v3-turbo`](https://huggingface.co/openai/whisper-large-v3-turbo), MIT (the original's; the MLX copy states none). `ffmpeg` and `yt-dlp` come under their own licenses.
+
 ## Frames on demand (`--at`)
 
 The frames folder also holds `video.<ext>`: the downloaded video for URLs, a symlink to the original for local files. `vidscribe <frames-dir> --at 494,8:14,7:50-8:50` pulls more frames from it without transcribing again: one per time, 4 evenly spaced inside each range (seconds, `M:SS` or `H:MM:SS`, fractions with a dot). Frames are saved as `at_<mm>m<ss.s>s.jpg` in the same folder and each prints as `mm:ss.s<TAB>path`; `index.txt` is left as is. `--at` takes no other flags, and fails once the folder has been pruned: re-run on the source.

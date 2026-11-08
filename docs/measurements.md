@@ -383,3 +383,10 @@ By kind (`transcript` → `frames` → `at` → `scan`):
 - **Cost per video** (from files on disk): long videos `at` 16 extra frames, `scan` 17 frames + 0.25 sheets; hard set `at` 37 frames (441 in total, against 263 in the first hard run), `scan` 16 frames + 9 sheets; clips `at` 7, `scan` 6 frames. Agents viewed every original frame in 69 of 72 `frames`, `at` and `scan` folders on the long sets and 33 of 36 on clips.
 - **One clip question was missed by every condition** (`Gjnup-PuquQ` q3: the reference is "AWS and Google Cloud" shown while the speaker says base images are pulled from the cloud; the time check confirmed it on screen at 1:07). It may be too brief or too small to read; worth a look before this set is reused.
 - No agent touched a path outside its folder or ran `ffmpeg`.
+
+README headline: the three rows summed, 156 questions on 21 videos (3 clips are also long videos, with different questions): 25.5, 78.5, 146, 151.5. Caveats that come with it:
+
+- The 36 hard questions were kept only if a transcript-only agent failed them, so their 0 is by construction and pulls the first column down.
+- The `--scan` gain is optimistic: its design was tuned on the 5 questions `--at` missed, and a 4-video holdout scored 12/12 with and without it ([#2](https://github.com/SamuelZ12/vidscribe/issues/2)).
+- These agents got eval prompts that also required viewing every frame and fetching more. Given only `skill/SKILL.md`, agents scored 69/72 on the long set but 33-34/36 on the hard set across four runs and three wordings (searches stopped sooner; see "SKILL.md re-test").
+- Outside evidence: [Omni2Web](https://arxiv.org/html/2609.23417) saw a similar frames jump on its instruction-recovery track (Gemini 3.5 Flash on screen-recorded web edits: transcript only 18.2, silent video + transcript 38.1). On sound, [SleuthVLM](https://arxiv.org/abs/2611.06083)'s audio-captioning tool added 9.8 points on 448 music questions, which vidscribe doesn't cover.
