@@ -354,3 +354,32 @@ A "Done when" for step 5 (answer from a full frame you viewed, or every plausibl
 
 - **Not fixable by wording, as far as these runs show.** Four SKILL.md-only runs scored 33, 34, 34, 34; the eval prompt scored 36 once. The misses are spread over 8 questions, none missed by more than 2 of the 4 runs: a gap of 2 or so in 36, from searches that stop early and small-text misreads, not a step agents reliably skip.
 - Closes [#8](https://github.com/SamuelZ12/vidscribe/issues/8). The scan holdout was not run: it was only needed to confirm a gain.
+
+## Table re-run: every condition on every set
+
+2026-11-08, master `c6aa0a6` (`bin/vidscribe` unchanged since `c5fbe83`). The README table had gaps and mixed runs: the clip row came from 2026-11-04 at `fbddc2b`, the long-video row from downloads since deleted, the hard row from `b3fa881`, and each row measured only the conditions that existed at the time. This run puts all four conditions on all three sets with the same downloads, code, prompts and blind grader, so each row is one run. The 12 long videos reuse the `c5fbe83` rebuild from the SKILL.md re-test (its time check covers the main and hard sets). The 48 clip questions, never committed, were recovered verbatim from the question writers' session logs into `eval/clips/`; the 9 short clips were downloaded and transcribed again, and every visual and mixed answer was still on screen at its time, so nothing was dropped. One fresh agent per clip, set and condition (192), blind folder labels. Method, prompts and deviations in `eval/README.md`, "Table re-run"; grades in `eval/table/grades.json`.
+
+| Set | `transcript` | `frames` | `at` | `scan` |
+|---|---|---|---|---|
+| Clips, 2-111 min, 48 questions | 13 (was 13) | 34 (was 33) | 47 | 47 |
+| Long videos, 39-111 min, 72 questions anchored on speech | 12.5 | 35.5 (was 37.5) | 68 (was 69) | 69.5 |
+| Same videos, 36 questions on moments the speech never names | 0 (was 0, forced guess) | 9 (was 11) | 31 (was 31) | 35 (was 36) |
+
+By kind (`transcript` → `frames` → `at` → `scan`):
+
+| Set | Kind | Questions | Scores |
+|---|---|---|---|
+| Clips | visual | 24 | 1 → 16 → 24 → 24 |
+| Clips | mixed | 12 | 0 → 6 → 11 → 11 |
+| Clips | speech | 12 | 12 → 12 → 12 → 12 |
+| Long | visual | 48 | 0 → 18 → 46 → 47 |
+| Long | mixed | 12 | 0.5 → 5.5 → 10 → 10.5 |
+| Long | speech | 12 | 12 → 12 → 12 → 12 |
+
+- **The recorded numbers hold.** Every cell measured before lands within 2 of its old value, about the run-to-run noise seen before (±1 per 12 questions). Nothing in the README's story changes.
+- **Transcript only gets the speech questions and almost nothing else.** 12/12 speech on both sets; on the 96 visual and mixed questions it scored 1.5 in total (it inferred a deleted import from what was said; it named an app but not the price on screen). The hard set's 0 now holds under the same "unknown allowed" rules as the other rows, not just the forced-guess check.
+- **Frames alone nearly triple it**: 13 → 34 on clips, 12.5 → 35.5 on long videos. `--at` closes most of the rest (47/48, 68/72), and on speech-anchored questions `--scan` adds almost nothing (47, 69.5), as expected: those questions name their moment in speech, which `--at` already reaches.
+- **On moments the speech never names, `--scan` matters**: `at` 31 → `scan` 35. The one `scan` miss is `yQ6VOOd73MA` h3, one of the 5 questions the scan probe was tuned on.
+- **Cost per video** (from files on disk): long videos `at` 16 extra frames, `scan` 17 frames + 0.25 sheets; hard set `at` 37 frames (441 in total, against 263 in the first hard run), `scan` 16 frames + 9 sheets; clips `at` 7, `scan` 6 frames. Agents viewed every original frame in 69 of 72 `frames`, `at` and `scan` folders on the long sets and 33 of 36 on clips.
+- **One clip question was missed by every condition** (`Gjnup-PuquQ` q3: the reference is "AWS and Google Cloud" shown while the speaker says base images are pulled from the cloud; the time check confirmed it on screen at 1:07). It may be too brief or too small to read; worth a look before this set is reused.
+- No agent touched a path outside its folder or ran `ffmpeg`.

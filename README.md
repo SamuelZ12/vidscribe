@@ -6,15 +6,15 @@ Transcription runs on-device with [MLX](https://github.com/ml-explore/mlx). No A
 
 ## Does it help?
 
-Agents answered questions about videos and a blind grader scored them against reference answers (method and per-video results in [`docs/measurements.md`](docs/measurements.md); questions, grades and scripts in [`eval/`](eval/), videos rebuildable from their YouTube IDs):
+Agents answered questions about videos and a blind grader scored them against reference answers. Each column adds one tool to the one before; each row is one run with all four conditions, re-run together on 2026-11-08 (method and per-video results in [`docs/measurements.md`](docs/measurements.md#table-re-run-every-condition-on-every-set); questions, grades and scripts in [`eval/`](eval/), videos rebuildable from their YouTube IDs):
 
 | Test | Transcript only | + frames | + `--at` | + `--scan` |
 |---|---|---|---|---|
-| 12 clips, 2-111 min, 48 questions | 13 | 33 | | |
-| 12 long videos, 39-111 min, 72 questions anchored on speech | | 37.5 | 69 | |
-| Same 12 videos, 36 questions on moments the speech never names | | 11 | 31 | 36 |
+| 12 clips, 2-111 min | 13/48 | 34/48 | 47/48 | 47/48 |
+| 12 long videos, 39-111 min, questions anchored on speech | 12.5/72 | 35.5/72 | 68/72 | 69.5/72 |
+| Same 12 videos, moments the speech never names | 0/36 | 9/36 | 31/36 | 35/36 |
 
-Frames more than double what an agent gets right; [Omni2Web](https://arxiv.org/html/2609.23417) saw a similar jump on its instruction-recovery track (Gemini 3.5 Flash on screen-recorded web edits: transcript only 18.2, silent video + transcript 38.1). Caveats: the last row's questions were kept only if a transcript-only agent failed them; the `--scan` gain is optimistic (tuned on the 5 questions `--at` missed; a 4-video holdout scored 12/12 with and without it, [#2](https://github.com/SamuelZ12/vidscribe/issues/2)); the table's agents got eval prompts that also required viewing every frame and fetching more. Given only `skill/SKILL.md`, agents matched the second row (69/72) but scored 33-34/36 on the last across four runs and three wordings (searches stopped sooner; [measurements](docs/measurements.md#skillmd-re-test)).
+A transcript alone answers the speech questions and almost nothing else. Frames nearly triple what an agent gets right; [Omni2Web](https://arxiv.org/html/2609.23417) saw a similar jump on its instruction-recovery track (Gemini 3.5 Flash on screen-recorded web edits: transcript only 18.2, silent video + transcript 38.1). `--at` gets most of the rest; `--scan` only matters when nothing in the speech points to the moment. Caveats: the last row's questions were kept only if a transcript-only agent failed them, so its 0 is by construction; the `--scan` gain is optimistic (tuned on the 5 questions `--at` missed; a 4-video holdout scored 12/12 with and without it, [#2](https://github.com/SamuelZ12/vidscribe/issues/2)); the table's agents got eval prompts that also required viewing every frame and fetching more. Given only `skill/SKILL.md`, agents scored 69/72 on the second row but 33-34/36 on the last across four runs and three wordings (searches stopped sooner; [measurements](docs/measurements.md#skillmd-re-test)).
 
 ## Requirements
 

@@ -409,3 +409,11 @@ You are testing how well an AI agent can answer questions about a video using on
 # Output
 Write /tmp/vstable/ans/<FOLDER>/answers.json: a JSON list of {"qid", "question", "answer", "frame": null, "confidence": "high"|"low"}.
 ```
+
+Run 2026-11-08: `clips` 13 / 34 / 47 / 47 of 48, `main` 12.5 / 35.5 / 68 / 69.5 of 72, `hard` 0 / 9 / 31 / 35 of 36 (`transcript` / `frames` / `at` / `scan`; `docs/measurements.md`, "Table re-run"). All 48 clip questions passed the time check, so no denominator changed (`table/time_check.json`). Files: `table/grades.json` (set → clip → condition → qid: `score`, `answer`, `confidence`, `reason`), `table/labels.json`, `table/cost.json` (per agent: `orig` frames and `orig_viewed`, `at_files`/`at_viewed`, `scan_files`/`sheets_viewed`, counted from files on disk and the agents' `read` calls).
+
+Deviations from the plan above, none touching prompts' rules or the grader:
+- The `frames`, `at` and `scan` prompts say "the frames (N)" with the folder's real count instead of "(about 40)", since the short clips have 10-39.
+- The first launch used a pool that reuses one agent for several folders; it was cancelled after ~10 s (one `answers.json`, some `--at` frames), every folder was rebuilt, and all 192 agents then ran fresh, one folder each.
+- Waves were not mixed across sets: `main` and `hard` (96 agents) ran first while the 9 clips downloaded, then `clips` in three waves as their time checks passed.
+- No agent touched a path outside its folder or ran `ffmpeg`. Seven cropped or tiled their own frames with `sips` or PIL (the rules cover the video, not frames); one wrote its crops to `/tmp` (`hard` `x-wqMcYMNdg` `at`, deleted after the run).
