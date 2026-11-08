@@ -52,4 +52,4 @@ Design decisions: [docs/decisions/](docs/decisions/).
 
 ## License
 
-MIT. Model weights download from Hugging Face under their own licenses: Qwen3-ASR is Apache 2.0, Whisper is MIT.
+MIT. The models, ffmpeg and yt-dlp come under their own licenses: [docs/usage.md](docs/usage.md#licenses).

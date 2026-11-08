@@ -23,8 +23,6 @@ Requirements: an Apple Silicon Mac (M1 or later; MLX doesn't run on Intel or Lin
 
 Uninstall: `rm ~/.local/bin/vidscribe` and `uv tool uninstall mlx-audio`. The model stays in the Hugging Face cache (`~/.cache/huggingface`) until you delete it.
 
-Model licenses: `mlx-community/Qwen3-ASR-1.7B-8bit` (default) is converted from [`Qwen/Qwen3-ASR-1.7B`](https://huggingface.co/Qwen/Qwen3-ASR-1.7B), Apache 2.0. `mlx-community/whisper-large-v3-turbo-asr-fp16` is converted from OpenAI's [`whisper-large-v3-turbo`](https://huggingface.co/openai/whisper-large-v3-turbo), MIT (the original's; the MLX copy states none). `ffmpeg` and `yt-dlp` come under their own licenses.
-
 ## Frames on demand (`--at`)
 
 The frames folder also holds `video.<ext>`: the downloaded video for URLs, a symlink to the original for local files. `vidscribe <frames-dir> --at 494,8:14,7:50-8:50` pulls more frames from it without transcribing again: one per time, 4 evenly spaced inside each range (seconds, `M:SS` or `H:MM:SS`, fractions with a dot). Frames are saved as `at_<mm>m<ss.s>s.jpg` in the same folder and each prints as `mm:ss.s<TAB>path`; `index.txt` is left as is. `--at` takes no other flags, and fails once the folder has been pruned: re-run on the source.
@@ -38,3 +36,7 @@ The frames folder also holds `video.<ext>`: the downloaded video for URLs, a sym
 - `VIDSCRIBE_MODEL`: default model (same as `-m`).
 - `VIDSCRIBE_OUTDIR`: transcript folder (same as `-o`).
 - `VIDSCRIBE_FRAMES_DIR`: frames root instead of `/tmp/vidscribe/frames`.
+
+## Licenses
+
+`mlx-community/Qwen3-ASR-1.7B-8bit` (default) is converted from [`Qwen/Qwen3-ASR-1.7B`](https://huggingface.co/Qwen/Qwen3-ASR-1.7B), Apache 2.0. `mlx-community/whisper-large-v3-turbo-asr-fp16` is converted from OpenAI's [`whisper-large-v3-turbo`](https://huggingface.co/openai/whisper-large-v3-turbo), MIT (the original's; the MLX copy states none). `ffmpeg` and `yt-dlp` come under their own licenses.

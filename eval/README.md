@@ -44,27 +44,7 @@ Answer agents ran as generic `task` subagents with the context below and the tas
 
 ### Answer agent: master / scene_b
 
-```
-# Goal
-Build an evaluation set for a tool that gives AI agents a video's transcript plus a limited set of still frames. You write the questions and reference answers for ONE video. You will never see the tool's frames; you get a dense, evenly spaced set of frames instead.
-
-# Inputs (per video ID)
-- Dense contact sheets: /tmp/vseval2/q/<ID>/sheet_*.jpg. Each tile is labeled `#k m:ss.s` (video time). Frames are evenly spaced (every ~20-60 s). View EVERY sheet (use the read tool on each jpg).
-- Transcript with timestamps: /tmp/vseval2/master/tr/<ID>.srt (cues are ~30 s chunks).
-- The video itself: /tmp/vseval2/src/<ID>.mp4. You MAY extract extra frames to check details: `ffmpeg -nostdin -loglevel error -y -ss <seconds> -i /tmp/vseval2/src/<ID>.mp4 -frames:v 1 -vf scale=-2:720 /tmp/vseval2/q/<ID>/check_<seconds>.jpg` then read it. Delete your check_*.jpg files when done.
-
-# Questions to write: exactly 6
-- v1..v4: VISUAL-ONLY. The answer is visible on screen and is NOT said in the transcript near that moment (check the transcript). One question from each quarter of the video (v1 from 0-25%, v2 25-50%, v3 50-75%, v4 75-100% of duration). Ask about whatever a viewer might plausibly want to know about what is shown at that point: on-screen text, numbers on a slide or chart, a UI or code detail, an object, product, setting, what someone wears or holds, etc. Vary the kinds; do not make them all about slides. The visual must be on screen for at least ~3 seconds.
-- mixed: needs BOTH what is said and what is shown (e.g. "When the speaker says X, what is shown on screen?").
-- speech: answerable from the transcript alone.
-- Each question names its moment only through speech or context the answering agent can find (e.g. "When the speaker introduces Y, ..."). Do NOT put timestamps in the question text.
-- Answers: short, unambiguous, checkable (a word, number, short phrase). Avoid questions whose answer could be guessed from general knowledge or from the title.
-
-# Output
-Write /tmp/vseval2/q/<ID>/questions.json: a JSON list of 6 objects:
-{"qid": "v1"|"v2"|"v3"|"v4"|"mixed"|"speech", "time_s": <video second where the answer is visible/said>, "visible_s": [<start>, <end>] (approximate span in seconds the visual answer stays on screen; for speech use the cue span), "question": "...", "answer": "...", "notes": "why it is visual-only / how you verified"}
-Do not modify anything else under /tmp/vseval2.
-```
+Lost when the eval was recovered from session logs. The hard set's `frames` prompt ("Hard set", "Prompts") reconstructs it: the `at` prompt below minus "Getting more frames" and the `--at` rule.
 
 ### Answer agent: `at`
 
@@ -165,7 +145,7 @@ Full set: of the 30 first-round questions on the other 10 videos, 2 failed check
 - Conditions, blind folder labels as above:
   - `frames`: the master frame folder (`index.txt` + up to 40 frames), no `--at`.
   - `at`: the same plus `vidscribe <frames-dir> --at`.
-- Answer prompts: `at` as above with the question count changed. The original `master` answer prompt was lost in recovery (the section above holds the question-writer prompt by mistake); `frames` uses the `at` prompt minus "Getting more frames" and the `--at` rule, and is recorded here as a reconstruction.
+- Answer prompts: `at` as above with the question count changed. `frames` uses the `at` prompt minus "Getting more frames" and the `--at` rule, a reconstruction of the lost `master` prompt.
 - Dev clips first, then holdout once. Same grader. Leakage check per agent (paths outside its folder, `ffmpeg`).
 - Per miss, record whether any frame the agent viewed (the 40 or `--at`) falls inside `anchor_s`: **not found** if none did, **misread** otherwise.
 - Results go in `eval/hard/grades.json` and `docs/measurements.md`.
