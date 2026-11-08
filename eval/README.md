@@ -380,3 +380,32 @@ Row 4's next step. SKILL.md step 5 gains a "Done when": the answer comes from a 
 - **Bar (set before the run):** ≥ 35/36 keeps the wording, and the 4-video scan holdout is next (it needs downloads and ~1 h of transcription, so it waits for approval). Below 35, step 5 goes back to the `c5fbe83` wording and #8 is recorded as not fixed by wording.
 
 Run 2026-11-05: 34/36, below the bar; step 5 reverted. Misses: `hF8swzNR1-o` h1 (not found after 8 sheets; also missed by `skill_2`), `xAcTmDO6NTI` h1 (misread: "6.5061" for "6.S061" on a viewed `--at` frame). Sheets viewed 68 (`skill_2` 65), 8 of 12 agents viewed every frame.
+
+## Table re-run (`table`)
+
+The README table mixed runs: each row measured only some conditions, on different downloads and code (clips 2026-11-04 at `fbddc2b`, main set on downloads since deleted, hard set at `b3fa881`). This run fills every cell in one go so each row is one run: same downloads, same code, same prompts, same grader.
+
+- Code: master `c6aa0a6`; `bin/vidscribe` is unchanged since `c5fbe83`, so the `/tmp/vseval` rebuild (videos, `tr/`, `frames/`) is master output and is reused for the 12 long videos.
+- Sets: `clips` (12 clips, 48 questions, `clips/questions/<ID>.json`), `main` (72), `hard` (36). The clip questions were never committed; they were recovered verbatim from the 2026-11-04 question writers' session logs (fields `qid`, `kind`, `question`, `answer`, `time`). Three clips (`LCEmiRjPEtQ`, `Unzc731iCUY`, `wYSncx9zLIU`) are also in the long set and reuse its download; the other 9 are downloaded and transcribed fresh per "Rebuild" into `/tmp/vstable`.
+- Time check (clips only; the main and hard sets were checked on these downloads in the `skill` re-test): one checker agent per clip confirms each visual and mixed answer on a full frame of the new download (±60 s of `time`). A question whose answer is no longer on screen is dropped from every condition and the denominator shown.
+- Conditions, all four on every set: `transcript` (`transcript.srt` + `questions.json` only), `frames` (+ `frames/` without `video.mp4`), `at`, `scan`. Prompts: `frames`, `at` and `scan` as above with `/tmp/vseval` → `/tmp/vstable` and the set's question count; `transcript` below. All allow "unknown"; the hard set's earlier 0/36 was the forced-guess validation check, so it is re-measured here under the same rules as the other rows.
+- Folders `/tmp/vstable/ans/<set>_<ID>_<label>`, labels `a`-`d` assigned at random per clip and set, map kept outside the folders and committed as `table/labels.json` after grading. Agents run in waves of up to 32 mixing sets and conditions. Same grader. Leakage check per agent (paths outside its folder, `ffmpeg`).
+- **Reporting rule (set before the run):** every README cell is replaced by this run's number, whatever it is, and the README prose is rewritten to match. Earlier runs stay in `docs/measurements.md`. No design decision depends on the result.
+
+Answer agent `transcript`:
+
+```
+# Goal
+You are testing how well an AI agent can answer questions about a video using only its transcript. Answer honestly from your folder; a wrong guess is worse than "unknown".
+
+# Your folder: /tmp/vstable/ans/<FOLDER>/
+- transcript.srt: the full timestamped transcript.
+- questions.json: <N> questions.
+
+# Rules
+- Use ONLY the files inside your folder. Do not open anything else under /tmp/vstable or /tmp/vseval, do not search the web, do not open any video or image.
+- Answer each question. If the transcript does not give the answer, answer exactly "unknown". Do not guess from general knowledge.
+
+# Output
+Write /tmp/vstable/ans/<FOLDER>/answers.json: a JSON list of {"qid", "question", "answer", "frame": null, "confidence": "high"|"low"}.
+```

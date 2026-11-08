@@ -1,0 +1,34 @@
+{
+ "id": "wpGI6BmhbJU",
+ "summary": "Official Figma tutorial walking through Figma Motion: the timeline, pre-built animations, keyframes and auto keyframe, easing curves, the Figma agent, and handing animations off to developers via Dev Mode and export.",
+ "questions": [
+  {
+   "qid": "q1",
+   "kind": "visual",
+   "question": "In the opening example animation of a phone screen, what headline text is displayed in large letters at the top of the screen?",
+   "answer": "Goal Reached",
+   "time": "00:03"
+  },
+  {
+   "qid": "q2",
+   "kind": "visual",
+   "question": "In the form-input example used for the Figma agent and Dev Mode sections, what text is typed in the Email field?",
+   "answer": "iluvmotion@figma",
+   "time": "06:35"
+  },
+  {
+   "qid": "q3",
+   "kind": "mixed",
+   "question": "When the speaker adds the opacity animation and sets it to fade in over 1,000 milliseconds, what easing option is shown selected in that animation's settings panel?",
+   "answer": "Ease out",
+   "time": "01:47"
+  },
+  {
+   "qid": "q4",
+   "kind": "speech",
+   "question": "After adding the second rotation keyframe at the 1,000 millisecond mark, what rotation value does the speaker set?",
+   "answer": "180 (degrees)",
+   "time": "03:42"
+  }
+ ]
+}

@@ -1,0 +1,34 @@
+{
+ "id": "Gjnup-PuquQ",
+ "summary": "Fireship's 'Docker in 100 Seconds' explains containers versus virtual machines and walks through a sample Dockerfile, docker build, and docker run.",
+ "questions": [
+  {
+   "qid": "q1",
+   "kind": "visual",
+   "question": "In the example Dockerfile shown in the editor, what environment variable and value does the ENV line set?",
+   "answer": "PORT=8080",
+   "time": "01:27"
+  },
+  {
+   "qid": "q2",
+   "kind": "visual",
+   "question": "What image name/tag is used in the docker build and docker run commands shown on screen?",
+   "answer": "myapp",
+   "time": "01:40"
+  },
+  {
+   "qid": "q3",
+   "kind": "mixed",
+   "question": "When the speaker says base images are pulled from the cloud and you can upload your own images to Docker registries, which two cloud provider logos are shown?",
+   "answer": "AWS and Google Cloud",
+   "time": "01:07"
+  },
+  {
+   "qid": "q4",
+   "kind": "speech",
+   "question": "What does the speaker compare the Dockerfile to?",
+   "answer": "DNA",
+   "time": "00:55"
+  }
+ ]
+}

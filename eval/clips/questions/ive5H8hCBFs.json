@@ -1,0 +1,34 @@
+{
+ "id": "ive5H8hCBFs",
+ "summary": "A Mandarin-speaking woman living in Germany vlogs a grocery trip: she returns deposit bottles, shops at LIDL for coconut-chicken ingredients while quoting prices, buys snacks at DM, then reviews her purchases and receipts at home.",
+ "questions": [
+  {
+   "qid": "q1",
+   "kind": "visual",
+   "question": "What colour/pattern is the tote bag she puts the empty bottles into before leaving home?",
+   "answer": "Red and white stripes",
+   "time": "01:27"
+  },
+  {
+   "qid": "q2",
+   "kind": "visual",
+   "question": "What cheese variety name is printed in large letters on the green pack of sliced cheese she picks up at the supermarket?",
+   "answer": "Tilsiter",
+   "time": "04:22"
+  },
+  {
+   "qid": "q3",
+   "kind": "mixed",
+   "question": "At DM she says she takes a pack of 'biscuits' (饼干). What product is actually shown in her hand?",
+   "answer": "Spelt mini pretzels (dm Bio 'Dinkel Mini Brezeln')",
+   "time": "06:02"
+  },
+  {
+   "qid": "q4",
+   "kind": "speech",
+   "question": "What price does she say the broccoli costs?",
+   "answer": "1.19 euros",
+   "time": "02:52"
+  }
+ ]
+}

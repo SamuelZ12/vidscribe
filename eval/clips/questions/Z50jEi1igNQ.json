@@ -1,0 +1,34 @@
+{
+ "id": "Z50jEi1igNQ",
+ "summary": "DaveHax demonstrates a density experiment, layering syrup, coloured water and oil in a glass and dropping in objects (metal nut, grape, plastic bottle top, sponge) to see where each settles.",
+ "questions": [
+  {
+   "qid": "q1",
+   "kind": "visual",
+   "question": "What type of oil is named on the label of the bottle poured into the glass?",
+   "answer": "Sunflower oil",
+   "time": "00:22"
+  },
+  {
+   "qid": "q2",
+   "kind": "visual",
+   "question": "In the end screen, which video title is listed at the top of the list on the right?",
+   "answer": "Make A Coin Battery",
+   "time": "01:30"
+  },
+  {
+   "qid": "q3",
+   "kind": "mixed",
+   "question": "What colour is the piece of sponge the speaker drops into the glass at the end?",
+   "answer": "Green",
+   "time": "01:07"
+  },
+  {
+   "qid": "q4",
+   "kind": "speech",
+   "question": "How long does the speaker say to leave the glass to settle after adding the oil?",
+   "answer": "About 15 minutes",
+   "time": "00:24"
+  }
+ ]
+}
