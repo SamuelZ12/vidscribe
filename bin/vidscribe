@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # vidscribe: local multilingual speech-to-text (Qwen3-ASR 1.7B via mlx-audio).
 # Usage: vidscribe <file-or-URL> [-o OUTDIR] [-l LANG] [-f txt|srt|vtt|json] [-c "hotwords"] [-m MODEL] [-v [N] | -a]
-#        vidscribe <frames-dir> --at TIMES | --scan RANGES: from a previous run's video, frames (--at 494,8:14,7:50-8:50; a range gives 4) or 4x4 contact sheets (--scan 50:00-60:00 or all).
+#        vidscribe <frames-dir> --at TIMES | --scan RANGES: from a previous run's video, frames (--at 494,8:14,7:50-8:50,10:00-20:00/12; a range gives 4 frames, A-B/N gives N) or 4x4 contact sheets (--scan 50:00-60:00 or all).
 # URLs (X, YouTube, etc.) are fetched with yt-dlp. Prints the transcript path; text to stdout for txt.
 # Frames are on by default when the input has a video stream (-f txt|srt). -a/--audio-only: transcript only.
 # -v [N]: force frames, N evenly spaced (default 8) plus a frame at every cue with an on-screen reference
@@ -80,12 +80,12 @@ PY
 # or contact sheets to find moments the transcript gives no lead to (--scan)
 if [[ "${2:-}" == "--at" || "${2:-}" == "--scan" ]]; then
   MODE="${2#--}"
-  (( $# == 3 )) || { echo "usage: vidscribe <frames-dir> --at TIMES | --scan RANGES (e.g. --at 494,8:14,7:50-8:50; --scan 50:00-60:00 or all; no other flags)" >&2; exit 1; }
+  (( $# == 3 )) || { echo "usage: vidscribe <frames-dir> --at TIMES | --scan RANGES (e.g. --at 494,8:14,7:50-8:50,10:00-20:00/12; --scan 50:00-60:00 or all; no other flags)" >&2; exit 1; }
   D="${1%/}"; VID=""
   for f in "$D"/video.*; do [[ -e "$f" ]] && VID="$f"; break; done
   [[ -n "$VID" ]] || { echo "no video in $D (folders are pruned after 3 days; local originals may have moved): re-run vidscribe on the source" >&2; exit 1; }
   DUR="$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "$VID")"
-  # --at: one line per frame: seconds, mm:ss.s, file name; a range A-B gets 4 frames evenly spaced inside it
+  # --at: one line per frame: seconds, mm:ss.s, file name; a range A-B gets 4 frames evenly spaced inside it, A-B/N gets N
   # --scan: one line per range: start and end seconds
   TS="$(awk -v at="$3" -v d="${DUR:-0}" -v mode="$MODE" '
     function sec(s,  p, n, i, t) { n = split(s, p, ":"); t = 0; for (i = 1; i <= n; i++) t = t*60 + p[i]; return t }
@@ -101,14 +101,18 @@ if [[ "${2:-}" == "--at" || "${2:-}" == "--scan" ]]; then
       for (i = 1; i <= n; i++) {
         x = it[i]; gsub(/ /, "", x)
         if (i > 1 && x ~ /^[0-9][0-9][0-9]$/ && p ~ /^[0-9]+:[0-9]+:[0-9]+$/) die("\"" p "," x "\" looks like an srt time: use a dot (" p "." x ")")
-        p = x
+        p = x; c = ""  # frames in a range: N from A-B/N (--at only), else 4
+        if (mode == "at" && x ~ /\/[0-9]+$/) { c = x; sub(/.*\//, "", c); sub(/\/[0-9]+$/, "", x) }
         if (x !~ ("^" T "(-" T ")?$")) die("bad time \"" it[i] "\" (use " (mode == "scan" ? "7:50-8:50, 3000-3600 or all" : "494, 8:14, 1:02:05 or 7:50-8:50") ")")
         k = split(x, r, "-"); a = sec(r[1]); b = (k == 2) ? sec(r[2]) : a
+        if (c != "" && k == 1) die("\"" it[i] "\" is a single time: a count needs a range")
+        if (c != "" && (c + 0 < 1 || c + 0 > 40)) die("count in \"" it[i] "\" must be 1-40")
+        if (c == "") c = 4
         if (mode == "scan" && k == 1) die("\"" it[i] "\" is a single time: --scan takes ranges or all (use --at for single times)")
         if (b > d || (b == d && mode == "at")) die(it[i] " is past the end of the video (" int(d) " s)")
         if (k == 2 && b <= a) die("range " it[i] " ends before it starts")
         if (mode == "scan") printf "%.3f\t%.3f\n", a, b
-        else if (k == 1) out(a); else for (j = 0; j < 4; j++) out(a + (b-a)*(j+0.5)/4)
+        else if (k == 1) out(a); else for (j = 0; j < c; j++) out(a + (b-a)*(j+0.5)/c)
       }
     }')"
   if [[ "$MODE" == "scan" ]]; then
