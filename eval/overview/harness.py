@@ -121,7 +121,8 @@ def run_agent(name, folder, text, bindir=None, timeout=3600, logdir=None):
     os.makedirs(logdir, exist_ok=True)
     env = dict(os.environ)
     # This did not take effect in the 2026-11-15 run: Codex runs commands as `/bin/zsh -lc`, and the login shell
-    # puts ~/.local/bin (the installed vidscribe) ahead of bindir. See eval/README.md, "Overview sheets".
+    # puts ~/.local/bin (the installed vidscribe) ahead of bindir. The re-check set ZDOTDIR to an empty folder,
+    # which keeps bindir first. See eval/README.md, "Overview sheets".
     if bindir: env['PATH'] = f'{bindir}:{env["PATH"]}'
     cmd = ['codex', 'exec', '--ignore-user-config', '-m', MODEL, '-c', f'model_reasoning_effort="{EFFORT}"',
            '-s', 'workspace-write', '-C', folder, '--skip-git-repo-check', '--json', '--color', 'never',

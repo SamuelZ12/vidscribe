@@ -27,7 +27,7 @@ The choice of default frames is not what answers questions. In the [table re-run
 
 ## Consequences
 - [Eval](../measurements.md#overview-sheets-against-the-current-default-frames), sheets against master's frames, both with `--at` and `--scan` and only `skill/SKILL.md` as instructions: clips 46.5 vs 47.5 of 48, long videos 70 vs 71 of 72, hard questions 36 vs 33 of 36. Every bar set before the run is met. It is one run, so differences of this size are noise, and its agents were Codex, not the Claude agents of the earlier tests.
-- `--at A-B/N` rests on smoke cases alone. The eval's agents ran master's `--at` by mistake, so the 6 calls that gave a count failed; how agents use a working count is unmeasured.
+- `--at A-B/N` rests on smoke cases and a small re-check. The eval's agents ran master's `--at` by mistake, so the 6 calls that gave a count failed. Re-run with the branch script, those six agents gave counts for 12 ranges and all worked; what the count does to scores is unmeasured.
 - Agents viewed 10-21 images per video where they viewed 34-55. No answer was read off a sheet: 131 of 132 on-screen answers cite a full-size frame the agent fetched, and the other is "unknown".
 - A tile is 318x178, too small to read text from, so every on-screen detail now costs an `--at` call. Both answers lost in the eval were ones a default full-size frame happened to show.
 - Past 16 minutes the tiles are more than 10 s apart (one per 75 s on a 2-hour video); `--scan` covers a chosen stretch at 10 s or closer.
