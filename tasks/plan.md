@@ -97,7 +97,7 @@ Read the `writing-for-agents` skill first. Rewrite steps 3-5 and the `-v N` refe
 - One reviewer subagent reads the branch diff against `SPEC.md`; each accepted finding is fixed in its own commit and the affected cases re-run.
 - **Autonomous run stops here** and reports. `SKILL.md` and the bars are frozen from this commit.
 
-### Task 7: Eval (needs its own approval: downloads, 84 answer agents, grading)
+### Task 7: Eval (needs its own approval: downloads, 108 answer agents through the Codex CLI, grading)
 
 Per `SPEC.md`, Testing Strategy, "Eval". The request for approval states what must be downloaded and transcribed again, the number of agent runs and the expected time.
 

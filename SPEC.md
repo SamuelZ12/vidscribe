@@ -140,19 +140,19 @@ If two runs of `master` on the same file give different transcripts, S9 and S10 
 **Eval** (needs approval before it starts; see Boundaries). One run, at the feature-branch commit, with `skill/SKILL.md` frozen at that commit:
 
 - Sets: `clips` (12 clips, 48 questions, `eval/clips/questions/`), `main` (12 videos, 72 questions, `eval/questions/`), `hard` (the same 12 videos, 36 questions, `eval/hard/questions/`).
-- Arms, one fresh answer agent per video, set and arm (84 agents):
-  - `transcript` on all three sets: the `transcript` prompt in `eval/README.md`, "Table re-run".
-  - `vidscribe` on all three sets: the `skill` prompt in `eval/README.md`, "SKILL.md re-test", with the new `SKILL.md` body and the folder description changed to name the overview sheets. Agents may run `--at` and `--scan`.
-  - `current` on `clips` only: the same `skill` prompt with master's `SKILL.md`, on frames made by master's script.
+- Agents run through the Codex CLI (`codex exec`, `gpt-6.1-sol`, medium effort, default tier), not as Claude `task` subagents like the earlier runs (owner's choice, 2026-11-15, before any agent started). Scores recorded with Claude agents are therefore not baselines for this run: every bar compares two arms of this run.
+- Arms, one fresh answer agent per video, set and arm (108 agents), each on all three sets:
+  - `transcript`: the `transcript` prompt in `eval/README.md`, "Table re-run".
+  - `vidscribe`: the `skill` prompt in `eval/README.md`, "SKILL.md re-test", with the new `SKILL.md` body and the folder description changed to name the overview sheets. Agents may run `--at` and `--scan`.
+  - `current`: the same `skill` prompt with master's `SKILL.md`, on frames made by master's script.
 - Videos are downloaded and transcribed per `eval/README.md`, "Rebuild"; the time check there applies, and a question whose answer is no longer on screen is dropped from every arm with the denominator shown.
 - Same blind grader. Labels are assigned at random and kept out of the agents' folders. Per-agent leakage check as before.
-- Recorded per agent, from its `read` calls and commands, not its own report: overview sheets viewed, `at_` frames viewed, scan sheets viewed, and for each visual, mixed or hard answer whether the frame it cites is a full-size frame it opened or only a sheet.
-- Bars, fixed now:
-  - `main`: `vidscribe` at least 67 of 72 (skill-only baseline 69, `eval/grades.json` → `skill`).
-  - `hard`: `vidscribe` at least 32 of 36 (baseline 34, `eval/hard/grades.json` → `skill_2`; four skill-only runs gave 33, 34, 34, 34).
-  - `clips`: `vidscribe` no more than 2 points below `current`.
-  - Wrong answers that are not "unknown": at most 3 on `main` (baseline 2), at most 1 on `hard` (baseline 0), at most `current` + 1 on `clips`.
-  - If questions are dropped, the `main` and `hard` baselines are recomputed on the remaining questions from the recorded grades and each bar is that baseline minus 2.
+- Recorded per agent, from the image views and commands in its Codex log, not its own report: overview sheets viewed, `at_` frames viewed, scan sheets viewed, and for each visual, mixed or hard answer whether the frame it cites is a full-size frame it opened or only a sheet.
+- Bars, fixed now, the same on `clips`, `main` and `hard`:
+  - Score: `vidscribe` no more than 2 points below `current`.
+  - Wrong answers that are not "unknown": at most `current` + 1.
+  - A dropped question is dropped from every arm, so the bars need no adjustment.
+  - For reference only: Claude agents with master's `SKILL.md` scored 69 of 72 on `main` (`eval/grades.json` → `skill`) and 33, 34, 34, 34 of 36 on `hard`.
 - Outcomes:
   - **All bars met:** ship (success criteria 7-10).
   - **Clips bar fails, others met:** do not ship. Record the result, list the clips that lost points with their lengths, and propose a delta spec for full-size frames on short videos (Open Question 1).
