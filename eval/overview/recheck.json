@@ -1,5 +1,5 @@
 {
- "note": "Re-check of the six vidscribe-arm agents whose --at A-B/N call failed in the eval, with the branch script (8a165f2) first on PATH in Codex's login shell (ZDOTDIR set to an empty folder). Answers were not graded.",
+ "note": "Re-check of the six vidscribe-arm agents whose --at A-B/N call failed in the eval, with the branch script (8a165f2) first on PATH in Codex's login shell (ZDOTDIR set to an empty folder). Answers graded afterwards with the eval's grader (one call per question); first_run is the score of the eval's vidscribe-arm agent on the same question.",
  "wrapper_calls": 33,
  "agents": {
   "clips_ive5H8hCBFs_r": {
@@ -15,7 +15,41 @@
      "command": "vidscribe <F>/frames --at '1:25,4:18-4:22/3,5:57-6:01/3'",
      "exit": 0
     }
-   ]
+   ],
+   "grades": {
+    "q1": {
+     "score": 1,
+     "first_run": 1,
+     "answer": "Red and white vertical stripes.",
+     "confidence": "high",
+     "frame": "at_01m25.0s.jpg",
+     "reason": "Candidate matches the reference: red and white stripes; the added 'vertical' detail does not contradict."
+    },
+    "q2": {
+     "score": 1,
+     "first_run": 1,
+     "answer": "Tilsiter.",
+     "confidence": "high",
+     "frame": "at_04m21.3s.jpg",
+     "reason": "Candidate matches the reference answer 'Tilsiter'."
+    },
+    "q3": {
+     "score": 1,
+     "first_run": 1,
+     "answer": "dmBio Dinkel Mini Brezeln — spelt mini pretzels with sea salt.",
+     "confidence": "high",
+     "frame": "at_06m00.3s.jpg",
+     "reason": "Candidate matches the reference: dmBio Dinkel Mini Brezeln, spelt mini pretzels."
+    },
+    "q4": {
+     "score": 1,
+     "first_run": 1,
+     "answer": "€1.19 (transcript 00:02:37.929–00:03:11.652).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate gives €1.19, matching the reference of 1.19 euros."
+    }
+   }
   },
   "clips_up1xuwn_euk_r": {
    "overview_viewed": 3,
@@ -34,7 +68,41 @@
      "command": "vidscribe <F>/frames --at 0:12",
      "exit": 0
     }
-   ]
+   ],
+   "grades": {
+    "q1": {
+     "score": 1,
+     "first_run": 1,
+     "answer": "HOW",
+     "confidence": "high",
+     "frame": "at_00m12.0s.jpg",
+     "reason": "Candidate answer 'HOW' matches the reference exactly."
+    },
+    "q2": {
+     "score": 1,
+     "first_run": 1,
+     "answer": "A YouTube video watch-page interface.",
+     "confidence": "high",
+     "frame": "at_05m12.0s.jpg",
+     "reason": "Candidate identifies the YouTube video watch page, matching the reference in substance."
+    },
+    "q3": {
+     "score": 1,
+     "first_run": 1,
+     "answer": "A dense green hedge.",
+     "confidence": "high",
+     "frame": "at_06m08.9s.jpg",
+     "reason": "Candidate matches the reference exactly: a dense green hedge."
+    },
+    "q4": {
+     "score": 1,
+     "first_run": 1,
+     "answer": "About three minutes in (transcript 03:04.864–03:36.682).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate matches the reference: about three minutes in."
+    }
+   }
   },
   "hard_H3KnMyojEQU_r": {
    "overview_viewed": 6,
@@ -53,7 +121,33 @@
      "command": "vidscribe <F>/frames --at 9:47,57:02,57:07",
      "exit": 0
     }
-   ]
+   ],
+   "grades": {
+    "h1": {
+     "score": 1,
+     "first_run": 1,
+     "answer": "Sr. Director, Fitness Technologies",
+     "confidence": "high",
+     "frame": "at_09m47.0s.jpg",
+     "reason": "Candidate matches the reference exactly."
+    },
+    "h2": {
+     "score": 1,
+     "first_run": 1,
+     "answer": "The Carlyle",
+     "confidence": "high",
+     "frame": "at_37m50.5s.jpg",
+     "reason": "Candidate matches the reference exactly."
+    },
+    "h3": {
+     "score": 1,
+     "first_run": 1,
+     "answer": "SVP, Worldwide Marketing",
+     "confidence": "high",
+     "frame": "at_57m07.0s.jpg",
+     "reason": "Candidate matches the reference exactly."
+    }
+   }
   },
   "hard_v9DuQ1C3xH8_r": {
    "overview_viewed": 6,
@@ -88,7 +182,33 @@
      "command": "vidscribe <F>/frames --at 4:22,26:10,47:13.5",
      "exit": 0
     }
-   ]
+   ],
+   "grades": {
+    "h1": {
+     "score": 1,
+     "first_run": 1,
+     "answer": "MMVIII",
+     "confidence": "high",
+     "frame": "at_04m22.0s.jpg",
+     "reason": "Candidate gives MMVIII, matching the reference."
+    },
+    "h2": {
+     "score": 0,
+     "first_run": 1,
+     "answer": "Croissants.",
+     "confidence": "high",
+     "frame": "at_26m09.0s.jpg",
+     "reason": "The reference identifies bread rolls/brioche-style buns; the candidate says croissants, a different food item, so it does not match."
+    },
+    "h3": {
+     "score": 1,
+     "first_run": 1,
+     "answer": "A fruit tart with a golden fluted crust and dark fruit topping.",
+     "confidence": "high",
+     "frame": "at_47m33.0s.jpg",
+     "reason": "Candidate identifies a tart with fluted crust and dark topping, matching the reference in substance."
+    }
+   }
   },
   "hard_wYSncx9zLIU_r": {
    "overview_viewed": 6,
@@ -167,7 +287,33 @@
      "command": "vidscribe <F>/frames --at 94:54-95:01/7",
      "exit": 0
     }
-   ]
+   ],
+   "grades": {
+    "h1": {
+     "score": 1,
+     "first_run": 1,
+     "answer": "BLK & BOLD",
+     "confidence": "high",
+     "frame": "at_00m33.5s.jpg",
+     "reason": "Candidate matches the reference brand name; only capitalization differs."
+    },
+    "h2": {
+     "score": 1,
+     "first_run": 1,
+     "answer": "12:15 PM",
+     "confidence": "high",
+     "frame": "at_67m07.5s.jpg",
+     "reason": "Candidate matches the reference answer exactly (12:15 PM)."
+    },
+    "h3": {
+     "score": 0,
+     "first_run": 1,
+     "answer": "unknown",
+     "confidence": "low",
+     "frame": null,
+     "reason": "Candidate answered 'unknown' and did not provide the trail number 35A."
+    }
+   }
   },
   "main_yQ6VOOd73MA_r": {
    "overview_viewed": 6,
@@ -198,9 +344,64 @@
      "command": "vidscribe <F>/frames --at '18:15'",
      "exit": 0
     }
-   ]
+   ],
+   "grades": {
+    "v1": {
+     "score": 1,
+     "first_run": 1,
+     "answer": "MIT McGovern Institute (08:12).",
+     "confidence": "high",
+     "frame": "at_08m12.0s.jpg",
+     "reason": "Candidate matches the reference: MIT McGovern Institute."
+    },
+    "v2": {
+     "score": 1,
+     "first_run": 1,
+     "answer": "A model of a human brain on a white base (18:15).",
+     "confidence": "high",
+     "frame": "at_18m15.0s.jpg",
+     "reason": "Candidate identifies the object as a model of a human brain, matching the reference; extra detail does not contradict."
+    },
+    "v3": {
+     "score": 1,
+     "first_run": 1,
+     "answer": "YOU WILL CHOOSE TO SIT HERE (37:03.5).",
+     "confidence": "high",
+     "frame": "at_37m03.5s.jpg",
+     "reason": "Candidate matches the reference text exactly (case difference and timestamp are immaterial)."
+    },
+    "v4": {
+     "score": 1,
+     "first_run": 1,
+     "answer": "A saxophone (46:01.1).",
+     "confidence": "high",
+     "frame": "at_46m01.1s.jpg",
+     "reason": "Candidate says saxophone, matching the reference."
+    },
+    "mixed": {
+     "score": 0,
+     "first_run": 1,
+     "answer": "An upside-down U: three sides of a square, open at the bottom (16:17).",
+     "confidence": "high",
+     "frame": "at_16m17.0s.jpg",
+     "reason": "The reference says a square; the candidate describes an upside-down U (three sides of a square, open at the bottom), which is a different shape."
+    },
+    "speech": {
+     "score": 1,
+     "first_run": 1,
+     "answer": "Almond (transcript 32:05–32:32).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate answer 'Almond' matches the reference."
+    }
+   }
   }
  },
  "at_calls_with_count": 8,
- "ranges_with_count": 12
+ "ranges_with_count": 12,
+ "score": {
+  "recheck": 20,
+  "first_run": 23,
+  "questions": 23
+ }
 }
