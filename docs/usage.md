@@ -25,7 +25,7 @@ Uninstall: `rm ~/.local/bin/vidscribe` and `uv tool uninstall mlx-audio`. The mo
 
 ## Frames on demand (`--at`)
 
-The frames folder also holds `video.<ext>`: the downloaded video for URLs, a symlink to the original for local files. `vidscribe <frames-dir> --at 494,8:14,7:50-8:50` pulls full-size frames from it without transcribing again: one per time, 4 evenly spaced inside each range, or N with a count after the range (`--at 10:00-20:00/12`; N is 1 to 40). Times are seconds, `M:SS` or `H:MM:SS`, fractions with a dot. Frames are saved as `at_<mm>m<ss.s>s.jpg` in the same folder and each prints as `mm:ss.s<TAB>path`; `index.txt` is left as is. `--at` takes no other flags, and fails once the folder has been pruned: re-run on the source.
+The frames folder also holds `video.<ext>`: the downloaded video for URLs, a symlink to the original for local files. `vidscribe <frames-dir> --at 494,8:14,7:50-8:50` pulls full-size frames from it without transcribing again: one per time, 4 evenly spaced inside each range, or N with a count after the range (`--at 10:00-20:00/12`; N is 1 to 40). Times are seconds, `M:SS` or `H:MM:SS`, fractions with a dot. Frames are saved as `at_<mm>m<ss.s>s.jpg` in the same folder and each prints as `mm:ss.s<TAB>path`; a time is saved once, so a range shorter than N tenths of a second gives fewer than N frames. `index.txt` is left as is. `--at` takes no other flags, and fails once the folder has been pruned: re-run on the source.
 
 ## Contact sheets (`--scan`)
 
