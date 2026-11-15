@@ -205,7 +205,7 @@ Criteria 8 and 9 are done only if criterion 7 is met.
 - Scene-aware tiles in the overview: evenly spaced tiles are the point of this version; `--scan` already adds scene ends on request.
 - Time labels drawn onto tiles: would need ffmpeg's `drawtext` and costs tile pixels; `index.txt` positions cover the mapping.
 - A `test/smoke.sh` harness: the owner chose hand-run smoke cases.
-- `eval/frames_only.sh`: its pattern no longer matches the script and it extracts nothing; repair or delete it separately.
+- Repairing `eval/frames_only.sh`: its pattern no longer matched the script and it extracted nothing, so it was deleted after the eval (2026-11-15).
 
 ## Open Questions
 

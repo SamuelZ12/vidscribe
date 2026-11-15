@@ -23,7 +23,6 @@ Holdout clips must not be used to tune wording or code; run them once, after dev
 
 - `questions/<ID>.json`: 6 questions with reference answers: `v1`-`v4` visual-only (one per quarter of the video), `mixed` (speech + screen), `speech` (transcript only). Fields: `qid`, `time_s`, `visible_s` (span the answer is on screen), `question`, `answer`, `notes`. Give answer agents only `qid` and `question`.
 - `grades.json`: blind grades per clip, condition and question (`score` 1 / 0.5 / 0, `reason`; `skill` also keeps `answer` and `confidence`). Conditions: `master` (frames as of 4438e45), `scene_b` (content-score scene choice, not shipped), `at` (master frames + `--at`), `skill` (current SKILL.md, "SKILL.md re-test" below). Totals /72: 37.5, 36.5, 69, 69.
-- `frames_only.sh SCRIPT SRT VIDEO OUTDIR`: runs the frame-selection heredoc of any vidscribe script on an existing srt, so frame code can be compared without transcribing again.
 - `sheet.py VIDEO OUT.jpg t1 t2 ...`: contact sheet of labelled 320 px frames (`uv run --with pillow eval/sheet.py ...`); used to write questions.
 
 ## Rebuild
