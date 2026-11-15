@@ -48,6 +48,34 @@ def scene_ends(vid, ss=None, t=None):
         seen.append(h); ends.append(pts[i])
     return ends
 PY
+# contact sheets, shared by --scan: 4x4 sheets of WxH tiles with 2 px padding and 1 px margin = 1280x720
+# (grid from docs/measurements.md, "Scan probe"); a last sheet with fewer than 16 tiles is padded white
+IFS= read -r -d '' SHEETS_PY <<'PY' || true
+import glob, os, shutil, subprocess, tempfile
+from concurrent.futures import ThreadPoolExecutor
+def sheets(vid, ts, prefix, W=318, H=178):
+    """Save one tile per time as prefix01.jpg, prefix02.jpg... (replacing older ones).
+    Returns (kept, missed): the times with a picture, in sheet order, and the times without one."""
+    tmp = tempfile.mkdtemp()
+    try:
+        def grab(it):
+            i, t = it; f = f"{tmp}/{i:04d}.jpg"
+            subprocess.run(['ffmpeg','-nostdin','-loglevel','quiet','-y','-ss',f'{t:.2f}','-i',vid,'-frames:v','1','-q:v','2','-vf',
+                f'scale={W}:{H}:force_original_aspect_ratio=decrease,pad={W}:{H}:(ow-iw)/2:(oh-ih)/2',f])
+            return os.path.exists(f) and os.path.getsize(f) > 0
+        with ThreadPoolExecutor(4) as ex: got = list(ex.map(grab, enumerate(ts)))
+        kept, missed = [], []  # renumber without gaps: the image sequence input stops at a missing number
+        for i, t in enumerate(ts):
+            if not got[i]: missed.append(t); continue
+            os.rename(f"{tmp}/{i:04d}.jpg", f"{tmp}/s{len(kept):04d}.jpg"); kept.append(t)
+        for old in glob.glob(glob.escape(prefix) + '*.jpg'): os.unlink(old)
+        if kept:
+            subprocess.run(['ffmpeg','-nostdin','-loglevel','error','-y','-framerate','1','-i',f'{tmp}/s%04d.jpg',
+                '-vf','tile=4x4:padding=2:margin=1:color=white','-q:v','3',prefix.replace('%', '%%') + '%02d.jpg'], check=True)
+        return kept, missed
+    finally:
+        shutil.rmtree(tmp)
+PY
 # from the video a normal run kept in its frames folder, no transcription: frames on demand (--at)
 # or contact sheets to find moments the transcript gives no lead to (--scan)
 if [[ "${2:-}" == "--at" || "${2:-}" == "--scan" ]]; then
@@ -84,48 +112,28 @@ if [[ "${2:-}" == "--at" || "${2:-}" == "--scan" ]]; then
       }
     }')"
   if [[ "$MODE" == "scan" ]]; then
-    python3 - "$SCENES_PY" "$VID" "$D" "$TS" <<'PY'
-import sys; exec(sys.argv.pop(1))
-import glob, math, shutil
-from concurrent.futures import ThreadPoolExecutor
+    python3 - "$SCENES_PY" "$SHEETS_PY" "$VID" "$D" "$TS" <<'PY'
+import sys; exec(sys.argv.pop(1)); exec(sys.argv.pop(1))
+import math
 vid, d, ranges = sys.argv[1:4]
-# tiles: every scene end plus even fill so no gap exceeds G s; 4x4 sheets of WxH tiles with 2 px padding
-# and 1 px margin = 1280x720 (fill gap and grid from docs/measurements.md, "Scan probe")
-G, W, H = 10, 318, 178
+G = 10  # tiles: every scene end plus even fill so no gap exceeds G s (fill gap from docs/measurements.md, "Scan probe")
 mm = lambda t: f"{int(t//60):02d}:{t%60:04.1f}"
 tag = lambda t: f"{int(t//60):02d}m{int(t%60):02d}s"
-tmp = tempfile.mkdtemp()
-try:
-    for k, line in enumerate(ranges.splitlines()):
-        a, b = map(float, line.split('\t'))
-        s0 = math.floor(a*2)/2  # sample on the same 0.5 s grid as a whole-video pass
-        ts = sorted(t for t in scene_ends(vid, s0, b - s0) if a <= t < b)
-        edges = [a] + ts + [b]
-        for p, q in zip(edges, edges[1:]):
-            m = math.ceil((q - p) / G) - 1
-            ts += [p + (q - p)*j/(m + 1) for j in range(1, m + 1)]
-        ts = sorted(ts) or [(a + b)/2]  # a short range with no scene end still gets a tile
-        print(f"{mm(a)}-{mm(b)}: {len(ts)} tiles, {math.ceil(len(ts)/16)} sheets", file=sys.stderr)
-        tdir = f"{tmp}/{k}"; os.mkdir(tdir)
-        def grab(it):
-            i, t = it; f = f"{tdir}/{i:04d}.jpg"
-            subprocess.run(['ffmpeg','-nostdin','-loglevel','quiet','-y','-ss',f'{t:.2f}','-i',vid,'-frames:v','1','-q:v','2','-vf',
-                f'scale={W}:{H}:force_original_aspect_ratio=decrease,pad={W}:{H}:(ow-iw)/2:(oh-ih)/2',f])
-            return t if os.path.exists(f) and os.path.getsize(f) > 0 else None
-        with ThreadPoolExecutor(4) as ex: got = list(ex.map(grab, enumerate(ts)))
-        kept = []  # renumber without gaps: the image sequence input stops at a missing number
-        for i, t in enumerate(got):
-            if t is None: print(f"no frame at {mm(ts[i])}", file=sys.stderr); continue
-            os.rename(f"{tdir}/{i:04d}.jpg", f"{tdir}/s{len(kept):04d}.jpg"); kept.append(t)
-        prefix = f"{d}/scan_{tag(a)}-{tag(b)}_"
-        for old in glob.glob(glob.escape(prefix) + '*.jpg'): os.unlink(old)
-        if not kept: continue
-        subprocess.run(['ffmpeg','-nostdin','-loglevel','error','-y','-framerate','1','-i',f'{tdir}/s%04d.jpg',
-            '-vf','tile=4x4:padding=2:margin=1:color=white','-q:v','3',prefix.replace('%', '%%') + '%02d.jpg'], check=True)
-        for s in range(math.ceil(len(kept)/16)):
-            print(f"{prefix}{s+1:02d}.jpg\t" + ' '.join(mm(t) for t in kept[s*16:(s+1)*16]))
-finally:
-    shutil.rmtree(tmp)
+for line in ranges.splitlines():
+    a, b = map(float, line.split('\t'))
+    s0 = math.floor(a*2)/2  # sample on the same 0.5 s grid as a whole-video pass
+    ts = sorted(t for t in scene_ends(vid, s0, b - s0) if a <= t < b)
+    edges = [a] + ts + [b]
+    for p, q in zip(edges, edges[1:]):
+        m = math.ceil((q - p) / G) - 1
+        ts += [p + (q - p)*j/(m + 1) for j in range(1, m + 1)]
+    ts = sorted(ts) or [(a + b)/2]  # a short range with no scene end still gets a tile
+    print(f"{mm(a)}-{mm(b)}: {len(ts)} tiles, {math.ceil(len(ts)/16)} sheets", file=sys.stderr)
+    prefix = f"{d}/scan_{tag(a)}-{tag(b)}_"
+    kept, missed = sheets(vid, ts, prefix)
+    for t in missed: print(f"no frame at {mm(t)}", file=sys.stderr)
+    for s in range(math.ceil(len(kept)/16)):
+        print(f"{prefix}{s+1:02d}.jpg\t" + ' '.join(mm(t) for t in kept[s*16:(s+1)*16]))
 PY
     exit 0
   fi
