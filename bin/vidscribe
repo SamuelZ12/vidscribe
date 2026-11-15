@@ -297,7 +297,8 @@ for a, b, t in cues:
     for x in parts:
         s0 = a + (b-a)*pos/total; pos += len(x); s1 = a + (b-a)*pos/total
         sents.append((s0, s1, x.strip()))
-def mmss(t): return f"{int(t//60):02d}:{t%60:04.1f}"
+def mmss(t):  # round first, so 839.97 reads 14:00.0, not 13:60.0 (a time --at rejects)
+    t = float(f"{t:.1f}"); return f"{int(t//60):02d}:{t%60:04.1f}"
 def around(t):  # the sentence spoken at t plus one either side
     i = next((k for k, s in enumerate(sents) if s[0] <= t < s[1]), None)
     if i is None: return '-', ''  # no spoken sentence in a gap or beyond the transcript
@@ -311,7 +312,7 @@ times = [dur*(i+0.5)/n for i in range(n)] if dur > 0 else []
 idx, missed = [], []
 if full:
     for t in times:
-        fn = f"{len(idx):03d}_{int(t//60):02d}m{t%60:04.1f}s.jpg"; fp = f"{fdir}/{fn}"
+        fn = f"{len(idx):03d}_{mmss(t).replace(':', 'm')}s.jpg"; fp = f"{fdir}/{fn}"
         subprocess.run(['ffmpeg','-nostdin','-loglevel','error','-y','-ss',f'{t:.2f}','-i',vid,'-frames:v','1','-q:v','3','-vf','scale=-2:720',fp], check=False)
         if not os.path.exists(fp) or os.path.getsize(fp) == 0:  # e.g. past the end of the picture while audio runs on
             if os.path.exists(fp): os.remove(fp)
