@@ -149,6 +149,7 @@ Result: 9 short clips byte-identical to uncapped output; MIT 319 s, full coverag
 - A 30 s piece that loops throughout costs up to 11 decodes (~3.4k tokens instead of 782). Each leaf's 32-token base lets a split piece slightly exceed its share of the file budget; the 8192 slack covers that unless hours of audio loop.
 - Checked on a 41 s `say` clip in throwaway copies of the script. A cap of 20 on every piece used to give 38 of 174 words with no warning; it now gives 113 words and six warnings. A cap of 20 only on pieces over 20 s recovers all 174 words (6 commas differ) with no warning. txt, srt and frame-mode outputs are byte-identical to master.
 - MIT lecture (`-a -f srt`): 344 s, one warning (`01:03:25-01:03:29`, the closing applause), last cue at 01:03:42 (the end). The loop is ~105 words, down from 222 with the per-piece cap alone.
+- MIT lecture again, 2026-11-15, under the current default (language detected per piece, ADR-0006): the full file (63:42, a fresh download, run as `vidscribe <video> -f srt` for the overview-sheets eval, not `-a -f srt`) gave no warning and no loop. The cue before the applause ends "(Laughter) (Applause)"; the last cue (`01:03:25-01:03:42`) has no text. Master (`28966e5`) and the overview-sheets branch gave the same transcript. The run does not isolate the cause: the download differs from the earlier run's, and so may anything else changed since (issue #5).
 
 ## Language default: forced en vs auto-detect
 
@@ -166,7 +167,7 @@ Result: 9 short clips byte-identical to uncapped output; MIT 319 s, full coverag
 - The 0.197 is mostly digits ("1.19" vs "一点一九").
 - D1PjB0cwiKg, SXqUyVzHgeE (no subtitles) and English 30 s followed by Mandarin 60 s read the same in every mode except spacing around English words and digits. English (up1xuwn_euk, 360 words): 2 quote marks differ.
 - Hindi (C-39pLx6QTQ, ZwJ1zktkSfk): auto-detect and `Hindi` write English terms in Devanagari without punctuation, once wrongly (`VideoWriter` → `वीडियो राइट करता`); forced `en` and `English` keep them in Latin script. `-l zh` gave the same text as `-l Chinese`; `-l hi` was a mix of the `en` and `Hindi` outputs.
-- The last 80 s of the MIT lecture alone didn't loop in either mode, so the applause there is inconclusive.
+- The last 80 s of the MIT lecture alone didn't loop in either mode, so the applause there is inconclusive. (The full lecture did not loop in a later run: "Long audio".)
 
 Decision: [ADR-0006](decisions/0006-detect-language-per-piece.md).
 
