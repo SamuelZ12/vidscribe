@@ -8,7 +8,7 @@ Agents answered 156 questions about 21 videos, 36 of them about moments the spee
 
 | | Transcript only | vidscribe |
 |---|---|---|
-| Score | 15% | 98% |
+| Score | 15% | 96% |
 
 Method and caveats: [docs/measurements.md](docs/measurements.md#overview-sheets-against-the-current-default-frames). Questions, grades and scripts: [eval/](eval/).
 
