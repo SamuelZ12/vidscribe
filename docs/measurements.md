@@ -333,6 +333,22 @@ Dev `at` counts are the hard eval's agent-reported extra frames; the rest are di
 - **Holdout at ceiling.** `at` agents reached every holdout moment from the transcript's topic, a presenter hand-over or a default frame that already showed the caption; the widest search was 52 extra frames for the Samsung name caption, which the `scan` agent found with 3 sheets and 30 frames. So the holdout shows that `--scan` costs nothing when it isn't needed, not that it helps. 5 of the 12 first-round holdout questions failed validation because speech described the moment, and 1 replacement was guessed from general knowledge: on keynotes and lectures almost everything shown is talked about, which is also why `at` does well there.
 - Caveats: the dev gain is on the 5 questions the probe used to choose the design (fill gap, grid), so it is optimistic, and the holdout can't confirm it ([#2](https://github.com/SamuelZ12/vidscribe/issues/2) tracks a footage-heavy holdout). One dev agent cropped its frames with `sips` to read small text (outside the rules; 3/3 in both runs, so no effect).
 
+## Scan sheets filled to 16 tiles
+
+2026-11-15, no agent runs. `--scan` padded a short last sheet white: `--scan 1:26-1:40` on `dQw4w9WgXcQ` gave 5 tiles on a 1280x720 sheet, and a sheet costs the same image tokens however many tiles it holds. Of the 309 `scan_*.jpg` sheets left by the overview-sheets eval (`/tmp/vsov`), 185 had at least one blank row and 349 of 1,236 rows were blank (a row counted as blank when its first cell was white, so a white video frame there is miscounted).
+
+Change: the tile count per range is rounded up to a multiple of 16. Each extra tile goes into the gap where tiles are furthest apart, and that gap's fill tiles are respaced evenly. Scene tiles, the 10 s limit and the sheet count per range stay as they were, so no range costs more.
+
+| Range on `dQw4w9WgXcQ` (3:33) | Tiles before | Tiles after | Sheets |
+|---|---|---|---|
+| 1:26-1:40 | 5 | 16, one per ~0.9 s | 1 |
+| 0:00-2:40 | 24 | 32 | 2 |
+| `all` | 32 | 32, sheets and output byte-identical | 2 |
+
+- All 5 scene tiles of 1:26-1:40 are on the new sheet. In 0:00-2:40, 7 fill tiles moved (their gaps were respaced) and every scene tile stayed.
+- A range of a few seconds gets 16 near-identical tiles (1:26-1:29: one per 0.18 s). Left as is: no extra cost.
+- Not measured: whether denser tiles change answers. The scan eval above scored the old picks, and its ranges mostly gain a few tiles on the last sheet. [#9](https://github.com/SamuelZ12/vidscribe/issues/9) (items on screen under 5 s) would need its own question set.
+
 ## Word timestamps (forced aligner): not built
 
 2026-11-05, a paper check with no runs: would word-level times from Qwen3-ForcedAligner-0.6B (in mlx-audio 0.5.7, `stt/models/qwen3_asr/qwen3_forced_aligner.py`) sharpen frame and `--at` times? Today mlx-audio's srt cues are ~30 s pieces, and frame text is matched to a sentence by interpolating its time from its character offset within the cue (`bin/vidscribe`, frame heredoc).

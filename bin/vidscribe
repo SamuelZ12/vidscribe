@@ -90,7 +90,8 @@ if [[ "${2:-}" == "--at" || "${2:-}" == "--scan" ]]; then
 import sys; exec(sys.argv.pop(1))
 import math, os, re, subprocess, tempfile
 vid, d, ranges = sys.argv[1:4]
-G = 10  # tiles: every scene end plus even fill so no gap exceeds G s (fill gap from docs/measurements.md, "Scan probe")
+G = 10  # tiles: every scene end plus even fill so no gap exceeds G s (fill gap from docs/measurements.md, "Scan probe"),
+        # then more fill until the last sheet is full: a sheet costs the same with 5 tiles as with 16
 def mm(t):  # round first, so 839.97 reads 14:00.0, not 13:60.0 (a time --at rejects)
     t = float(f"{t:.1f}"); return f"{int(t//60):02d}:{t%60:04.1f}"
 tag = lambda t: f"{int(t//60):02d}m{int(t%60):02d}s"
@@ -122,13 +123,16 @@ def scene_ends(vid, ss, t):
 for line in ranges.splitlines():
     a, b = map(float, line.split('\t'))
     s0 = math.floor(a*2)/2  # start on a 0.5 s grid, so overlapping ranges sample the same frames
-    ts = sorted(t for t in scene_ends(vid, s0, b - s0) if a <= t < b)
-    edges = [a] + ts + [b]
-    for p, q in zip(edges, edges[1:]):
-        m = math.ceil((q - p) / G) - 1
-        ts += [p + (q - p)*j/(m + 1) for j in range(1, m + 1)]
-    ts = sorted(ts) or [(a + b)/2]  # a short range with no scene end still gets a tile
-    print(f"{mm(a)}-{mm(b)}: {len(ts)} tiles, {math.ceil(len(ts)/16)} sheets", file=sys.stderr)
+    ends = sorted(t for t in scene_ends(vid, s0, b - s0) if a <= t < b)
+    edges = [a] + ends + [b]
+    gaps = [q - p for p, q in zip(edges, edges[1:])]
+    fill = [max(0, math.ceil(g / G) - 1) for g in gaps]  # fill tiles per gap
+    n = len(ends) + sum(fill)
+    for _ in range(max(16, -(-n // 16) * 16) - n):  # one more tile where tiles are furthest apart
+        i = max(range(len(gaps)), key=lambda i: gaps[i] / (fill[i] + 1))
+        fill[i] += 1
+    ts = sorted(ends + [p + (q - p)*j/(m + 1) for p, q, m in zip(edges, edges[1:], fill) for j in range(1, m + 1)])
+    print(f"{mm(a)}-{mm(b)}: {len(ts)} tiles, {len(ts)//16} sheets", file=sys.stderr)
     prefix = f"{d}/scan_{tag(a)}-{tag(b)}_"
     kept, missed = sheets(vid, ts, prefix)
     for t in missed: print(f"no frame at {mm(t)}", file=sys.stderr)
