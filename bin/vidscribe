@@ -3,7 +3,7 @@
 # Usage: vidscribe <file-or-URL> [-o OUTDIR] [-l LANG] [-f txt|srt|vtt|json] [-c "hotwords"] [-m MODEL] [-v [N] | -a]
 #        vidscribe <frames-dir> --at TIMES | --scan RANGES: from a previous run's video, frames (--at 494,8:14,7:50-8:50,10:00-20:00/12; a range gives 4 frames, A-B/N gives N) or 4x4 contact sheets (--scan 50:00-60:00 or all).
 # URLs (X, YouTube, etc.) are fetched with yt-dlp. Prints the transcript path; text to stdout for txt.
-# Video (-f txt|srt) also gets an overview: one tile per 10 s of picture (at least 16, at most 96), evenly spaced, on 4x4 contact sheets overview_NN.jpg.
+# Video (-f txt|srt) also gets an overview: evenly spaced tiles on 4x4 contact sheets overview_NN.jpg, one sheet per 160 s of picture rounded to the nearest (1 to 6), every sheet full.
 # -v N: exactly N full-size frames (720 px high), evenly spaced, instead of the overview. -v alone forces the overview. -a/--audio-only: transcript only.
 # Sheets and frames go to /tmp/vidscribe/frames/<name>/ (auto-pruned after 3 days) with video.<ext> (downloads moved there, local files symlinked) and index.txt:
 #   time -> sheet#position or frame file -> start-end of spoken text -> text (the sentence spoken at that time, interpolated within ~30s cues, plus one either side).
@@ -304,10 +304,10 @@ def around(t):  # the sentence spoken at t plus one either side
     if i is None: return '-', ''  # no spoken sentence in a gap or beyond the transcript
     win = sents[max(0, i-1):i+2]
     return f"{mmss(win[0][0])}-{mmss(win[-1][1])}", ' '.join(s[2] for s in win)
-# overview: one tile per 10 s of picture, at least one sheet (16) and at most six (96);
+# overview: 16 tiles per sheet, one sheet per 160 s of picture rounded to the nearest (1 to 6), so every sheet is full;
 # -v N: exactly N full-size frames instead. Either way evenly spaced, each in the middle of its share
 full = n > 0
-if not full: n = min(96, max(16, math.ceil(dur/10)))
+if not full: n = 16 * min(6, max(1, math.floor(dur/160 + 0.5)))  # not round(): it sends 1.5 and 2.5 both to 2
 times = [dur*(i+0.5)/n for i in range(n)] if dur > 0 else []
 idx, missed = [], []
 if full:

@@ -4,8 +4,8 @@ Details, acceptance criteria and verification: `tasks/plan.md`. Spec: `SPEC.md`.
 
 ## Phase 1: Script
 
-- [ ] Task 0: Fixtures and golden output in `/tmp/vs_smoke/full` (no commit)
-- [ ] Task 1: Tile count gives full sheets (`bin/vidscribe`; criteria 1, 3, 4)
+- [x] Task 0: Fixtures and golden output in `/tmp/vs_smoke/full` (no commit)
+- [x] Task 1: Tile count gives full sheets (`bin/vidscribe`; criteria 1, 3, 4)
 
 ## Phase 2: Docs
 
