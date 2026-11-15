@@ -23,7 +23,6 @@ Details, acceptance criteria and verification: `tasks/plan.md`. Spec: `SPEC.md`.
 
 Left as is, for the owner to decide:
 
-- The `--at` bad-time hint does not mention `A-B/N`: changing it would alter an error message of `--at` without `/N`.
 - Merging to master triggers the `post-merge` hook (`vidscribe-skill-sync`), which copies the new `skill/SKILL.md` into Claw's memory and pushes it.
 
 ## Phase 3: Eval and decision (each step needs approval)

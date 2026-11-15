@@ -73,7 +73,7 @@ if [[ "${2:-}" == "--at" || "${2:-}" == "--scan" ]]; then
         if (i > 1 && x ~ /^[0-9][0-9][0-9]$/ && p ~ /^[0-9]+:[0-9]+:[0-9]+$/) die("\"" p "," x "\" looks like an srt time: use a dot (" p "." x ")")
         p = x; c = ""  # frames in a range: N from A-B/N (--at only), else 4
         if (mode == "at" && x ~ /\/[0-9]+$/) { c = x; sub(/.*\//, "", c); sub(/\/[0-9]+$/, "", x) }
-        if (x !~ ("^" T "(-" T ")?$")) die("bad time \"" it[i] "\" (use " (mode == "scan" ? "7:50-8:50, 3000-3600 or all" : "494, 8:14, 1:02:05 or 7:50-8:50") ")")
+        if (x !~ ("^" T "(-" T ")?$")) die("bad time \"" it[i] "\" (use " (mode == "scan" ? "7:50-8:50, 3000-3600 or all" : "494, 8:14, 1:02:05, 7:50-8:50 or 7:50-8:50/8") ")")
         k = split(x, r, "-"); a = sec(r[1]); b = (k == 2) ? sec(r[2]) : a
         if (c != "" && k == 1) die("\"" it[i] "\" is a single time: a count needs a range")
         if (c != "" && (c + 0 < 1 || c + 0 > 40)) die("count in \"" it[i] "\" must be 1-40")

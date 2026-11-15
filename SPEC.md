@@ -52,6 +52,7 @@ This version replaces the default frames with a cheap, evenly spaced overview th
 Exceptions, made at the owner's request after the eval (2026-11-15):
 
 - `--scan` rounds a time before splitting it into minutes and seconds, so a tile at 839.97 s reads `14:00.0` where master prints `13:60.0`, a time `--at` rejects.
+- The `--at` bad-time hint also names the count form: `(use 494, 8:14, 1:02:05, 7:50-8:50 or 7:50-8:50/8)`.
 
 ## Tech Stack
 
