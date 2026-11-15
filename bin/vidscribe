@@ -77,7 +77,7 @@ if [[ "${2:-}" == "--at" || "${2:-}" == "--scan" ]]; then
         k = split(x, r, "-"); a = sec(r[1]); b = (k == 2) ? sec(r[2]) : a
         if (c != "" && k == 1) die("\"" it[i] "\" is a single time: a count needs a range")
         if (c != "" && (c + 0 < 1 || c + 0 > 40)) die("count in \"" it[i] "\" must be 1-40")
-        if (c == "") c = 4
+        c = (c == "") ? 4 : c + 0  # a number, so the loop below never compares strings ("2" < "12" is false)
         if (mode == "scan" && k == 1) die("\"" it[i] "\" is a single time: --scan takes ranges or all (use --at for single times)")
         if (b > d || (b == d && mode == "at")) die(it[i] " is past the end of the video (" int(d) " s)")
         if (k == 2 && b <= a) die("range " it[i] " ends before it starts")
