@@ -11,6 +11,7 @@ Why the shipped defaults are what they are. An ADR is written when a default cha
 | [0005](0005-no-ocr.md) | No OCR timeline; contact sheets for unnamed moments |
 | [0006](0006-detect-language-per-piece.md) | Detect the language of every piece by default |
 | [0007](0007-overview-sheets.md) | Overview sheets instead of default frames; `-v N` and `--at A-B/N` give full-size frames |
+| [0008](0008-full-sheets.md) | Every overview sheet is full: 16 tiles per sheet, one sheet per 160 s of picture (1 to 6) |
 
 ## Considered, not built
 

@@ -1,7 +1,7 @@
 # ADR-0007: Overview sheets instead of default frames
 
 ## Status
-Accepted. Supersedes [ADR-0003](0003-frame-cap.md).
+Accepted. Supersedes [ADR-0003](0003-frame-cap.md). The tile count is amended by [ADR-0008](0008-full-sheets.md).
 
 ## Date
 2026-11-15

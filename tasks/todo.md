@@ -11,7 +11,7 @@ Details, acceptance criteria and verification: `tasks/plan.md`. Spec: `SPEC.md`.
 
 - [x] Task 2: `docs/usage.md`
 - [x] Task 3: `skill/SKILL.md`
-- [ ] Task 4: ADR-0008, ADR index, pointer in 0007, eval note in `docs/measurements.md`
+- [x] Task 4: ADR-0008, ADR index, pointer in 0007, eval note in `docs/measurements.md`
 
 ## Checkpoint: before merge
 
