@@ -17,9 +17,15 @@ Details, acceptance criteria and verification: `tasks/plan.md`. Spec: `SPEC.md`.
 
 ## Checkpoint A: before the eval
 
-- [ ] S1-S12 pass at the branch head under `/bin/bash` 3.2.57
-- [ ] Reviewer subagent has read the branch diff; accepted findings fixed
-- [ ] Stop and report; `SKILL.md` and the bars are frozen
+- [x] S1-S12 pass at the branch head under `/bin/bash` 3.2.57
+- [x] Reviewer subagent has read the branch diff; accepted findings fixed
+- [x] Stop and report; `SKILL.md` and the bars are frozen
+
+Left as is, for the owner to decide:
+
+- `--scan` still prints a tile time like `13:60.0` just under a minute boundary, and `--at` rejects it. Fixed for `index.txt` and `-v N` file names; not for `--scan`, whose output the spec keeps identical to master's.
+- The `--at` bad-time hint does not mention `A-B/N`: changing it would alter an error message of `--at` without `/N`.
+- Merging to master triggers the `post-merge` hook (`vidscribe-skill-sync`), which copies the new `skill/SKILL.md` into Claw's memory and pushes it.
 
 ## Phase 3: Eval and decision (each step needs approval)
 
