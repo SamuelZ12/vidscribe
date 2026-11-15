@@ -47,6 +47,53 @@ README headline: the three rows summed, 156 questions on 21 videos (3 clips are 
 - These agents got eval prompts that also required viewing every frame and fetching more. Given only `skill/SKILL.md`, agents scored 69/72 on the long set but 33-34/36 on the hard set across four runs and three wordings (searches stopped sooner; see "SKILL.md re-test").
 - Outside evidence: [Omni2Web](https://arxiv.org/html/2609.23417) saw a similar frames jump on its instruction-recovery track (Gemini 3.5 Flash on screen-recorded web edits: transcript only 18.2, silent video + transcript 38.1). On sound, [SleuthVLM](https://arxiv.org/abs/2611.06083)'s audio-captioning tool added 9.8 points on 448 music questions, which vidscribe doesn't cover.
 
+## Overview sheets against the current default frames
+
+2026-11-15, branch `overview-sheets` at `fdb5961` against master `28966e5`. The branch replaces the default frames (up to 40 full-size) with overview sheets: 4x4 contact sheets of evenly spaced tiles, one per 10 s, 16 to 96 in all. The question, with bars set before the run (`SPEC.md`, "Eval"): does that cost answers?
+
+One run, three arms on the three question sets, 108 fresh agents (one per video, set and arm): `transcript` (transcript only), `current` (master's script and `skill/SKILL.md`), `vidscribe` (the branch's script and `skill/SKILL.md`). Both picture arms got only the SKILL.md as instructions and could run `--at` and `--scan`. All arms share downloads, transcripts (byte-identical between the two scripts on all 21 videos), prompts and grader. **The agents were Codex (`gpt-6.1-sol`, medium effort), not Claude subagents as in every other section, so compare arms within this table, not with numbers elsewhere in this file.** Method, prompts and deviations: `eval/README.md`, "Overview sheets"; grades: `eval/overview/grades.json`.
+
+| Set | `transcript` | `current` | `vidscribe` |
+|---|---|---|---|
+| Clips, 2-111 min, 48 questions | 12 | 47.5 | 46.5 |
+| Long videos, 39-111 min, 72 questions anchored on speech | 12 | 71 | 70 |
+| Same videos, 36 questions on moments the speech never names | 0 | 33 | 36 |
+| All 156 questions | 24 | 151.5 | 152.5 |
+
+Bars, the same on each set: `vidscribe` at most 2 points below `current`, and at most one more wrong answer that is not "unknown".
+
+| Set | Score, `vidscribe` − `current` | Wrong, not "unknown": `current` → `vidscribe` | Bars |
+|---|---|---|---|
+| Clips | −1 | 0 → 0 | met |
+| Long | −1 | 1 → 2 | met (wrong answers at the limit) |
+| Hard | +3 | 3 → 0 | met |
+
+- **Every bar is met; the two arms differ on 5 of 156 questions.** `vidscribe` lost 2 and gained 3. No time-check question was dropped.
+- **Both losses are moments where master's default full-size frame happened to show the answer.** Clip `Yv2iYYewdf0` (5 min) q3: `current` read the formula off `005_03m38.6s_even.jpg`; the `vidscribe` agent fetched frames at 3:30, 3:32.8, 3:40.5 and 3:43.6, scanned 3:25-3:41, missed 3:37 and answered "unknown". Long `ej5RsTtVvQE` v3: `current` read the diagram off a default scene frame at 36:21; the `vidscribe` agent fetched 35:48 and named the wrong node with high confidence.
+- **All three gains are hard questions `current` got wrong** (`yQ6VOOd73MA` h2 and h3, `x-wqMcYMNdg` h3); `vidscribe` scored 36/36 there. One run, so this is within noise, not evidence that sheets search better.
+- **Wrong answers that are not "unknown"**: `vidscribe` 0 / 2 / 0, `current` 0 / 1 / 3 (clips / long / hard). On the long set one is shared: both arms read the wrong text near the end card of `H3KnMyojEQU` (v4).
+- **No answer was read off a sheet.** Of the 132 visual, mixed and hard answers, `vidscribe` cited a full-size frame its agent had opened in 131; the other is the "unknown" above. `current`: 131, and one answer citing a frame the agent never opened (wrong).
+- **Agents opened every sheet**: all sheets in 36 of 36 `vidscribe` folders; every default frame in 34 of 36 `current` folders.
+- **Images viewed per video**, counted from the agents' logs:
+
+  | Set | Arm | Default pictures | `--at` frames | Scan sheets | Total |
+  |---|---|---|---|---|---|
+  | Clips | `current` | 27.8 | 6.1 | 0.4 | 34.3 |
+  | Clips | `vidscribe` | 3.7 | 5.4 | 0.5 | 9.6 |
+  | Long | `current` | 39.6 | 9.6 | 0.8 | 50.0 |
+  | Long | `vidscribe` | 6.0 | 9.1 | 0.6 | 15.7 |
+  | Hard | `current` | 39.5 | 9.1 | 6.2 | 55.2 |
+  | Hard | `vidscribe` | 6.0 | 8.0 | 6.7 | 20.8 |
+
+  With sheets, agents did not fetch more frames to make up for the smaller default: `--at` and `--scan` use is about the same in both arms. Input tokens per agent, summed over its requests, fell by about half (311k vs 636k, 464k vs 999k, 745k vs 1,393k).
+- **`--at A-B/N` was used little**: 6 of the 95 `--at` calls in the `vidscribe` arm gave a count.
+- **Leakage**: no agent opened a path outside its folder, ran `ffmpeg` or searched the web; every image an agent was shown matched a file in its own folder.
+
+Caveats:
+
+- One run per cell; earlier runs put the noise at about ±1 per 12 questions, so differences of 1 mean nothing and the hard set's +3 may not either.
+- Codex agents, at the owner's choice, and they ran with the owner's global Codex instructions (commands prefixed with `rtk`). `current` scored 71 and 33 here where Claude agents given the SKILL.md of the time scored 69 and 33-34 ("SKILL.md re-test"), so the two kinds of agent look close on these sets, but that is a comparison across runs.
+
 ## Frame cap: 40
 
 2026-11-04, master `bb029cd`. Frames take ~60 ms each to extract, so the cap is about the agent reading them. On the Karpathy keynote (`LCEmiRjPEtQ`, 39.5 min, 720p) a run took 4m00s (~3m45s transcription, 10 s download, 3 s audio conversion) and gave 25 frames: 7 even (one of 8 dropped for a ref frame within 3 s) and 18 ref, 1.9 MB of JPEGs.

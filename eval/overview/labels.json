@@ -1,0 +1,191 @@
+{
+ "seed": 16699848405142710330,
+ "labels": {
+  "clips": {
+   "C-39pLx6QTQ": {
+    "transcript": "b",
+    "vidscribe": "a",
+    "current": "c"
+   },
+   "D1PjB0cwiKg": {
+    "transcript": "b",
+    "vidscribe": "a",
+    "current": "c"
+   },
+   "Gjnup-PuquQ": {
+    "transcript": "c",
+    "vidscribe": "a",
+    "current": "b"
+   },
+   "LCEmiRjPEtQ": {
+    "transcript": "b",
+    "vidscribe": "c",
+    "current": "a"
+   },
+   "UMp-IF6uPkk": {
+    "transcript": "a",
+    "vidscribe": "b",
+    "current": "c"
+   },
+   "Unzc731iCUY": {
+    "transcript": "a",
+    "vidscribe": "c",
+    "current": "b"
+   },
+   "Yv2iYYewdf0": {
+    "transcript": "a",
+    "vidscribe": "c",
+    "current": "b"
+   },
+   "Z50jEi1igNQ": {
+    "transcript": "a",
+    "vidscribe": "b",
+    "current": "c"
+   },
+   "ive5H8hCBFs": {
+    "transcript": "c",
+    "vidscribe": "a",
+    "current": "b"
+   },
+   "up1xuwn_euk": {
+    "transcript": "a",
+    "vidscribe": "b",
+    "current": "c"
+   },
+   "wYSncx9zLIU": {
+    "transcript": "b",
+    "vidscribe": "c",
+    "current": "a"
+   },
+   "wpGI6BmhbJU": {
+    "transcript": "c",
+    "vidscribe": "a",
+    "current": "b"
+   }
+  },
+  "main": {
+   "LCEmiRjPEtQ": {
+    "transcript": "c",
+    "vidscribe": "a",
+    "current": "b"
+   },
+   "Unzc731iCUY": {
+    "transcript": "c",
+    "vidscribe": "b",
+    "current": "a"
+   },
+   "wYSncx9zLIU": {
+    "transcript": "b",
+    "vidscribe": "c",
+    "current": "a"
+   },
+   "H3KnMyojEQU": {
+    "transcript": "c",
+    "vidscribe": "b",
+    "current": "a"
+   },
+   "gDvwRpl9erE": {
+    "transcript": "b",
+    "vidscribe": "c",
+    "current": "a"
+   },
+   "xAcTmDO6NTI": {
+    "transcript": "c",
+    "vidscribe": "b",
+    "current": "a"
+   },
+   "ej5RsTtVvQE": {
+    "transcript": "b",
+    "vidscribe": "a",
+    "current": "c"
+   },
+   "JKbtWimlzAE": {
+    "transcript": "b",
+    "vidscribe": "c",
+    "current": "a"
+   },
+   "hF8swzNR1-o": {
+    "transcript": "b",
+    "vidscribe": "a",
+    "current": "c"
+   },
+   "yQ6VOOd73MA": {
+    "transcript": "b",
+    "vidscribe": "a",
+    "current": "c"
+   },
+   "x-wqMcYMNdg": {
+    "transcript": "a",
+    "vidscribe": "b",
+    "current": "c"
+   },
+   "v9DuQ1C3xH8": {
+    "transcript": "a",
+    "vidscribe": "b",
+    "current": "c"
+   }
+  },
+  "hard": {
+   "LCEmiRjPEtQ": {
+    "transcript": "c",
+    "vidscribe": "b",
+    "current": "a"
+   },
+   "Unzc731iCUY": {
+    "transcript": "b",
+    "vidscribe": "a",
+    "current": "c"
+   },
+   "wYSncx9zLIU": {
+    "transcript": "c",
+    "vidscribe": "a",
+    "current": "b"
+   },
+   "H3KnMyojEQU": {
+    "transcript": "b",
+    "vidscribe": "a",
+    "current": "c"
+   },
+   "gDvwRpl9erE": {
+    "transcript": "a",
+    "vidscribe": "c",
+    "current": "b"
+   },
+   "xAcTmDO6NTI": {
+    "transcript": "a",
+    "vidscribe": "c",
+    "current": "b"
+   },
+   "ej5RsTtVvQE": {
+    "transcript": "a",
+    "vidscribe": "b",
+    "current": "c"
+   },
+   "JKbtWimlzAE": {
+    "transcript": "a",
+    "vidscribe": "c",
+    "current": "b"
+   },
+   "hF8swzNR1-o": {
+    "transcript": "c",
+    "vidscribe": "a",
+    "current": "b"
+   },
+   "yQ6VOOd73MA": {
+    "transcript": "b",
+    "vidscribe": "c",
+    "current": "a"
+   },
+   "x-wqMcYMNdg": {
+    "transcript": "b",
+    "vidscribe": "a",
+    "current": "c"
+   },
+   "v9DuQ1C3xH8": {
+    "transcript": "b",
+    "vidscribe": "a",
+    "current": "c"
+   }
+  }
+ }
+}

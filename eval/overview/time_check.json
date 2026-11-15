@@ -1,0 +1,970 @@
+{
+ "LCEmiRjPEtQ": [
+  {
+   "set": "clips",
+   "qid": "q1",
+   "verdict": "ok",
+   "seen_s": 495,
+   "note": "The fabs slide caption reads 'e.g. xAI Colossus cluster (100K H100 GPUs)'."
+  },
+  {
+   "set": "clips",
+   "qid": "q2",
+   "verdict": "ok",
+   "seen_s": 1705,
+   "note": "The Building Autonomous Software slide shows 'AGI 2027' beside the third red X."
+  },
+  {
+   "set": "clips",
+   "qid": "q3",
+   "verdict": "ok",
+   "seen_s": 2255,
+   "note": "The product announcement screenshot is titled 'Introducing Operator'."
+  },
+  {
+   "set": "main",
+   "qid": "v1",
+   "verdict": "ok",
+   "seen_s": 494,
+   "note": "The fabs slide caption reads 'e.g. xAI Colossus cluster (100K H100 GPUs)'."
+  },
+  {
+   "set": "main",
+   "qid": "v2",
+   "verdict": "ok",
+   "seen_s": 625,
+   "note": "The Software 1.0 tools box lists Calculator, Python interpreter, and Terminal."
+  },
+  {
+   "set": "main",
+   "qid": "v3",
+   "verdict": "ok",
+   "seen_s": 1284,
+   "note": "The Perplexity screenshot shows the query 'meta buys scale ai'."
+  },
+  {
+   "set": "main",
+   "qid": "v4",
+   "verdict": "ok",
+   "seen_s": 1943,
+   "note": "A green check mark appears beside 'Running locally (ez)'."
+  },
+  {
+   "set": "main",
+   "qid": "mixed",
+   "verdict": "ok",
+   "seen_s": 1416,
+   "note": "The slide title reads 'Human+AI UIUX for Coding'."
+  },
+  {
+   "set": "hard",
+   "qid": "h1",
+   "verdict": "ok",
+   "seen_s": 720,
+   "note": "The right-hand social-media post reads 'Total unified memory = 496GB.'"
+  },
+  {
+   "set": "hard",
+   "qid": "h2",
+   "verdict": "ok",
+   "seen_s": 1295,
+   "note": "The screenshot of two orange chairs and a table is captioned 'Unreal engine'."
+  },
+  {
+   "set": "hard",
+   "qid": "h3",
+   "verdict": "ok",
+   "seen_s": 2265,
+   "note": "The Operator screenshot shows the Tripadvisor website, with its logo and a Rome tour page."
+  }
+ ],
+ "Unzc731iCUY": [
+  {
+   "set": "clips",
+   "qid": "q1",
+   "verdict": "ok",
+   "seen_s": 1602,
+   "note": "The Important rules slide labels the two-post-and-lintel diagram Trilithon."
+  },
+  {
+   "set": "clips",
+   "qid": "q2",
+   "verdict": "ok",
+   "seen_s": 2358,
+   "note": "The map-coloring program status reads Color count: 4."
+  },
+  {
+   "set": "clips",
+   "qid": "q3",
+   "verdict": "ok",
+   "seen_s": 3222,
+   "note": "The Collaborators slide lists Demosthenes first, followed by Patrick Henry, Winston Churchill, and the MIT Faculty."
+  },
+  {
+   "set": "main",
+   "qid": "v1",
+   "verdict": "ok",
+   "seen_s": 425,
+   "note": "On the table, two upright white blocks support a third white block laid horizontally across their tops."
+  },
+  {
+   "set": "main",
+   "qid": "v2",
+   "verdict": "ok",
+   "seen_s": 1540,
+   "note": "The Basic crimes slide displays the MIT logo at bottom left and the CSAIL logo at bottom right."
+  },
+  {
+   "set": "main",
+   "qid": "v3",
+   "verdict": "ok",
+   "seen_s": 2360,
+   "note": "The map-coloring program's upper bar displays the date 29-Jan-2015."
+  },
+  {
+   "set": "main",
+   "qid": "v4",
+   "verdict": "ok",
+   "seen_s": 3600,
+   "note": "The Clinton broadcast shows LIVE with 11:23 pm ET beneath it."
+  },
+  {
+   "set": "main",
+   "qid": "mixed",
+   "verdict": "ok",
+   "seen_s": 3345,
+   "note": "The Conclusions slide's first bullet reads Newton noted that F = ma."
+  },
+  {
+   "set": "hard",
+   "qid": "h1",
+   "verdict": "ok",
+   "seen_s": 26,
+   "note": "The navy shirt on the right shows a branching Joshua tree silhouette against sunset-colored stripes, with desert terrain silhouettes."
+  },
+  {
+   "set": "hard",
+   "qid": "h2",
+   "verdict": "ok",
+   "seen_s": 1470,
+   "note": "The gray isometric floor-plan diagram with the brown arrow shows A9, A10, A11, and A12 at the upper left; A12 is the highest-numbered gate label."
+  },
+  {
+   "set": "hard",
+   "qid": "h3",
+   "verdict": "ok",
+   "seen_s": 3630,
+   "note": "The C-SPAN broadcast shows LIVE with 8:23 pm PT beneath it, the accepted equivalent of 11:23 pm ET."
+  }
+ ],
+ "wYSncx9zLIU": [
+  {
+   "set": "clips",
+   "qid": "q1",
+   "verdict": "ok",
+   "seen_s": 2945,
+   "note": "Phone lock screen displays 4:50 above a Biotech stocks task notification."
+  },
+  {
+   "set": "clips",
+   "qid": "q2",
+   "verdict": "ok",
+   "seen_s": 6479,
+   "note": "Interview caption reads Ferran Alet Puig, Research Scientist, Google."
+  },
+  {
+   "set": "clips",
+   "qid": "q3",
+   "verdict": "ok",
+   "seen_s": 6355,
+   "note": "Slide shows Wiz: Cloud and AI Security, Mandiant Consulting, and CodeMender and custom agents."
+  },
+  {
+   "set": "main",
+   "qid": "v1",
+   "verdict": "ok",
+   "seen_s": 1304,
+   "note": "Photo shows a gray tabby cat wearing white and pink bunny ears, lying in a pet bed."
+  },
+  {
+   "set": "main",
+   "qid": "v2",
+   "verdict": "ok",
+   "seen_s": 2935,
+   "note": "First trigger reads Monitoring BioNTech SE (BNTX), with P/E < 15."
+  },
+  {
+   "set": "main",
+   "qid": "v3",
+   "verdict": "ok",
+   "seen_s": 3858,
+   "note": "Cart item reads ASUS TUF Gaming Z790-Plus WIFI Motherboard."
+  },
+  {
+   "set": "main",
+   "qid": "v4",
+   "verdict": "ok",
+   "seen_s": 5180,
+   "note": "Generated website displays Willamette Pizza Co. in its header and main title."
+  },
+  {
+   "set": "main",
+   "qid": "mixed",
+   "verdict": "ok",
+   "seen_s": 1450,
+   "note": "GDPval-AA Elo chart shows Gemini 3.5 Flash at 1656 and Gemini 3.1 Pro at 1314."
+  },
+  {
+   "set": "hard",
+   "qid": "h1",
+   "verdict": "ok",
+   "seen_s": 35,
+   "note": "Coffee bags prominently display BLK & BOLD branding."
+  },
+  {
+   "set": "hard",
+   "qid": "h2",
+   "verdict": "ok",
+   "seen_s": 3490,
+   "note": "Fitness & Meal Tracker app shows Yoga Flow at 12:15 PM."
+  },
+  {
+   "set": "hard",
+   "qid": "h3",
+   "verdict": "ok",
+   "seen_s": 6252,
+   "note": "Forest signpost has 35A painted on the left-pointing arrow tips."
+  }
+ ],
+ "H3KnMyojEQU": [
+  {
+   "set": "main",
+   "qid": "v1",
+   "verdict": "ok",
+   "seen_s": 697,
+   "note": "iPhone workout screen reads Set 2 of 3, 8x Bicep Curl • Alternating, 30 lbs."
+  },
+  {
+   "set": "main",
+   "qid": "v2",
+   "verdict": "ok",
+   "seen_s": 1458,
+   "note": "Watch music screen shows Kneel by Nilüfer Yanya."
+  },
+  {
+   "set": "main",
+   "qid": "v3",
+   "verdict": "ok",
+   "seen_s": 2697,
+   "note": "Tim Millet caption reads VP, Platform Architecture."
+  },
+  {
+   "set": "main",
+   "qid": "v4",
+   "verdict": "ok",
+   "seen_s": 4296,
+   "note": "Apple end card reads Shot on iPhone. Edited on Mac."
+  },
+  {
+   "set": "main",
+   "qid": "mixed",
+   "verdict": "gone",
+   "seen_s": null,
+   "note": "At 1550 s the frame is a dark transition. Frames checked at 5-second intervals across 1490–1610 s show the SE recap, Eugene Kim in grassy hills, and Ultra watch/display demonstrations; the reference answer Apple Watch Ultra 3; up to 42 hours is not readable on screen.",
+   "overruled": "kept: the answer is spoken; the on-screen part (Eugene Kim in grassy hills, lower third) is at 1539 s"
+  },
+  {
+   "set": "hard",
+   "qid": "h1",
+   "verdict": "ok",
+   "seen_s": 587,
+   "note": "Julz Arney caption reads Sr. Director, Fitness Technologies."
+  },
+  {
+   "set": "hard",
+   "qid": "h2",
+   "verdict": "ok",
+   "seen_s": 2270,
+   "note": "Pink neon sign on the teal-lit building reads The Carlyle."
+  },
+  {
+   "set": "hard",
+   "qid": "h3",
+   "verdict": "ok",
+   "seen_s": 3428,
+   "note": "Greg “Joz” Joswiak caption reads SVP, Worldwide Marketing."
+  }
+ ],
+ "gDvwRpl9erE": [
+  {
+   "set": "main",
+   "qid": "v1",
+   "verdict": "ok",
+   "seen_s": 675,
+   "note": "Black T-shirt has 2.8 printed in white."
+  },
+  {
+   "set": "main",
+   "qid": "v2",
+   "verdict": "ok",
+   "seen_s": 1330,
+   "note": "Web frameworks usage chart labels FastAPI's 2024 value as 38%."
+  },
+  {
+   "set": "main",
+   "qid": "v3",
+   "verdict": "ok",
+   "seen_s": 2215,
+   "note": "Site-packages listing shows the pink arrow pointing to le_package.pth."
+  },
+  {
+   "set": "main",
+   "qid": "v4",
+   "verdict": "ok",
+   "seen_s": 3820,
+   "note": "Projected takeaway list reads 1. All sneks are good."
+  },
+  {
+   "set": "main",
+   "qid": "mixed",
+   "verdict": "ok",
+   "seen_s": 2545,
+   "note": "Man in the projected office film clip holds a light-colored coffee mug."
+  },
+  {
+   "set": "hard",
+   "qid": "h1",
+   "verdict": "ok",
+   "seen_s": 532,
+   "note": "Tweet above the Python 2 and 3 chart says 3 outgrows 2 by 2017-12."
+  },
+  {
+   "set": "hard",
+   "qid": "h2",
+   "verdict": "ok",
+   "seen_s": 1675,
+   "note": "PyCon Lithuania 2025 YouTube player shows total duration 1:11:21 in its controls."
+  },
+  {
+   "set": "hard",
+   "qid": "h3",
+   "verdict": "ok",
+   "seen_s": 3580,
+   "note": "PyCon US 2025 slide has the pink word unreflected above a downward arrow."
+  }
+ ],
+ "xAcTmDO6NTI": [
+  {
+   "set": "main",
+   "qid": "v1",
+   "verdict": "ok",
+   "seen_s": 546.0,
+   "note": "The recipe slide reads \"4) Bake at 350F for 5 minutes\"."
+  },
+  {
+   "set": "main",
+   "qid": "v2",
+   "verdict": "ok",
+   "seen_s": 1290.0,
+   "note": "The Spyder console startup banner reads \"Python 3.8.5\"."
+  },
+  {
+   "set": "main",
+   "qid": "v3",
+   "verdict": "ok",
+   "seen_s": 2440.0,
+   "note": "The slide shows \"flag = False\"."
+  },
+  {
+   "set": "main",
+   "qid": "v4",
+   "verdict": "ok",
+   "seen_s": 3686.0,
+   "note": "The laptop lid shows the Dell logo."
+  },
+  {
+   "set": "main",
+   "qid": "mixed",
+   "verdict": "ok",
+   "seen_s": 3000.0,
+   "note": "The orange code example has the handwritten label \"ok\" beside it."
+  },
+  {
+   "set": "hard",
+   "qid": "h1",
+   "verdict": "ok",
+   "seen_s": 130.0,
+   "note": "The green navigation bar shows \"About 6.S061\"."
+  },
+  {
+   "set": "hard",
+   "qid": "h2",
+   "verdict": "ok",
+   "seen_s": 1290.0,
+   "note": "The Spyder console startup banner reads \"IPython 7.20.0\"."
+  },
+  {
+   "set": "hard",
+   "qid": "h3",
+   "verdict": "ok",
+   "seen_s": 3590.0,
+   "note": "The console shows \"In [25]: x\" followed by \"NameError: name 'x' is not defined\"."
+  }
+ ],
+ "ej5RsTtVvQE": [
+  {
+   "set": "main",
+   "qid": "v1",
+   "verdict": "ok",
+   "seen_s": 13,
+   "note": "Opening 'Do Dumb Things' slide shows a chair with a leg supported by books/paper."
+  },
+  {
+   "set": "main",
+   "qid": "v2",
+   "verdict": "ok",
+   "seen_s": 1340,
+   "note": "'Mono Repos' slide shows the subtitle 'Cut from the Same Cloth'."
+  },
+  {
+   "set": "main",
+   "qid": "v3",
+   "verdict": "ok",
+   "seen_s": 2160,
+   "note": "'The Loop' diagram shows Throw Away and the long curved arrow returning toward Build."
+  },
+  {
+   "set": "main",
+   "qid": "v4",
+   "verdict": "ok",
+   "seen_s": 2343,
+   "note": "'Context Managers' example shows 'return dispatch_request(request)' inside the app_context block."
+  },
+  {
+   "set": "main",
+   "qid": "mixed",
+   "verdict": "ok",
+   "seen_s": 2613,
+   "note": "Slide visible behind the speaker reads 'You will not reuse' with subtitle 'Except when you do'."
+  },
+  {
+   "set": "hard",
+   "qid": "h1",
+   "verdict": "ok",
+   "seen_s": 40,
+   "note": "Speaker at lectern with opening slide behind him; lower-right overlay reads 'hochschule burgenland' and 'University of Applied Sciences'."
+  },
+  {
+   "set": "hard",
+   "qid": "h2",
+   "verdict": "ok",
+   "seen_s": 1660,
+   "note": "'How often does it happen?' slide shows 'The More Common The Bigger The Impact'."
+  },
+  {
+   "set": "hard",
+   "qid": "h3",
+   "verdict": "ok",
+   "seen_s": 2335,
+   "note": "'Context Managers' example shows 'user = get_user_from_session(request.session)' before the app_context block."
+  }
+ ],
+ "JKbtWimlzAE": [
+  {
+   "set": "main",
+   "qid": "v1",
+   "verdict": "ok",
+   "seen_s": 222,
+   "note": "Chelsea Zou's Instructor Bio slide reads: Undergrad: Applied Math + Neuroscience @ Binghamton."
+  },
+  {
+   "set": "main",
+   "qid": "v2",
+   "verdict": "ok",
+   "seen_s": 1000,
+   "note": "At 975 s the frame shows the speaker. At 1000 s the Datasets slide states that GPT-2 and RoBERTa are trained on five datasets, each with approx. 29 million total words."
+  },
+  {
+   "set": "main",
+   "qid": "v3",
+   "verdict": "ok",
+   "seen_s": 2134,
+   "note": "The Self-Improvement slide shows a white humanoid robot using a laptop."
+  },
+  {
+   "set": "main",
+   "qid": "v4",
+   "verdict": "ok",
+   "seen_s": 3022,
+   "note": "The Minified LLMs and On-Device LLMs slide lists AutoGPT and ChatGPT plug-ins."
+  },
+  {
+   "set": "main",
+   "qid": "mixed",
+   "verdict": "ok",
+   "seen_s": 1145,
+   "note": "The Global Ordering Results table shows CHILDES Reverse with Zorro 77.6 +/- 1.3, above Age 75.6 and Random 76.9."
+  },
+  {
+   "set": "hard",
+   "qid": "h1",
+   "verdict": "ok",
+   "seen_s": 255,
+   "note": "The stage shot shows two women in white tops and a bearded man in a dark blazer wearing a dark green turban."
+  },
+  {
+   "set": "hard",
+   "qid": "h2",
+   "verdict": "ok",
+   "seen_s": 1447,
+   "note": "The Want to Learn More? slide shows only a Paper link and QR code; the link reads arxiv.org/abs/2412.15285."
+  },
+  {
+   "set": "hard",
+   "qid": "h3",
+   "verdict": "ok",
+   "seen_s": 2872,
+   "note": "The Downstream Tasks table lists MAE w/ Random Masking accuracy as 55.1%; its last row is Ours (Cross-MAE)."
+  }
+ ],
+ "hF8swzNR1-o": [
+  {
+   "set": "main",
+   "qid": "v1",
+   "verdict": "ok",
+   "seen_s": 444,
+   "note": "Music mini player reads WITH ME, with John Summit & Julia Wolf beneath it."
+  },
+  {
+   "set": "main",
+   "qid": "v2",
+   "verdict": "ok",
+   "seen_s": 1334,
+   "note": "The iPad Ask To Browse Website prompt and Safari address bar show cyberpetsgame.net."
+  },
+  {
+   "set": "main",
+   "qid": "v3",
+   "verdict": "ok",
+   "seen_s": 3282,
+   "note": "Cervantes Bank is the top visible account in the compromised-password list."
+  },
+  {
+   "set": "main",
+   "qid": "v4",
+   "verdict": "ok",
+   "seen_s": 3451,
+   "note": "Home notifications repeatedly name Lydia, including Front Door was locked by Lydia."
+  },
+  {
+   "set": "main",
+   "qid": "mixed",
+   "verdict": "ok",
+   "seen_s": 4213,
+   "note": "The first shirt result is Rhone at $138. A separately viewed frame at 4204 seconds shows the app name Daydream at the top."
+  },
+  {
+   "set": "hard",
+   "qid": "h1",
+   "verdict": "ok",
+   "seen_s": 1189,
+   "note": "The outdoor presenter caption reads Raja Bose, Director, Trust, Safety, and Values Product Marketing."
+  },
+  {
+   "set": "hard",
+   "qid": "h2",
+   "verdict": "ok",
+   "seen_s": 2910,
+   "note": "The Mail message headed Olives Al Fresco shows sender Gema's Gourmet Market."
+  },
+  {
+   "set": "hard",
+   "qid": "h3",
+   "verdict": "ok",
+   "seen_s": 3070,
+   "note": "Below the Bosque de Chapultepec article, the Siri question reads What archeological discoveries were made here?"
+  }
+ ],
+ "yQ6VOOd73MA": [
+  {
+   "set": "main",
+   "qid": "v1",
+   "verdict": "ok",
+   "seen_s": 491.0,
+   "note": "Nancy Kanwisher's caption reads MIT McGovern Institute."
+  },
+  {
+   "set": "main",
+   "qid": "v2",
+   "verdict": "ok",
+   "seen_s": 1115.0,
+   "note": "A human brain model on a white base sits on the table in front of Michael Gazzaniga."
+  },
+  {
+   "set": "main",
+   "qid": "v3",
+   "verdict": "ok",
+   "seen_s": 2223.0,
+   "note": "Uri Maoz holds a card reading YOU WILL CHOOSE TO SIT HERE."
+  },
+  {
+   "set": "main",
+   "qid": "v4",
+   "verdict": "ok",
+   "seen_s": 2753.0,
+   "note": "Close-up shows hands playing a brass saxophone."
+  },
+  {
+   "set": "main",
+   "qid": "mixed",
+   "verdict": "ok",
+   "seen_s": 966.0,
+   "note": "The monitor shows a square on the left and a circle on the right."
+  },
+  {
+   "set": "hard",
+   "qid": "h1",
+   "verdict": "ok",
+   "seen_s": 931.0,
+   "note": "The archival hands-and-tabletop footage has the date stamp SEP. 25 1983."
+  },
+  {
+   "set": "hard",
+   "qid": "h2",
+   "verdict": "ok",
+   "seen_s": 1461.0,
+   "note": "Luke Chang's caption lists DARTMOUTH beneath his name."
+  },
+  {
+   "set": "hard",
+   "qid": "h3",
+   "verdict": "ok",
+   "seen_s": 3029.5,
+   "note": "The clockwork movement's metal plate is stamped 0898."
+  }
+ ],
+ "x-wqMcYMNdg": [
+  {
+   "set": "main",
+   "qid": "v1",
+   "verdict": "ok",
+   "seen_s": 910,
+   "note": "The phone's article card clearly displays Breitbart as the outlet."
+  },
+  {
+   "set": "main",
+   "qid": "v2",
+   "verdict": "ok",
+   "seen_s": 1923,
+   "note": "The guest is wearing white earbuds with white wires running down from both ears."
+  },
+  {
+   "set": "main",
+   "qid": "v3",
+   "verdict": "ok",
+   "seen_s": 3705,
+   "note": "Hires is visible on the wooden crate on the dresser behind Jon on the viewer's right."
+  },
+  {
+   "set": "main",
+   "qid": "v4",
+   "verdict": "ok",
+   "seen_s": 4878,
+   "note": "The banner reads THE WEEKLY QUESTIONS beneath the split-screen conversation."
+  },
+  {
+   "set": "main",
+   "qid": "mixed",
+   "verdict": "gone",
+   "seen_s": null,
+   "note": "The producer wearing the blue and maroon striped top is visible, but Brittany (Mamedev) is not displayed on screen in the checked frames from 4816 through 4936 seconds. The nearby banner identifies only The Weekly Questions.",
+   "overruled": "kept: the answer is spoken; the on-screen part (producer in the blue and maroon striped top) is at 4878 s"
+  },
+  {
+   "set": "hard",
+   "qid": "h1",
+   "verdict": "ok",
+   "seen_s": 910,
+   "note": "18 Sources is readable beneath Sort: Suggested on the phone screen."
+  },
+  {
+   "set": "hard",
+   "qid": "h2",
+   "verdict": "ok",
+   "seen_s": 3228,
+   "note": "The yellow Intermezzo book lying on the upper-left shelf displays SALLY ROONEY; the guest's Economist & Host, Optimist Economy lower-third is also visible."
+  },
+  {
+   "set": "hard",
+   "qid": "h3",
+   "verdict": "ok",
+   "seen_s": 4750,
+   "note": "The black spine immediately left of the dried-flower vase reads DARK MONEY, with Jane Mayer on the spine."
+  }
+ ],
+ "v9DuQ1C3xH8": [
+  {
+   "set": "main",
+   "qid": "v1",
+   "verdict": "ok",
+   "seen_s": 467.0,
+   "note": "Title card reads '8 TURKEY LASAGNA' over sausage and onions in the pot."
+  },
+  {
+   "set": "main",
+   "qid": "v2",
+   "verdict": "ok",
+   "seen_s": 1020.0,
+   "note": "Bottom caption reads 'basics: roasted chicken'."
+  },
+  {
+   "set": "main",
+   "qid": "v3",
+   "verdict": "ok",
+   "seen_s": 1584.0,
+   "note": "The blonde friend is wearing a bright yellow jacket."
+  },
+  {
+   "set": "main",
+   "qid": "v4",
+   "verdict": "ok",
+   "seen_s": 2418.0,
+   "note": "Close-up of liquid being poured into a measuring cup clearly labeled PYREX."
+  },
+  {
+   "set": "main",
+   "qid": "mixed",
+   "verdict": "ok",
+   "seen_s": 2437.0,
+   "note": "The Dutch oven has a green exterior and handles, with a cream interior."
+  },
+  {
+   "set": "hard",
+   "qid": "h1",
+   "verdict": "ok",
+   "seen_s": 262.0,
+   "note": "Copyright notice reads '© MMVIII Television Food Network, G.P. All Rights Reserved' over the dining-table shot."
+  },
+  {
+   "set": "hard",
+   "qid": "h2",
+   "verdict": "ok",
+   "seen_s": 1569.0,
+   "note": "The framed still life behind the women shows brown bread rolls on a plate beside a folded white napkin and a small blue cup."
+  },
+  {
+   "set": "hard",
+   "qid": "h3",
+   "verdict": "ok",
+   "seen_s": 2850.0,
+   "note": "A tart with a fluted golden pastry shell and dark filling sits on the white cake stand beneath the white roses."
+  }
+ ],
+ "C-39pLx6QTQ": [
+  {
+   "set": "clips",
+   "qid": "q1",
+   "verdict": "ok",
+   "seen_s": 36.0,
+   "note": "The PyPI page heading clearly shows pywin32 305."
+  },
+  {
+   "set": "clips",
+   "qid": "q2",
+   "verdict": "ok",
+   "seen_s": 560.0,
+   "note": "VS Code shows import numpy as np on line 2. At 568 seconds it has already been deleted, leaving three import lines."
+  },
+  {
+   "set": "clips",
+   "qid": "q3",
+   "verdict": "ok",
+   "seen_s": 124.0,
+   "note": "The PyPI page heading clearly shows win-api 0.0.0."
+  }
+ ],
+ "D1PjB0cwiKg": [
+  {
+   "set": "clips",
+   "qid": "q1",
+   "verdict": "ok",
+   "seen_s": 152,
+   "note": "The title slide in Google Slides reads LIVE STREAMING SOP GUIDELINES."
+  },
+  {
+   "set": "clips",
+   "qid": "q2",
+   "verdict": "ok",
+   "seen_s": 297,
+   "note": "The slide titled 5. The Cost of Intelligence shows $200B with IN INFRASTRUCTURE beneath it."
+  },
+  {
+   "set": "clips",
+   "qid": "q3",
+   "verdict": "ok",
+   "seen_s": 282,
+   "note": "The Canvas prompt's third requirement reads: 视觉：采用「冷色调」，年轻活泼风格。"
+  }
+ ],
+ "Gjnup-PuquQ": [
+  {
+   "set": "clips",
+   "qid": "q1",
+   "verdict": "ok",
+   "seen_s": 87.0,
+   "note": "The Dockerfile editor shows ENV PORT=8080."
+  },
+  {
+   "set": "clips",
+   "qid": "q2",
+   "verdict": "ok",
+   "seen_s": 100.0,
+   "note": "The command shown is docker run myapp."
+  },
+  {
+   "set": "clips",
+   "qid": "q3",
+   "verdict": "ok",
+   "seen_s": 67.0,
+   "note": "The AWS and Google Cloud logos are shown side by side over shipping containers."
+  }
+ ],
+ "UMp-IF6uPkk": [
+  {
+   "set": "clips",
+   "qid": "q1",
+   "verdict": "ok",
+   "seen_s": 177.0,
+   "note": "A red spatula is visible stirring sliced shallots in the frying pan."
+  },
+  {
+   "set": "clips",
+   "qid": "q2",
+   "verdict": "ok",
+   "seen_s": 423.0,
+   "note": "Metal tongs are visible turning shrimp in the frying pan."
+  },
+  {
+   "set": "clips",
+   "qid": "q3",
+   "verdict": "ok",
+   "seen_s": 255.0,
+   "note": "A small white jug with a handle and spout is pouring liquid into the sauce."
+  }
+ ],
+ "Yv2iYYewdf0": [
+  {
+   "set": "clips",
+   "qid": "q1",
+   "verdict": "ok",
+   "seen_s": 65.0,
+   "note": "The middle chart labelled Downtrend has a red line."
+  },
+  {
+   "set": "clips",
+   "qid": "q2",
+   "verdict": "ok",
+   "seen_s": 232.5,
+   "note": "The title reads 40-day moving average at 232.5 s; 10-day moving average is visible at 227 s. Both precede the 50-day chart visible at 237 s."
+  },
+  {
+   "set": "clips",
+   "qid": "q3",
+   "verdict": "ok",
+   "seen_s": 217.0,
+   "note": "The lower-left formula reads 12-period EMA - 26-period EMA."
+  }
+ ],
+ "Z50jEi1igNQ": [
+  {
+   "set": "clips",
+   "qid": "q1",
+   "verdict": "ok",
+   "seen_s": 22.0,
+   "note": "The bottle being poured into the glass has a readable Sunflower Oil label."
+  },
+  {
+   "set": "clips",
+   "qid": "q2",
+   "verdict": "ok",
+   "seen_s": 90.0,
+   "note": "The end screen shows Make A Coin Battery at the top of the list on the right."
+  },
+  {
+   "set": "clips",
+   "qid": "q3",
+   "verdict": "ok",
+   "seen_s": 67.0,
+   "note": "A green piece of sponge is visible at the top of the glass."
+  }
+ ],
+ "ive5H8hCBFs": [
+  {
+   "set": "clips",
+   "qid": "q1",
+   "verdict": "ok",
+   "seen_s": 87.0,
+   "note": "She holds a red-and-white striped tote containing empty bottles."
+  },
+  {
+   "set": "clips",
+   "qid": "q2",
+   "verdict": "ok",
+   "seen_s": 262.0,
+   "note": "The green pack of sliced cheese in her hand clearly reads Tilsiter."
+  },
+  {
+   "set": "clips",
+   "qid": "q3",
+   "verdict": "ok",
+   "seen_s": 362.0,
+   "note": "She holds a dm Bio pack clearly labeled DINKEL MINI BREZELN, with pretzel illustrations."
+  }
+ ],
+ "up1xuwn_euk": [
+  {
+   "set": "clips",
+   "qid": "q1",
+   "verdict": "ok",
+   "seen_s": 12,
+   "note": "The title reads 'Power of HOW You Speak'; HOW is uppercase and italicized."
+  },
+  {
+   "set": "clips",
+   "qid": "q2",
+   "verdict": "ok",
+   "seen_s": 320,
+   "note": "The speaker is framed inside a YouTube watch page, with the video title, AlexanderTheCreate channel name, and like/share controls below the player."
+  },
+  {
+   "set": "clips",
+   "qid": "q3",
+   "verdict": "ok",
+   "seen_s": 365,
+   "note": "The early footage shows the speaker wearing glasses and a purple shirt directly in front of a dense green hedge."
+  }
+ ],
+ "wpGI6BmhbJU": [
+  {
+   "set": "clips",
+   "qid": "q1",
+   "verdict": "ok",
+   "seen_s": 3.0,
+   "note": "The phone screen displays the large headline Goal Reached."
+  },
+  {
+   "set": "clips",
+   "qid": "q2",
+   "verdict": "ok",
+   "seen_s": 395.0,
+   "note": "The Email field visibly contains iluvmotion@figma."
+  },
+  {
+   "set": "clips",
+   "qid": "q3",
+   "verdict": "ok",
+   "seen_s": 107.0,
+   "note": "The Opacity animation settings show Fade In and the selected easing option Ease out."
+  }
+ ]
+}

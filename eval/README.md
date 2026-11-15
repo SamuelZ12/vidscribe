@@ -397,3 +397,55 @@ Deviations from the plan above, none touching prompts' rules or the grader:
 - The first launch used a pool that reuses one agent for several folders; it was cancelled after ~10 s (one `answers.json`, some `--at` frames), every folder was rebuilt, and all 192 agents then ran fresh, one folder each.
 - Waves were not mixed across sets: `main` and `hard` (96 agents) ran first while the 9 clips downloaded, then `clips` in three waves as their time checks passed.
 - No agent touched a path outside its folder or ran `ffmpeg`. Seven cropped or tiled their own frames with `sips` or PIL (the rules cover the video, not frames); one wrote its crops to `/tmp` (`hard` `x-wqMcYMNdg` `at`, deleted after the run).
+
+## Overview sheets (`overview`)
+
+Tests the branch `overview-sheets` (`fdb5961`: overview sheets replace the default frames, `--at A-B/N`, new `skill/SKILL.md`) against master `28966e5`, with bars set before the run (`SPEC.md`, "Eval"). Result: `docs/measurements.md`, "Overview sheets against the current default frames".
+
+- Sets: `clips` (48 questions), `main` (72), `hard` (36), as in "Table re-run".
+- Arms, one fresh agent per video, set and arm (108 agents): `transcript` (the `transcript` prompt above); `current` (the `skill` prompt above with master's SKILL.md, on the frames master's script made); `vidscribe` (the same prompt with the branch's SKILL.md, on the branch script's output).
+- Agents: Codex CLI 0.169.0, one `codex exec --ignore-user-config -m gpt-6.1-sol -c model_reasoning_effort="medium" -s workspace-write -C <folder> --skip-git-repo-check --json` per folder (no network, writes only in the folder and `/tmp`). `vidscribe` on each agent's `PATH` was a copy of its arm's script. Earlier runs used Claude `task` subagents, so each bar compares two arms of this run, not a recorded score.
+- Bars, the same on every set: `vidscribe` at most 2 points below `current`; wrong answers that are not "unknown" at most `current` + 1.
+- Rebuild: all 21 videos downloaded per "Rebuild" into `/tmp/vsov/src`; the branch script run on all 21 (`new/`), master's on all 21 (`cur/`), each as `vidscribe <video> -f srt`. The transcripts of the two runs are byte-identical for every video.
+- Time check: one Codex agent per video with the prompt below, on every visual, mixed and hard question (132). 130 "ok", 2 "gone", both overruled: `H3KnMyojEQU` and `x-wqMcYMNdg` `mixed`, whose answers are spoken while the on-screen part (the presenter in grassy hills at 25:39, the producer in the striped top at 81:18) is there; the prompt asked whether the answer is on screen, which does not fit `mixed` questions. No question dropped (`overview/time_check.json`).
+- Folders `/tmp/vsov/ans/<set>_<ID>_<label>`, labels `a`-`c` shuffled per video and set (`overview/labels.json`, with the seed). While agents ran, the labels, the time-check folders and logs sat in a folder outside `/tmp` with mode 000, and each agent's Codex session file was moved out of `~/.codex/sessions` as it finished. The question files in the repo stayed readable; the leakage check covers them.
+- Grader: as above, 468 calls.
+- Per agent, from its Codex logs and not its own report (`overview/cost.json`): pictures that exist and that it was shown (`overview`, `orig`, `at`, `scan`), `--at` and `--scan` calls, tokens. `codex exec --json` leaves out image views, so they are read from the session file: each image returned to the model is matched by content to a file in the agent's folder. All 2,226 images matched. `overview/grades.json` also records, for each visual, mixed and hard answer, whether the frame it cites is a full-size frame the agent opened (`cite`).
+- Leakage check per agent: any command naming a path outside its folder (`/tmp`, `/Users`, `~`, `$HOME`, `../`, `find /`), `ffmpeg`, `ffprobe`, `curl`, `wget`, any picture or video path outside the folder in a tool call, any web search or MCP call. None in 108 agents. One (`hard` `x-wqMcYMNdg` `vidscribe`) cropped a frame inside its folder.
+- Code: `overview/harness.py` (folders, prompts, runner, log reader, grader text) and `overview/run_answers.py`.
+
+Run 2026-11-15: `clips` 12 / 47.5 / 46.5 of 48, `main` 12 / 71 / 70 of 72, `hard` 0 / 33 / 36 of 36 (`transcript` / `current` / `vidscribe`). Every bar met. No agent failed or was re-run: 21 time-check agents in 134 s, 36 `clips` agents in 226 s, 72 `main` and `hard` agents in 556 s, 8 at a time.
+
+Changes to the `skill` prompt, the same in both picture arms unless noted:
+
+- `/tmp/vseval` → `/tmp/vsov`; `<SKILL>` is the arm's SKILL.md from `# vidscribe` to the end.
+- `current`: "the frames (N)" with the folder's real count, as in "Table re-run".
+- `vidscribe`: the folder line reads "index.txt, the overview sheets (S sheets, K tiles), and video.mp4", and the last line asks "how many of the overview sheets you viewed out of how many exist" in place of "original frames".
+
+Things the prompts did not control:
+
+- `--ignore-user-config` drops the owner's Codex `config.toml` (MCP servers, notify hook) but not `~/.codex/AGENTS.md`, so every agent in every arm also had the owner's global instructions: prefix shell commands with `rtk`, and use Context7 for library documentation.
+- A probe agent on a smoke fixture (not eval data) ran first, to confirm that Codex views images and runs `--at`.
+
+Time-check agent (`<F>` = `/tmp/vsov/chk/<ID>`, holding `refs.json` and `frames/video.mp4`):
+
+```
+# Goal
+Check that the reference answers to questions about a video are still on screen in this download of it. The questions were written on an earlier download; a new download can differ (re-encodes, edits, shifted times).
+
+# Your folder: <F>/
+- refs.json: one entry per question: set, qid, question, answer (the reference answer), time_s (when the answer was on screen in the earlier download) and visible_s (the span it was on screen).
+- frames/video.mp4: the video. Do not open it directly. Pull full-size frames with `vidscribe <F>/frames --at <seconds or M:SS>` and view them. A range with a count gives that many frames (`--at 8:10-8:20/8`); batch with commas.
+
+# Steps
+For each entry, pull the frame at time_s and view it. If the reference answer cannot be read there, look up to 60 s either side of time_s, then decide.
+
+# Rules
+- Use only your folder and the `vidscribe <F>/frames --at` command. Do not open anything else under /tmp/vsov, do not search the web, do not run ffmpeg or any other tool on the video.
+- verdict "ok": a full-size frame you viewed shows the reference answer. Give that frame's time as seen_s.
+- verdict "gone": the reference answer is not on screen within 60 s of time_s in this download.
+- Judge only whether the reference answer is on screen, not whether the question is good.
+
+# Output
+Write <F>/time_check.json: a JSON list of {"set", "qid", "verdict": "ok"|"gone", "seen_s": <seconds or null>, "note": "<what the frame shows>"}.
+```
