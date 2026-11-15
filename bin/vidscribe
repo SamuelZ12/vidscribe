@@ -91,7 +91,8 @@ import sys; exec(sys.argv.pop(1))
 import math, os, re, subprocess, tempfile
 vid, d, ranges = sys.argv[1:4]
 G = 10  # tiles: every scene end plus even fill so no gap exceeds G s (fill gap from docs/measurements.md, "Scan probe")
-mm = lambda t: f"{int(t//60):02d}:{t%60:04.1f}"
+def mm(t):  # round first, so 839.97 reads 14:00.0, not 13:60.0 (a time --at rejects)
+    t = float(f"{t:.1f}"); return f"{int(t//60):02d}:{t%60:04.1f}"
 tag = lambda t: f"{int(t//60):02d}m{int(t%60):02d}s"
 # scene ends in the t seconds from ss: one 2 fps pass gives each frame a scene score and a 9x8 gray thumbnail (for dedupe)
 def scene_ends(vid, ss, t):

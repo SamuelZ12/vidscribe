@@ -49,6 +49,10 @@ This version replaces the default frames with a cheap, evenly spaced overview th
 
 **Unchanged, byte for byte against master**: audio-only inputs, `-a`, `-f vtt|json` without `-v`, the transcript of every run, `--scan`, and `--at` without `/N`.
 
+Exceptions, made at the owner's request after the eval (2026-11-15):
+
+- `--scan` rounds a time before splitting it into minutes and seconds, so a tile at 839.97 s reads `14:00.0` where master prints `13:60.0`, a time `--at` rejects.
+
 ## Tech Stack
 
 - `bin/vidscribe`: one bash script with embedded python3 heredocs. Must run under `/bin/bash` 3.2.57 (macOS).
