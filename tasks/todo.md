@@ -30,7 +30,7 @@ Left as is, for the owner to decide:
 ## Phase 3: Eval and decision (each step needs approval)
 
 - [x] Task 7: Eval run, recorded in `docs/measurements.md`, `eval/README.md`, `eval/overview/` (every bar met; Codex agents)
-- [ ] Task 8: ADR-0007 (only if every bar is met)
+- [x] Task 8: ADR-0007 (only if every bar is met)
 - [ ] Task 9: README table and intro; `SPEC.md` status (only if every bar is met)
 
 ## Checkpoint B: merge

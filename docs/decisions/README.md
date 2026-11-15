@@ -6,15 +6,16 @@ Why the shipped defaults are what they are. An ADR is written when a default cha
 |---|---|
 | [0001](0001-local-only.md) | Stay local; no hosted video model |
 | [0002](0002-frames-on-by-default.md) | Frames on by default for video |
-| [0003](0003-frame-cap.md) | Cap automatic frames at 40, split between refs and scenes |
+| [0003](0003-frame-cap.md) | Cap automatic frames at 40, split between refs and scenes (superseded by 0007) |
 | [0004](0004-frames-on-demand.md) | Frames on demand (`--at`) instead of smarter scene choice |
 | [0005](0005-no-ocr.md) | No OCR timeline; contact sheets for unnamed moments |
 | [0006](0006-detect-language-per-piece.md) | Detect the language of every piece by default |
+| [0007](0007-overview-sheets.md) | Overview sheets instead of default frames; `-v N` and `--at A-B/N` give full-size frames |
 
 ## Considered, not built
 
 - **A hosted video model** (e.g. Gemini behind a flag): paid, and it sends media off the device ([ADR-0001](0001-local-only.md)).
 - **OCR of on-screen text into `index.txt`**: with `--at`, agents answered 31/36 questions about moments the speech never names, above the bar set beforehand ([ADR-0005](0005-no-ocr.md)).
-- **Smarter scene choice within the 40-frame cap**: two methods were tried on long videos and neither improved answers; fetching frames on demand did ([ADR-0004](0004-frames-on-demand.md)).
+- **Smarter scene choice within the 40-frame cap**: two methods were tried on long videos and neither improved answers; fetching frames on demand did ([ADR-0004](0004-frames-on-demand.md)). The cap and its scene frames are gone since [ADR-0007](0007-overview-sheets.md).
 - **Word timestamps (forced aligner)**: at most 1 of 72 misses came from frame timing, and the aligner covers only 11 languages ([measurements](../measurements.md#word-timestamps-forced-aligner-not-built)).
 - **A readable-transcript mode (S1-mini cleanup)**: agents read the raw text fine, and a rewrite could change quoted words; English only ([measurements](../measurements.md#readable-transcript-s1-mini-not-built)).

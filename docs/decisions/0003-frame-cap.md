@@ -1,7 +1,7 @@
 # ADR-0003: Cap automatic frames at 40, split between refs and scenes
 
 ## Status
-Accepted
+Superseded by [ADR-0007](0007-overview-sheets.md)
 
 ## Date
 2026-11-04

@@ -14,7 +14,7 @@ On long videos the 40-frame cap ([ADR-0003](0003-frame-cap.md)) leaves room for 
 With 16 slots, whether a frame lands on the asked-about moment is luck; the number of frames limits pinpoint questions, not which scenes are chosen.
 
 ## Decision
-Keep the shipped scene selection (thinned evenly over the scene list). Let the agent fetch frames itself: `vidscribe <frames-dir> --at TIMES` extracts frames at chosen times from the run's video. To make that possible, the frames folder keeps `video.<ext>`: URL downloads are moved there, local files are symlinked (not copied, so a multi-GB recording costs nothing in `/tmp`).
+Keep the shipped scene selection (thinned evenly over the scene list); [ADR-0007](0007-overview-sheets.md) has since removed scene frames from the main run. Let the agent fetch frames itself: `vidscribe <frames-dir> --at TIMES` extracts frames at chosen times from the run's video. To make that possible, the frames folder keeps `video.<ext>`: URL downloads are moved there, local files are symlinked (not copied, so a multi-GB recording costs nothing in `/tmp`).
 
 ## Alternatives considered
 - **Content-score selection.** Rejected: no gain (above).
