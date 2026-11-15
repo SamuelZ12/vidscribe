@@ -13,7 +13,7 @@ Details, acceptance criteria and verification: `tasks/plan.md`. Spec: `SPEC.md`.
 ## Phase 2: Docs for agents and users
 
 - [x] Task 5: `docs/usage.md`
-- [ ] Task 6: `skill/SKILL.md`
+- [x] Task 6: `skill/SKILL.md`
 
 ## Checkpoint A: before the eval
 
