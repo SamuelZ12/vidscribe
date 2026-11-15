@@ -8,7 +8,7 @@ Details, acceptance criteria and verification: `tasks/plan.md`. Spec: `SPEC.md`.
 - [x] Task 1: Shared sheet builder for `--scan` (refactor, output unchanged)
 - [x] Task 2: `--at A-B/N` (S7, S8)
 - [x] Task 3: `-v N` gives exactly N even frames; old selector removed (S5, S6, S12)
-- [ ] Task 4: Overview sheets by default (S1-S4)
+- [x] Task 4: Overview sheets by default (S1-S4)
 
 ## Phase 2: Docs for agents and users
 

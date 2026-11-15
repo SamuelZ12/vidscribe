@@ -3,10 +3,10 @@
 # Usage: vidscribe <file-or-URL> [-o OUTDIR] [-l LANG] [-f txt|srt|vtt|json] [-c "hotwords"] [-m MODEL] [-v [N] | -a]
 #        vidscribe <frames-dir> --at TIMES | --scan RANGES: from a previous run's video, frames (--at 494,8:14,7:50-8:50,10:00-20:00/12; a range gives 4 frames, A-B/N gives N) or 4x4 contact sheets (--scan 50:00-60:00 or all).
 # URLs (X, YouTube, etc.) are fetched with yt-dlp. Prints the transcript path; text to stdout for txt.
-# Frames are on by default when the input has a video stream (-f txt|srt). -a/--audio-only: transcript only.
-# -v [N]: force frames, exactly N at full size (720 px high), evenly spaced over the picture (default 8).
-#         Frame text = sentence spoken at that time, interpolated within ~30s cues.
-#         Frames go to /tmp/vidscribe/frames/<name>/ (auto-pruned after 3 days) with video.<ext> (downloads moved there, local files symlinked) and index.txt (time -> frame -> start-end of spoken text -> text).
+# Video (-f txt|srt) also gets an overview: one tile per 10 s of picture (at least 16, at most 96), evenly spaced, on 4x4 contact sheets overview_NN.jpg.
+# -v N: exactly N full-size frames (720 px high), evenly spaced, instead of the overview. -v alone forces the overview. -a/--audio-only: transcript only.
+# Sheets and frames go to /tmp/vidscribe/frames/<name>/ (auto-pruned after 3 days) with video.<ext> (downloads moved there, local files symlinked) and index.txt:
+#   time -> sheet#position or frame file -> start-end of spoken text -> text (the sentence spoken at that time, interpolated within ~30s cues, plus one either side).
 set -euo pipefail
 export PATH="$HOME/.local/bin:/opt/homebrew/bin:$PATH"
 
@@ -14,11 +14,11 @@ MODEL="${VIDSCRIBE_MODEL:-mlx-community/Qwen3-ASR-1.7B-8bit}"
 OUTDIR="${VIDSCRIBE_OUTDIR:-/tmp/vidscribe/transcripts}"
 # tmp is only cleared on reboot, so prune transcripts older than 3 days
 [[ -d /tmp/vidscribe/transcripts ]] && find /tmp/vidscribe/transcripts -mindepth 1 -maxdepth 1 -mtime +3 -exec rm -rf {} + 2>/dev/null || true
-FMT="txt"; LANG_ARG=(); CTX_ARG=(); VFLAG=0; AFLAG=0; NFRAMES=8
+FMT="txt"; LANG_ARG=(); CTX_ARG=(); VFLAG=0; AFLAG=0; NFRAMES=""
 
-[[ $# -ge 1 ]] || { sed -n '2,5p' "$0"; exit 1; }
-case "$1" in -h|--help) sed -n '2,5p' "$0"; exit 0;; esac
-# contact sheets, shared by --scan: 4x4 sheets of WxH tiles with 2 px padding and 1 px margin = 1280x720
+[[ $# -ge 1 ]] || { sed -n '2,9p' "$0"; exit 1; }
+case "$1" in -h|--help) sed -n '2,9p' "$0"; exit 0;; esac
+# contact sheets, shared by the overview and --scan: 4x4 sheets of WxH tiles with 2 px padding and 1 px margin = 1280x720
 # (grid from docs/measurements.md, "Scan probe"); a last sheet with fewer than 16 tiles is padded white
 IFS= read -r -d '' SHEETS_PY <<'PY' || true
 import glob, os, shutil, subprocess, tempfile
@@ -155,7 +155,7 @@ while [[ $# -gt 0 ]]; do
     -v) VFLAG=1; if [[ "${2:-}" =~ ^[0-9]+$ ]]; then NFRAMES="$2"; shift 2; else shift; fi
         [[ ! "$NFRAMES" =~ ^0+$ ]] || { echo "-v N: N must be at least 1" >&2; exit 1; };;
     -a|--audio-only) AFLAG=1; shift;;
-    -h|--help) sed -n '2,5p' "$0"; exit 0;;
+    -h|--help) sed -n '2,9p' "$0"; exit 0;;
     *) echo "unknown arg: $1" >&2; exit 1;;
   esac
 done
@@ -270,12 +270,13 @@ if (( VISUAL )); then
   # keep the video next to the frames: link local files (no multi-GB copy), move downloads out of $TMP
   VID="$FDIR/video.${IN##*.}"
   if [[ "$IN" == "$TMP"/* ]]; then mv "$IN" "$VID"; else ln -s "$(cd "$(dirname "$IN")" && pwd)/$(basename "$IN")" "$VID"; fi
-  # even frames span the picture: use the container length (as --at does) when the video outlasts the audio;
+  # tiles and frames span the picture: use the container length (as --at does) when the video outlasts the audio;
   # sub-second differences are codec padding, so keep the audio length there (normal runs unchanged)
   FDUR="$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "$VID")"
   awk -v a="$DUR" -v v="${FDUR:-0}" 'BEGIN{ exit !(v + 0 > a + 1) }' || FDUR="$DUR"  # +0: "N/A" (unknown) means 0, not a string compare
-  python3 - "$OUT.srt" "$FDUR" "$NFRAMES" "$FDIR" "$VID" "$OUT.txt" <<'PY' >&2
-import os, re, subprocess, sys
+  python3 - "$SHEETS_PY" "$OUT.srt" "$FDUR" "${NFRAMES:-0}" "$FDIR" "$VID" "$OUT.txt" <<'PY' >&2
+import sys; exec(sys.argv.pop(1))
+import math, os, re, subprocess
 srt, dur, n, fdir, vid, txt = sys.argv[1], float(sys.argv[2]), int(sys.argv[3]), sys.argv[4], sys.argv[5], sys.argv[6]
 def sec(t):
     h, m, s = t.replace(',', '.').split(':'); return int(h)*3600 + int(m)*60 + float(s)
@@ -302,20 +303,33 @@ def around(t):  # the sentence spoken at t plus one either side
     if i is None: return '-', ''  # no spoken sentence in a gap or beyond the transcript
     win = sents[max(0, i-1):i+2]
     return f"{mmss(win[0][0])}-{mmss(win[-1][1])}", ' '.join(s[2] for s in win)
+# overview: one tile per 10 s of picture, at least one sheet (16) and at most six (96);
+# -v N: exactly N full-size frames instead. Either way evenly spaced, each in the middle of its share
+full = n > 0
+if not full: n = min(96, max(16, math.ceil(dur/10)))
 times = [dur*(i+0.5)/n for i in range(n)] if dur > 0 else []
 idx, missed = [], []
-for t in times:
-    fn = f"{len(idx):03d}_{int(t//60):02d}m{t%60:04.1f}s.jpg"; fp = f"{fdir}/{fn}"
-    subprocess.run(['ffmpeg','-nostdin','-loglevel','error','-y','-ss',f'{t:.2f}','-i',vid,'-frames:v','1','-q:v','3','-vf','scale=-2:720',fp], check=False)
-    if not os.path.exists(fp) or os.path.getsize(fp) == 0:  # e.g. past the end of the picture while audio runs on
-        if os.path.exists(fp): os.remove(fp)
-        missed.append(mmss(t)); continue
-    idx.append('\t'.join((mmss(t), fn) + around(t)))
+if full:
+    for t in times:
+        fn = f"{len(idx):03d}_{int(t//60):02d}m{t%60:04.1f}s.jpg"; fp = f"{fdir}/{fn}"
+        subprocess.run(['ffmpeg','-nostdin','-loglevel','error','-y','-ss',f'{t:.2f}','-i',vid,'-frames:v','1','-q:v','3','-vf','scale=-2:720',fp], check=False)
+        if not os.path.exists(fp) or os.path.getsize(fp) == 0:  # e.g. past the end of the picture while audio runs on
+            if os.path.exists(fp): os.remove(fp)
+            missed.append(mmss(t)); continue
+        idx.append('\t'.join((mmss(t), fn) + around(t)))
+else:
+    kept, lost = sheets(vid, times, f"{fdir}/overview_")
+    # a time without a picture leaves no hole on its sheet, so a tile's position counts the saved tiles
+    idx = ['\t'.join((mmss(t), f"overview_{j//16 + 1:02d}.jpg#{j%16 + 1:02d}") + around(t)) for j, t in enumerate(kept)]
+    missed = [mmss(t) for t in lost]
 open(f"{fdir}/index.txt", 'w', encoding='utf-8').write(''.join(l + '\n' for l in idx))
 if missed:
     print(f"frames: no picture at {len(missed)} of {len(times)} times ({missed[0]}-{missed[-1]}), left out")
-k = len(idx)
-print(f"frames: {fdir} ({k} frame{'s' * (k != 1)}, one every {dur/n:.1f} s)")
+k = len(idx); s = math.ceil(k/16)
+if not times: what = f"no picture length, no {'frames' if full else 'tiles'}"
+elif full: what = f"{k} frame{'s' * (k != 1)}, one every {dur/n:.1f} s"
+else: what = f"{k} tiles on {s} sheet{'s' * (s != 1)}, one every {dur/n:.1f} s"
+print(f"frames: {fdir} ({what})")
 PY
   [[ "$FMT" != "srt" && "$FMT" != "txt" ]] && echo "note: -v writes srt+txt; -f $FMT ignored" >&2
   [[ "$FMT" == "srt" ]] || FMT="txt"
