@@ -120,10 +120,12 @@ def run_agent(name, folder, text, bindir=None, timeout=3600, logdir=None):
     logdir = logdir or LOGS
     os.makedirs(logdir, exist_ok=True)
     env = dict(os.environ)
-    # This did not take effect in the 2026-11-15 run: Codex runs commands as `/bin/zsh -lc`, and the login shell
-    # puts ~/.local/bin (the installed vidscribe) ahead of bindir. The re-check set ZDOTDIR to an empty folder,
-    # which keeps bindir first. See eval/README.md, "Overview sheets".
-    if bindir: env['PATH'] = f'{bindir}:{env["PATH"]}'
+    # Codex runs commands as `/bin/zsh -lc`. With the owner's profile the login shell puts ~/.local/bin (the installed
+    # vidscribe) ahead of bindir, as in the first 2026-11-15 run; an empty ZDOTDIR makes it skip the profile.
+    # See eval/README.md, "Overview sheets".
+    if bindir:
+        os.makedirs(f'{V}/zdot', exist_ok=True)
+        env['PATH'], env['ZDOTDIR'] = f'{bindir}:{env["PATH"]}', f'{V}/zdot'
     cmd = ['codex', 'exec', '--ignore-user-config', '-m', MODEL, '-c', f'model_reasoning_effort="{EFFORT}"',
            '-s', 'workspace-write', '-C', folder, '--skip-git-repo-check', '--json', '--color', 'never',
            '-o', f'{logdir}/{name}.final.md', '-']
@@ -271,10 +273,10 @@ def answer_jobs(labels, dropped=(), only=None):
     return jobs
 
 
-def answers(name):
+def answers(name, base=None):
     """An agent's answers by qid, or None when the file is missing or unreadable."""
     try:
-        a = json.load(open(f'{V}/ans/{name}/answers.json'))
+        a = json.load(open(f'{base or V + "/ans"}/{name}/answers.json'))
         return {x['qid']: x for x in a}
     except (OSError, ValueError, KeyError, TypeError):
         return None

@@ -1,6 +1,6 @@
 # Measurements
 
-The tests behind vidscribe's defaults. The first section is the latest run of the four agent conditions on the three question sets, on the default frames of the time. The second tests the overview sheets that replaced those frames ([ADR-0007](decisions/0007-overview-sheets.md)) and is where the README's numbers come from. The later sections are earlier tests, which the ADRs in [`decisions/`](decisions/) cite. Questions, prompts, grades and rebuild steps are in [`eval/`](../eval/).
+The tests behind vidscribe's defaults. The first section is the latest run of the four agent conditions on the three question sets, on the default frames of the time. The second and third test the overview sheets that replaced those frames ([ADR-0007](decisions/0007-overview-sheets.md)); the README's numbers come from them. The later sections are earlier tests, which the ADRs in [`decisions/`](decisions/) cite. Questions, prompts, grades and rebuild steps are in [`eval/`](../eval/).
 
 Terms used throughout:
 
@@ -51,7 +51,7 @@ README headline until the overview-sheets run below replaced it: the three rows 
 
 2026-11-15, branch `overview-sheets` at `fdb5961` against master `28966e5`. The branch replaces the default frames (up to 40 full-size) with overview sheets: 4x4 contact sheets of evenly spaced tiles, one per 10 s, 16 to 96 in all. The question, with bars set before the run: does that cost answers? (The bars and the smoke cases were in `SPEC.md`, deleted after the merge: `git show fb6618c:SPEC.md`.)
 
-Since this run the tile count has changed ([ADR-0008](decisions/0008-full-sheets.md)): 16 tiles per sheet and one sheet per 160 s of picture, rounded to the nearest, 1 to 6 sheets. This eval ran with the old counts and has not been re-run. Under the new rule 15 of the 21 videos get the same tiles; six clips get 1 to 5 tiles more or fewer (37 to 32, 44 to 48, 47 to 48, 52 to 48, 61 to 64, 79 to 80; worked out from the videos' lengths). [#10](https://github.com/SamuelZ12/vidscribe/issues/10) covers a re-run of the `vidscribe` arm.
+Since this run the tile count has changed ([ADR-0008](decisions/0008-full-sheets.md)): 16 tiles per sheet and one sheet per 160 s of picture, rounded to the nearest, 1 to 6 sheets. This run used the old counts. Under the new rule 15 of the 21 videos get the same tiles; six clips get 1 to 5 tiles more or fewer (37 to 32, 44 to 48, 47 to 48, 52 to 48, 61 to 64, 79 to 80). The `vidscribe` arm was run again with the new counts: [Re-run of the `vidscribe` arm with the shipped script](#re-run-of-the-vidscribe-arm-with-the-shipped-script).
 
 One run, three arms on the three question sets, 108 fresh agents (one per video, set and arm): `transcript` (transcript only), `current` (master's default frames and `skill/SKILL.md`), `vidscribe` (the branch's overview sheets and `skill/SKILL.md`). Both picture arms got only the SKILL.md as instructions and could run `--at` and `--scan`; in both arms those calls ran master's script (see "`--at A-B/N` was not tested" below). All arms share downloads, transcripts (byte-identical between the two scripts on all 21 videos), prompts and grader. **The agents were Codex (`gpt-6.1-sol`, medium effort), not Claude subagents as in every other section, so compare arms within this table, not with numbers elsewhere in this file.** Method, prompts and deviations: `eval/README.md`, "Overview sheets"; grades: `eval/overview/grades.json`.
 
@@ -98,7 +98,7 @@ Bars, the same on each set: `vidscribe` at most 2 points below `current`, and at
   | `hard` `wYSncx9zLIU` h3 (trail number, at 104:10) | "unknown" | The agent looked for the signpost at 93:55-95:08 with 32 counted frames and fetched nothing after 99 min. |
   | `main` `yQ6VOOd73MA` `mixed` (a square, at 16:04-16:09) | "An upside-down U" | The agent fetched 16:12 and `16:14-16:20/3`. Its frame at 16:17 does show that shape: a later pair of shapes in the same test. |
 
-  This neither confirms nor refutes the headline for the shipped script. Six agents that all had full marks can only stay level or drop when re-run, and each of the three questions was also missed in an earlier run (`eval/hard/grades.json` `skill_old`; `eval/table/grades.json` `at`). But two of the three misses came with counted ranges on the wrong stretch, and with these six in place of the first run's, `main` would be 69 of 72 with 3 wrong answers, one over its limit of 2, and `hard` 34 of 36 (149.5 of 156, 96%). The fair test is the whole `vidscribe` arm re-run with the path fixed; it has not been run.
+  This neither confirms nor refutes the headline for the shipped script. Six agents that all had full marks can only stay level or drop when re-run, and each of the three questions was also missed in an earlier run (`eval/hard/grades.json` `skill_old`; `eval/table/grades.json` `at`). But two of the three misses came with counted ranges on the wrong stretch, and with these six in place of the first run's, `main` would be 69 of 72 with 3 wrong answers, one over its limit of 2, and `hard` 34 of 36 (149.5 of 156, 96%). The fair test is the whole `vidscribe` arm re-run with the path fixed: the next section.
 - **Leakage**: no agent opened a path outside its folder, ran `ffmpeg` or searched the web; every image an agent was shown matched a file in its own folder.
 
 Caveats:
@@ -106,10 +106,49 @@ Caveats:
 - One run per cell; earlier runs put the noise at about ±1 per 12 questions, so differences of 1 mean nothing and the hard set's +3 may not either.
 - Codex agents, at the owner's choice, and they ran with the owner's global Codex instructions (commands prefixed with `rtk`). `current` scored 71 and 33 here where Claude agents given the SKILL.md of the time scored 69 and 33-34 ("SKILL.md re-test"), so the two kinds of agent look close on these sets, but that is a comparison across runs.
 
-README headline: the `transcript` and `vidscribe` columns summed over the 156 questions, 24 and 152.5, so 15% and 98%. Besides the caveats above:
+README headline: `transcript` from this run and `vidscribe` from the re-run in the next section, summed over the 156 questions: 24 and 150.5, so 15% and 96%. (Until that re-run the README gave this run's `vidscribe` column: 152.5, 98%.) Besides the caveats above:
 
 - The 36 hard questions were kept only if a transcript-only agent failed them, so `transcript`'s 0 there is by construction. On the other 120 questions the two columns are 24 and 116.5: 20% and 97%.
 - `vidscribe` here means overview sheets, `--at` and `--scan` in the hands of an agent given `skill/SKILL.md`; the answers come from the full-size frames it fetched, not from the sheets alone.
+- The two columns come from two runs on the same day, with the same downloads, transcripts, agent model, prompt and grader.
+
+## Re-run of the `vidscribe` arm with the shipped script
+
+2026-11-15, master `6b9ef04` ([#10](https://github.com/SamuelZ12/vidscribe/issues/10)). In the run above the `vidscribe` arm had the tile counts from before ADR-0008 and master's `--at` and `--scan`. Here 36 fresh agents (one per video and set; the same Codex model, prompt and grader) got the shipped script's output and `skill/SKILL.md`, with the shipped script first on `PATH`: all 125 of their `--at` and `--scan` commands ran it. The transcripts are the first run's (byte-identical on the ten videos transcribed again). The `transcript` and `current` arms were not re-run, so each comparison below is with a score recorded in the section above, and run-to-run noise sits on top of any difference. Rule set before the run: the README takes this arm's number whatever it is. Method: `eval/README.md`, "Overview sheets". Per agent and question: `eval/overview/rerun.json`.
+
+| Set | `current`, first run | `vidscribe`, first run | `vidscribe`, re-run |
+|---|---|---|---|
+| Clips, 48 questions | 47.5 | 46.5 | 47.5 |
+| Long videos, 72 questions | 71 | 70 | 69 |
+| Hard, 36 questions | 33 | 36 | 34 |
+| All 156 questions | 151.5 | 152.5 | 150.5 |
+
+The same bars, against the recorded `current`:
+
+| Set | Score, re-run − `current` | Wrong, not "unknown": `current` → re-run | Bars |
+|---|---|---|---|
+| Clips | 0 | 0 → 0 | met |
+| Long | −2 | 1 → 3 | score met at the limit; wrong answers missed (limit 2) |
+| Hard | +1 | 3 → 1 | met |
+
+- **The long set misses its wrong-answer bar by one; every other bar is met.** Its three wrong answers:
+
+  | Question | Re-run answer | What happened |
+  |---|---|---|
+  | `ej5RsTtVvQE` v3 (which node the arrow leaves; reference "Throw Away") | "Abstract" | The same answer from the same frame (35:48.3) as the first run's `vidscribe` agent. `current` read the diagram off a default scene frame at 36:21. |
+  | `H3KnMyojEQU` v4 (text on the end card) | The legal text at 71:50 | Wrong in all three arms. |
+  | `Unzc731iCUY` v4 (time in the "LIVE" graphic; reference "11:23 pm ET") | "8:23 pm PT", from 60:43 | The first run's `vidscribe` agent gave the same answer from 60:30 and the grader gave it 1, as the same moment in another time zone. This time the grader gave it 0. `current` read "11:23 pm ET" at 59:55. |
+
+  So the bar is missed on an answer the grader has scored both ways. With the first run's grade for it, the long set would be 70 with 2 wrong answers, the first run's result. It is the only grade that moved without the answer changing: in the 175 cases where a re-run answer has the same text as a first-run answer to the same question (either picture arm), the grade is the same.
+- **None of the three came with a counted range.** The check agreed before the run, should the long set fail on wrong answers, was the `/N` wording in `skill/SKILL.md`: these three agents gave no count in any call.
+- **`--at A-B/N` in agents' hands**: 7 of the 36 agents gave counts, for 15 ranges in 11 calls, 3 to 15 frames each. Ten calls worked; one failed for the reason in the next point and worked when repeated. One answer gained traces to a count: clip `Yv2iYYewdf0` q3, "unknown" in the first run, was read off the third frame of `3:29-3:38/4`.
+- **Five commands failed, each for giving `--at` and `--scan` together** (five agents). The script printed its usage line and each agent ran the two separately. The other 120 commands succeeded.
+- **Against the first run's `vidscribe` arm, 4 of 156 questions differ**: the clip gain and the grader change above, and two hard questions lost. `yQ6VOOd73MA` h2: the agent read a caption at 17:55.5 ("University of California, Santa Barbara"; the reference caption is at 24:21), the same wrong answer `current` gave; no count. `wYSncx9zLIU` h3 (trail number at 104:10): "unknown", as in the re-check. The agent scanned 92:30-95:30 and 98:00-100:15, fetched 15 counted frames inside 93:54-94:46 and fetched nothing later. Both agents whose `--at` took counts (the re-check's and this one) missed this question on the same stretch; both first-run picture agents found it. Two runs cannot tell whether counts keep an agent on a wrong stretch.
+- **No answer was read off a sheet**: 131 of the 132 visual, mixed and hard answers cite a full-size frame the agent had opened; the other is the "unknown" above. Every agent opened every sheet (186 sheets in 36 folders).
+- **Images viewed per video** are about what they were in the first run: 3.5 sheets, 5.6 `--at` frames and 0.2 scan sheets on clips (9.3 in all), 6.0, 9.5 and 0.9 on the long set (16.4), 6.0, 9.2 and 6.6 on the hard set (21.8). Input tokens per agent: 233k, 465k, 769k.
+- **Leakage**: no agent opened a path outside its folder, ran `ffmpeg` or searched the web; all 573 images shown matched a file in the agent's own folder.
+
+Caveats: one run, with the noise described above (about ±1 per 12 questions), so 150.5 and the first run's 152.5 are not told apart, and neither is 150.5 from `current`'s 151.5. Codex agents with the owner's global Codex instructions, as before.
 
 ## Frame cap: 40
 

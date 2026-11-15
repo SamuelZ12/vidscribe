@@ -1,0 +1,2804 @@
+{
+ "note": "Re-run of the eval's vidscribe arm with the shipped script (6b9ef04: overview sheets with the tile counts of ADR-0008, --at A-B/N, skill/SKILL.md), first on PATH in Codex's login shell (ZDOTDIR set to an empty folder). One fresh agent per video and set, folders <set>_<ID>_s. Graded with the eval's grader (one call per question). first_run and current are the scores of the eval's vidscribe-arm and current-arm agents on the same question (grades.json).",
+ "wrapper_calls": 125,
+ "commands": {
+  "all": 125,
+  "failed": 5,
+  "at_and_scan_in_one": 5
+ },
+ "at_calls_with_count": 11,
+ "ranges_with_count": 15,
+ "score": {
+  "clips": {
+   "questions": 48,
+   "rerun": 47.5,
+   "first_run": 46.5,
+   "current": 47.5,
+   "wrong_not_unknown": {
+    "rerun": 0,
+    "first_run": 0,
+    "current": 0
+   }
+  },
+  "main": {
+   "questions": 72,
+   "rerun": 69,
+   "first_run": 70,
+   "current": 71,
+   "wrong_not_unknown": {
+    "rerun": 3,
+    "first_run": 2,
+    "current": 1
+   }
+  },
+  "hard": {
+   "questions": 36,
+   "rerun": 34,
+   "first_run": 36,
+   "current": 33,
+   "wrong_not_unknown": {
+    "rerun": 1,
+    "first_run": 0,
+    "current": 3
+   }
+  }
+ },
+ "agents": {
+  "clips_C-39pLx6QTQ_s": {
+   "overview": 5,
+   "overview_viewed": 5,
+   "at_files": 4,
+   "at_viewed": 4,
+   "at_calls": 1,
+   "scan_files": 0,
+   "scan_viewed": 0,
+   "scan_calls": 0,
+   "images_shown": 9,
+   "other_images": 0,
+   "input_tokens": 222471,
+   "cached_input_tokens": 194688,
+   "output_tokens": 858,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 2:23,2:06,9:07.4,9:27.1",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "q1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "305 (full frame at 02:23).",
+     "confidence": "high",
+     "frame": "at_02m23.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate gives 305, matching the reference."
+    },
+    "q2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "import numpy as np (present at 09:07.4 and deleted by 09:27.1).",
+     "confidence": "high",
+     "frame": "at_09m27.1s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate identifies the same import line, 'import numpy as np', as the reference."
+    },
+    "q3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "win-api 0.0.0 (full frame at 02:06).",
+     "confidence": "high",
+     "frame": "at_02m06.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate gives the same package name and version, win-api 0.0.0, as the reference."
+    },
+    "q4": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "He says the recorder takes four to five seconds to stop, so he adds five seconds to compensate and obtain the intended recording length; otherwise a requested ten seconds would record only about six seconds (transcript 11:40–12:35).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate matches the reference: recorder takes 4-5 seconds to stop, so without the extra five seconds a 10-second recording would be only about 6 seconds."
+    }
+   }
+  },
+  "clips_D1PjB0cwiKg_s": {
+   "overview": 2,
+   "overview_viewed": 2,
+   "at_files": 4,
+   "at_viewed": 4,
+   "at_calls": 1,
+   "scan_files": 0,
+   "scan_viewed": 0,
+   "scan_calls": 0,
+   "images_shown": 6,
+   "other_images": 0,
+   "input_tokens": 187870,
+   "cached_input_tokens": 149120,
+   "output_tokens": 1179,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 2:20.9,4:36.1,4:47.4,4:58.6",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "q1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "LIVE STREAMING SOP GUIDELINES (full frame at 02:20.9).",
+     "confidence": "high",
+     "frame": "at_02m20.9s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate gives the same title, differing only in capitalization."
+    },
+    "q2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "$200B ($200 billion), labelled \"IN INFRASTRUCTURE\" (full frame at 04:58.6).",
+     "confidence": "high",
+     "frame": "at_04m58.6s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate gives $200B in infrastructure, matching the reference."
+    },
+    "q3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Cool colours (冷色调), with a young, lively style (年轻活泼风格), as shown in the prompt at 04:47.4.",
+     "confidence": "high",
+     "frame": "at_04m47.4s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference: cool tones with a young, lively style."
+    },
+    "q4": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "An image-based PDF. According to the speaker, it uses the Nano Banana image-generation model, so the text and charts are fixed within images and cannot be clicked and edited directly (transcript 00:55.166–01:29.175).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate matches the reference: image-based PDF, generated by the Nano Banana image model, so text is not editable."
+    }
+   }
+  },
+  "clips_Gjnup-PuquQ_s": {
+   "overview": 1,
+   "overview_viewed": 1,
+   "at_files": 4,
+   "at_viewed": 4,
+   "at_calls": 1,
+   "scan_files": 0,
+   "scan_viewed": 0,
+   "scan_calls": 0,
+   "images_shown": 5,
+   "other_images": 0,
+   "input_tokens": 141680,
+   "cached_input_tokens": 110848,
+   "output_tokens": 857,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 1:07.2,1:30.9,1:38.8,1:42",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "q1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "PORT=8080 (full frame at 01:30.9).",
+     "confidence": "high",
+     "frame": "at_01m30.9s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate states PORT=8080, matching the reference."
+    },
+    "q2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "myapp — shown in docker build -t myapp ./ at 01:38.8 and docker run myapp at 01:42.0.",
+     "confidence": "high",
+     "frame": "at_01m38.8s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate identifies the image name as myapp, matching the reference."
+    },
+    "q3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "AWS (Amazon Web Services) and Google Cloud (full frame at 01:07.2).",
+     "confidence": "high",
+     "frame": "at_01m07.2s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate names AWS and Google Cloud, matching the reference."
+    },
+    "q4": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "DNA (transcript cue 00:30.414–00:59.793: 'The Docker file is like DNA.').",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate answers DNA, matching the reference."
+    }
+   }
+  },
+  "clips_LCEmiRjPEtQ_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 3,
+   "at_viewed": 3,
+   "at_calls": 1,
+   "scan_files": 0,
+   "scan_viewed": 0,
+   "scan_calls": 0,
+   "images_shown": 9,
+   "other_images": 0,
+   "input_tokens": 275173,
+   "cached_input_tokens": 236800,
+   "output_tokens": 752,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 8:26.4,29:01.5,37:40.2",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "q1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "xAI Colossus cluster (100K H100 GPUs).",
+     "confidence": "high",
+     "frame": "at_08m26.4s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly: xAI Colossus cluster (100K H100 GPUs)."
+    },
+    "q2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "AGI 2027.",
+     "confidence": "high",
+     "frame": "at_29m01.5s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference answer 'AGI 2027?'; only the punctuation differs."
+    },
+    "q3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Introducing Operator.",
+     "confidence": "high",
+     "frame": "at_37m40.2s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate identifies 'Introducing Operator', matching the reference."
+    },
+    "q4": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "$5 in free credits per new user (transcript 00:31:40.310–00:32:07.631).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate states $5, matching the reference."
+    }
+   }
+  },
+  "clips_UMp-IF6uPkk_s": {
+   "overview": 4,
+   "overview_viewed": 4,
+   "at_files": 3,
+   "at_viewed": 3,
+   "at_calls": 1,
+   "scan_files": 0,
+   "scan_viewed": 0,
+   "scan_calls": 0,
+   "images_shown": 7,
+   "other_images": 0,
+   "input_tokens": 170598,
+   "cached_input_tokens": 148480,
+   "output_tokens": 787,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 3:43.1,4:13,7:02.6",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "q1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Red.",
+     "confidence": "high",
+     "frame": "at_03m43.1s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate answer \"Red\" matches the reference answer."
+    },
+    "q2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Kitchen tongs.",
+     "confidence": "high",
+     "frame": "at_07m02.6s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate identifies tongs, matching the reference in substance."
+    },
+    "q3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "A small white jug with a handle and pouring spout.",
+     "confidence": "high",
+     "frame": "at_04m13.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference: a small white jug."
+    },
+    "q4": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "They make the dish a little sweeter (transcript 00:58.591–01:09.7).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "The question asks for one reason; the candidate gives 'sweeter', which matches one of the reference reasons."
+    }
+   }
+  },
+  "clips_Unzc731iCUY_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 3,
+   "at_viewed": 3,
+   "at_calls": 1,
+   "scan_files": 0,
+   "scan_viewed": 0,
+   "scan_calls": 0,
+   "images_shown": 9,
+   "other_images": 0,
+   "input_tokens": 276307,
+   "cached_input_tokens": 237952,
+   "output_tokens": 914,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 26:45,39:15,54:04.9",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "q1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Trilithon",
+     "confidence": "high",
+     "frame": "at_26m45.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference answer exactly: Trilithon."
+    },
+    "q2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "4",
+     "confidence": "high",
+     "frame": "at_39m15.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate answer matches the reference answer of 4."
+    },
+    "q3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Demosthenes",
+     "confidence": "high",
+     "frame": "at_54m04.9s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate correctly identifies Demosthenes as the first person listed, matching the reference."
+    },
+    "q4": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "21 books (transcript 00:44:07.385–00:44:37.180).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate says 21 books, matching the reference."
+    }
+   }
+  },
+  "clips_Yv2iYYewdf0_s": {
+   "overview": 2,
+   "overview_viewed": 2,
+   "at_files": 7,
+   "at_viewed": 7,
+   "at_calls": 1,
+   "scan_files": 0,
+   "scan_viewed": 0,
+   "scan_calls": 0,
+   "images_shown": 9,
+   "other_images": 0,
+   "input_tokens": 153985,
+   "cached_input_tokens": 134400,
+   "output_tokens": 920,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 1:04.6,3:29-3:38/4,3:43.6,3:53.6",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "q1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Red (full frame at 01:04.6).",
+     "confidence": "high",
+     "frame": "at_01m04.6s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate says red, matching the reference."
+    },
+    "q2": {
+     "score": 0.5,
+     "first_run": 0.5,
+     "current": 0.5,
+     "answer": "10-day (03:43.6) and 30-day (03:53.6) moving averages.",
+     "confidence": "high",
+     "frame": "at_03m53.6s.jpg",
+     "cite": "full frame opened",
+     "reason": "The candidate correctly names the 10-day period but gives 30-day instead of the reference's 40-day, so only one of the two is right."
+    },
+    "q3": {
+     "score": 1,
+     "first_run": 0,
+     "current": 1,
+     "answer": "12-period EMA - 26-period EMA (03:34.6).",
+     "confidence": "high",
+     "frame": "at_03m34.6s.jpg",
+     "cite": "full frame opened",
+     "reason": "The candidate gives the same expression as the reference, 12-period EMA minus 26-period EMA; the added timestamp does not conflict."
+    },
+    "q4": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "An ascending triangle (transcript 02:22.732–02:57.206).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate identifies the ascending triangle, matching the reference."
+    }
+   }
+  },
+  "clips_Z50jEi1igNQ_s": {
+   "overview": 1,
+   "overview_viewed": 1,
+   "at_files": 7,
+   "at_viewed": 7,
+   "at_calls": 2,
+   "scan_files": 0,
+   "scan_viewed": 0,
+   "scan_calls": 0,
+   "images_shown": 8,
+   "other_images": 0,
+   "input_tokens": 200971,
+   "cached_input_tokens": 167168,
+   "output_tokens": 796,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 00:21.6,01:08,01:29.5",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 01:26-01:38/4",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "q1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Sunflower oil",
+     "confidence": "high",
+     "frame": "at_00m21.6s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly: sunflower oil."
+    },
+    "q2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Make A Coin Battery",
+     "confidence": "high",
+     "frame": "at_01m27.5s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly."
+    },
+    "q3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Green",
+     "confidence": "high",
+     "frame": "at_01m08.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate answer \"Green\" matches the reference answer exactly."
+    },
+    "q4": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "About 15 minutes (transcript 00:00–00:26.333).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate states about 15 minutes, matching the reference."
+    }
+   }
+  },
+  "clips_ive5H8hCBFs_s": {
+   "overview": 3,
+   "overview_viewed": 3,
+   "at_files": 3,
+   "at_viewed": 3,
+   "at_calls": 1,
+   "scan_files": 0,
+   "scan_viewed": 0,
+   "scan_calls": 0,
+   "images_shown": 6,
+   "other_images": 0,
+   "input_tokens": 191524,
+   "cached_input_tokens": 171520,
+   "output_tokens": 899,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 1:27,4:21.1,6:01.9",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "q1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Red and white vertical stripes.",
+     "confidence": "high",
+     "frame": "at_01m27.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference: red and white stripes; the added 'vertical' detail does not contradict."
+    },
+    "q2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Tilsiter.",
+     "confidence": "high",
+     "frame": "at_04m21.1s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference answer exactly: Tilsiter."
+    },
+    "q3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "dmBio Dinkel Mini Brezeln — mini spelt pretzels, without added surface salt.",
+     "confidence": "high",
+     "frame": "at_06m01.9s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate identifies the product as dmBio Dinkel Mini Brezeln (spelt mini pretzels), matching the reference."
+    },
+    "q4": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "€1.19 (transcript 00:02:37.929–00:03:11.652).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate states €1.19, matching the reference of 1.19 euros."
+    }
+   }
+  },
+  "clips_up1xuwn_euk_s": {
+   "overview": 3,
+   "overview_viewed": 3,
+   "at_files": 17,
+   "at_viewed": 17,
+   "at_calls": 4,
+   "scan_files": 2,
+   "scan_viewed": 2,
+   "scan_calls": 1,
+   "images_shown": 22,
+   "other_images": 0,
+   "input_tokens": 407231,
+   "cached_input_tokens": 366720,
+   "output_tokens": 1246,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 0:10,5:13,6:01.2",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 0:07-0:09/3,5:57-6:00/4",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 0:08-0:15,6:00-6:07",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 0:11-0:13/3,6:02-6:05/3",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 6:06.5",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "q1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "HOW",
+     "confidence": "high",
+     "frame": "at_00m12.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate answer 'HOW' matches the reference exactly."
+    },
+    "q2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "A YouTube video watch-page interface, with the video player and the title, channel, and interaction controls beneath it (05:13).",
+     "confidence": "high",
+     "frame": "at_05m13.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference: YouTube watch page with player, title, channel and controls below."
+    },
+    "q3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "A dense green leafy hedge directly behind him (06:04.5).",
+     "confidence": "high",
+     "frame": "at_06m04.5s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference: a dense green hedge."
+    },
+    "q4": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "About three minutes into the client’s video (transcript 03:04.864–03:36.682).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate states about three minutes into the client's video, matching the reference."
+    }
+   }
+  },
+  "clips_wYSncx9zLIU_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 6,
+   "at_viewed": 6,
+   "at_calls": 2,
+   "scan_files": 0,
+   "scan_viewed": 0,
+   "scan_calls": 0,
+   "images_shown": 12,
+   "other_images": 0,
+   "input_tokens": 326908,
+   "cached_input_tokens": 288512,
+   "output_tokens": 1045,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at '48:50,105:55,107:52,108:00'",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at '49:04,49:08'",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "q1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "4:50",
+     "confidence": "high",
+     "frame": "at_49m04.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate answer matches the reference time of 4:50."
+    },
+    "q2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Ferran Alet Puig",
+     "confidence": "high",
+     "frame": "at_108m00.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference name exactly."
+    },
+    "q3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Wiz: Cloud and AI Security; Mandiant Consulting.",
+     "confidence": "high",
+     "frame": "at_105m55.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate names both Wiz (Cloud and AI Security) and Mandiant (Consulting), matching the reference."
+    },
+    "q4": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "20% (transcript, 01:41:36–01:42:08).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate states 20%, matching the reference answer."
+    }
+   }
+  },
+  "clips_wpGI6BmhbJU_s": {
+   "overview": 3,
+   "overview_viewed": 3,
+   "at_files": 6,
+   "at_viewed": 6,
+   "at_calls": 2,
+   "scan_files": 0,
+   "scan_viewed": 0,
+   "scan_calls": 0,
+   "images_shown": 9,
+   "other_images": 0,
+   "input_tokens": 238651,
+   "cached_input_tokens": 214528,
+   "output_tokens": 965,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 0:05.4,1:47,7:26.9,3:46",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 1:49,3:47.5",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "q1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Goal Reached",
+     "confidence": "high",
+     "frame": "at_00m05.4s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly: \"Goal Reached\"."
+    },
+    "q2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "iluvmotion@figma",
+     "confidence": "high",
+     "frame": "at_07m26.9s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly."
+    },
+    "q3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Ease out",
+     "confidence": "high",
+     "frame": "at_01m49.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference answer exactly: Ease out."
+    },
+    "q4": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "180°",
+     "confidence": "high",
+     "frame": "at_03m47.5s.jpg",
+     "reason": "Candidate's 180° matches the reference of 180 degrees."
+    }
+   }
+  },
+  "main_LCEmiRjPEtQ_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 6,
+   "at_viewed": 6,
+   "at_calls": 1,
+   "scan_files": 0,
+   "scan_viewed": 0,
+   "scan_calls": 0,
+   "images_shown": 12,
+   "other_images": 0,
+   "input_tokens": 275356,
+   "cached_input_tokens": 235008,
+   "output_tokens": 1246,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 8:26.4,10:29.9,21:12.1,23:40.4,32:30,32:50",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "v1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "xAI Colossus cluster (100K H100 GPUs).",
+     "confidence": "high",
+     "frame": "at_08m26.4s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly: xAI Colossus cluster (100K H100 GPUs)."
+    },
+    "v2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Calculator, Python interpreter, and Terminal (followed by an ellipsis).",
+     "confidence": "high",
+     "frame": "at_10m29.9s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate lists the same three tools as the reference: Calculator, Python interpreter, Terminal."
+    },
+    "v3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "meta buys scale ai",
+     "confidence": "high",
+     "frame": "at_21m12.1s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly."
+    },
+    "v4": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Running locally (ez)",
+     "confidence": "high",
+     "frame": "at_32m30.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly."
+    },
+    "mixed": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Human+AI UIUX for Coding",
+     "confidence": "high",
+     "frame": "at_23m40.4s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly."
+    },
+    "speech": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "$5 in free credits (transcript 00:31:40.310–00:32:07.631).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate states $5 in free credits, matching the reference."
+    }
+   }
+  },
+  "main_Unzc731iCUY_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 9,
+   "at_viewed": 9,
+   "at_calls": 2,
+   "scan_files": 0,
+   "scan_viewed": 0,
+   "scan_calls": 0,
+   "images_shown": 15,
+   "other_images": 0,
+   "input_tokens": 351326,
+   "cached_input_tokens": 305536,
+   "output_tokens": 1035,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 6:48,25:32.9,39:15,55:00,60:43.1",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 6:52,6:58.1,55:30,55:37",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "v1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Three white rectangular blocks: two upright supports with a third laid horizontally across the top (06:58.1).",
+     "confidence": "high",
+     "frame": "at_06m58.1s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference: white blocks, two upright with one laid across the top."
+    },
+    "v2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "MIT (bottom left) and CSAIL (bottom right), at 25:32.9.",
+     "confidence": "high",
+     "frame": "at_25m32.9s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference: MIT bottom left and CSAIL bottom right."
+    },
+    "v3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "29-Jan-2015 (39:15).",
+     "confidence": "high",
+     "frame": "at_39m15.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate gives the same date, 29-Jan-2015, as the reference; the added timestamp does not conflict."
+    },
+    "v4": {
+     "score": 0,
+     "first_run": 1,
+     "current": 1,
+     "answer": "8:23 pm PT (60:43.1).",
+     "confidence": "high",
+     "frame": "at_60m43.1s.jpg",
+     "cite": "full frame opened",
+     "reason": "The reference says the graphic shows 11:23 pm ET; the candidate states 8:23 pm PT. Although equivalent in time, the question asks what is shown on screen, and the candidate's displayed time and zone do not match."
+    },
+    "mixed": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Newton noted that F = ma. (55:37)",
+     "confidence": "high",
+     "frame": "at_55m37.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly; the added timestamp does not change the substance."
+    },
+    "speech": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Duct tape (transcript 00:19:50.781–00:20:20.795).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate answer matches the reference: duct tape."
+    }
+   }
+  },
+  "main_wYSncx9zLIU_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 10,
+   "at_viewed": 10,
+   "at_calls": 3,
+   "scan_files": 2,
+   "scan_viewed": 2,
+   "scan_calls": 1,
+   "images_shown": 18,
+   "other_images": 0,
+   "input_tokens": 593080,
+   "cached_input_tokens": 546944,
+   "output_tokens": 1370,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 21:45,24:03,48:48,64:00,86:20.2",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 48:48-49:04,64:00-64:20",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 48:55.5,64:09.8",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 64:04,64:07,64:19.5",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "v1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "A gray tabby cat wearing pink-and-white bunny ears, sitting in a pet bed.",
+     "confidence": "high",
+     "frame": "at_21m45.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference: gray cat wearing bunny ears in a pet bed; extra details are minor and not contradictory."
+    },
+    "v2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "BioNTech SE (BNTX).",
+     "confidence": "high",
+     "frame": "at_48m55.5s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate identifies BioNTech SE, matching the reference."
+    },
+    "v3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "ASUS TUF Gaming Z790-Plus WIFI motherboard.",
+     "confidence": "high",
+     "frame": "at_64m19.5s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly: ASUS TUF Gaming Z790-Plus WIFI."
+    },
+    "v4": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Willamette Pizza Co.",
+     "confidence": "high",
+     "frame": "at_86m20.2s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly: Willamette Pizza Co."
+    },
+    "mixed": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "1656 on GDPval-AA Elo.",
+     "confidence": "high",
+     "frame": "at_24m03.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate gives 1656 on GDPval-AA Elo, matching the reference."
+    },
+    "speech": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "93 sub-agents worked in parallel (transcript 00:28:08–00:28:37).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate states 93, matching the reference."
+    }
+   }
+  },
+  "main_H3KnMyojEQU_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 8,
+   "at_viewed": 8,
+   "at_calls": 2,
+   "scan_files": 0,
+   "scan_viewed": 0,
+   "scan_calls": 0,
+   "images_shown": 14,
+   "other_images": 0,
+   "input_tokens": 389313,
+   "cached_input_tokens": 345344,
+   "output_tokens": 1748,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 11:36.9,24:21.2,44:53,27:21,71:50",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 44:57,45:01,71:54",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "v1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "8x Bicep Curl · Alternating (11:36.9).",
+     "confidence": "high",
+     "frame": "at_11m36.9s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate identifies the exercise as 8x Bicep Curl, Alternating, matching the reference."
+    },
+    "v2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Kneel by Nilüfer Yanya (24:21.2).",
+     "confidence": "high",
+     "frame": "at_24m21.2s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference song and artist."
+    },
+    "v3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "VP, Platform Architecture (Tim Millet, 44:57).",
+     "confidence": "high",
+     "frame": "at_44m57.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference title and name."
+    },
+    "v4": {
+     "score": 0,
+     "first_run": 0,
+     "current": 0,
+     "answer": "At 71:50: TM and © 2025 Apple Inc. All Rights Reserved. This broadcast and its contents are the sole property of Apple, and are protected by Federal Law and International treaties. You are strictly prohibited from making a copy or modification of, or from rebroadcasting or re-encoding this broadcast, without the prior written permission from Apple Public Relations, except as may be permitted by law. Arknights: Endfield coming to iOS, release date subject to change. Blackmagic Camera ProDock, along with the apps, games, and content featured may not be available in all regions or languages, and may require additional purchase.",
+     "confidence": "high",
+     "frame": "at_71m50.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "The candidate gives the legal copyright disclaimer text, not 'Shot on iPhone. Edited on Mac.' It does not match the reference."
+    },
+    "mixed": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Apple Watch Ultra 3, with up to 42 hours of battery life. The hills are visible at 27:21; the battery claim is in transcript 27:21.173–27:53.814.",
+     "confidence": "high",
+     "frame": "at_27m21.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference: Apple Watch Ultra 3 and up to 42 hours of battery life."
+    },
+    "speech": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "For All Mankind (all 40 episodes; transcript 52:27.709–52:53.153).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate matches the reference: For All Mankind, all 40 episodes."
+    }
+   }
+  },
+  "main_gDvwRpl9erE_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 6,
+   "at_viewed": 6,
+   "at_calls": 2,
+   "scan_files": 1,
+   "scan_viewed": 1,
+   "scan_calls": 1,
+   "images_shown": 13,
+   "other_images": 0,
+   "input_tokens": 490838,
+   "cached_input_tokens": 447744,
+   "output_tokens": 1484,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 11:18.8,22:00,36:50,62:44.4,42:23",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 21:40-22:20",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 22:09.6",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "v1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "2.8",
+     "confidence": "high",
+     "frame": "at_11m18.8s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate answer \"2.8\" matches the reference exactly."
+    },
+    "v2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "38%",
+     "confidence": "high",
+     "frame": "at_22m09.6s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate answer matches the reference (38%)."
+    },
+    "v3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "le_package.pth",
+     "confidence": "high",
+     "frame": "at_36m50.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly: le_package.pth."
+    },
+    "v4": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "All sneks are good",
+     "confidence": "high",
+     "frame": "at_62m44.4s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly."
+    },
+    "mixed": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "A mug.",
+     "confidence": "high",
+     "frame": "at_42m23.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate says \"a mug,\" which matches the reference \"a coffee mug\" in substance."
+    },
+    "speech": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "90 seconds over a 250 megabit connection (transcript 49:17.371–49:49.001).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate matches the reference: 90 seconds over a 250 megabit connection."
+    }
+   }
+  },
+  "main_xAcTmDO6NTI_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 7,
+   "at_viewed": 7,
+   "at_calls": 3,
+   "scan_files": 1,
+   "scan_viewed": 1,
+   "scan_calls": 1,
+   "images_shown": 14,
+   "other_images": 0,
+   "input_tokens": 416445,
+   "cached_input_tokens": 378496,
+   "output_tokens": 1207,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 8:40,21:29.8,40:40.8,49:56.4,61:30",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 8:25-9:20",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 61:11.1",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 8:49.8",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "v1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "5 minutes",
+     "confidence": "high",
+     "frame": "at_08m49.8s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate states 5 minutes, matching the reference."
+    },
+    "v2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Python 3.8.5",
+     "confidence": "high",
+     "frame": "at_21m29.8s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly: Python 3.8.5."
+    },
+    "v3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "flag",
+     "confidence": "high",
+     "frame": "at_40m40.8s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate answer 'flag' matches the reference exactly."
+    },
+    "v4": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Dell",
+     "confidence": "high",
+     "frame": "at_61m11.1s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate answer matches the reference: Dell."
+    },
+    "mixed": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "ok",
+     "confidence": "high",
+     "frame": "at_49m56.4s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate answer 'ok' matches the reference exactly."
+    },
+    "speech": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Probably almost 10 years (transcript, 00:32–00:59).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate matches the reference: probably almost 10 years."
+    }
+   }
+  },
+  "main_ej5RsTtVvQE_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 6,
+   "at_viewed": 6,
+   "at_calls": 2,
+   "scan_files": 1,
+   "scan_viewed": 1,
+   "scan_calls": 1,
+   "images_shown": 13,
+   "other_images": 0,
+   "input_tokens": 381282,
+   "cached_input_tokens": 347648,
+   "output_tokens": 1621,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 0:00,22:21,35:48.3,38:51.2,43:55.9",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 0:00-1:00",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 0:14.5",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "v1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "A chair, with a book propped under one of its legs.",
+     "confidence": "high",
+     "frame": "at_00m14.5s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate identifies the chair and a book propped under a leg, matching the reference in substance."
+    },
+    "v2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Cut from the Same Cloth",
+     "confidence": "high",
+     "frame": "at_22m21.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly."
+    },
+    "v3": {
+     "score": 0,
+     "first_run": 0,
+     "current": 1,
+     "answer": "Abstract",
+     "confidence": "high",
+     "frame": "at_35m48.3s.jpg",
+     "cite": "full frame opened",
+     "reason": "The candidate says 'Abstract', but the reference says the arrow leads back from 'Throw Away'."
+    },
+    "v4": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "return dispatch_request(request)",
+     "confidence": "high",
+     "frame": "at_38m51.2s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate identifies dispatch_request(request), matching the reference."
+    },
+    "mixed": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "You will not reuse (subtitle: Except when you do).",
+     "confidence": "high",
+     "frame": "at_43m55.9s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference title and subtitle exactly."
+    },
+    "speech": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "50 updates (transcript, 00:47:21.579–00:47:50.822).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate states 50 updates, matching the reference."
+    }
+   }
+  },
+  "main_JKbtWimlzAE_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 5,
+   "at_viewed": 5,
+   "at_calls": 1,
+   "scan_files": 0,
+   "scan_viewed": 0,
+   "scan_calls": 0,
+   "images_shown": 11,
+   "other_images": 0,
+   "input_tokens": 268346,
+   "cached_input_tokens": 230400,
+   "output_tokens": 939,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at '3:40,16:35,19:05,35:40,50:15.7'",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "v1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Binghamton University (03:40).",
+     "confidence": "high",
+     "frame": "at_03m40.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate identifies Binghamton University, matching the reference."
+    },
+    "v2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Approximately 29 million total words per dataset (16:35).",
+     "confidence": "high",
+     "frame": "at_16m35.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate states approximately 29 million words per dataset, matching the reference."
+    },
+    "v3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "A humanoid robot using a laptop, surrounded by translucent digital interface panels (35:40).",
+     "confidence": "high",
+     "frame": "at_35m40.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference: a humanoid robot using a laptop; extra detail does not contradict."
+    },
+    "v4": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "AutoGPT and ChatGPT “plug-ins” (50:15.7).",
+     "confidence": "high",
+     "frame": "at_50m15.7s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate names AutoGPT and ChatGPT plug-ins, matching the reference."
+    },
+    "mixed": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Reverse ordering, with a Zorro score of 77.6 ± 1.3% for CHILDES (19:05).",
+     "confidence": "high",
+     "frame": "at_19m05.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference: reverse ordering, 77.6% ± 1.3."
+    },
+    "speech": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "EMNLP in Miami (transcript 00:14:48.992–00:15:20.135).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate matches the reference: EMNLP in Miami."
+    }
+   }
+  },
+  "main_hF8swzNR1-o_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 9,
+   "at_viewed": 9,
+   "at_calls": 3,
+   "scan_files": 0,
+   "scan_viewed": 0,
+   "scan_calls": 0,
+   "images_shown": 15,
+   "other_images": 0,
+   "input_tokens": 439313,
+   "cached_input_tokens": 397440,
+   "output_tokens": 1122,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at '7:24,22:15,54:46,57:34.2,70:16.5'",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at '54:40'",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at '54:43,54:49,54:53'",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "v1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "WITH ME",
+     "confidence": "high",
+     "frame": "at_07m24.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "The candidate gives the song title \"With Me\", which matches the reference; the artist names in parentheses are extra detail, not part of the title asked for."
+    },
+    "v2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "cyberpetsgame.net",
+     "confidence": "high",
+     "frame": "at_22m15.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference domain exactly."
+    },
+    "v3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Cervantes Bank",
+     "confidence": "high",
+     "frame": "at_54m43.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference answer exactly: Cervantes Bank."
+    },
+    "v4": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Lydia",
+     "confidence": "high",
+     "frame": "at_57m34.2s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference answer: Lydia."
+    },
+    "mixed": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Daydream; the first shirt result is $138. App name: transcript 01:09:44.787–01:10:10.468; price: frame at 70:16.5.",
+     "confidence": "high",
+     "frame": "at_70m16.5s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate gives Daydream and $138, matching the reference."
+    },
+    "speech": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Up to 70% faster (transcript 00:10:43.294–00:11:09.083).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate states 'Up to 70% faster', matching the reference."
+    }
+   }
+  },
+  "main_yQ6VOOd73MA_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 27,
+   "at_viewed": 27,
+   "at_calls": 5,
+   "scan_files": 1,
+   "scan_viewed": 1,
+   "scan_calls": 2,
+   "images_shown": 35,
+   "other_images": 0,
+   "input_tokens": 815591,
+   "cached_input_tokens": 747648,
+   "output_tokens": 1891,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at '8:06,20:21.6,16:12,36:52,46:01.1'",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at '8:08-8:17/4,16:14-16:21/4,37:01-37:04/3,19:14.6'",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan '15:55-16:30' --at '17:48,16:17-16:19/8'",
+     "exit": 1
+    },
+    {
+     "command": "vidscribe <F>/frames --scan '15:55-16:30'",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at '17:48,16:17-16:19/8'",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at '16:08.5,18:23'",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "v1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "MIT McGovern Institute.",
+     "confidence": "high",
+     "frame": "at_08m11.4s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly."
+    },
+    "v2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "An anatomical model of a human brain.",
+     "confidence": "high",
+     "frame": "at_20m21.6s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference: a model of a human brain."
+    },
+    "v3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "YOU WILL CHOOSE TO SIT HERE",
+     "confidence": "high",
+     "frame": "at_37m03.5s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference text exactly, differing only in capitalization."
+    },
+    "v4": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "A saxophone.",
+     "confidence": "high",
+     "frame": "at_46m01.1s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate answer matches the reference: saxophone."
+    },
+    "mixed": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "A square.",
+     "confidence": "high",
+     "frame": "at_16m08.5s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference: a square."
+    },
+    "speech": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Almond (transcript 00:32:05–00:32:33).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate answer \"Almond\" matches the reference."
+    }
+   }
+  },
+  "main_x-wqMcYMNdg_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 10,
+   "at_viewed": 10,
+   "at_calls": 2,
+   "scan_files": 2,
+   "scan_viewed": 2,
+   "scan_calls": 1,
+   "images_shown": 18,
+   "other_images": 0,
+   "input_tokens": 516308,
+   "cached_input_tokens": 444032,
+   "output_tokens": 1627,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 14:58,15:05,32:06,61:23,81:13,80:45.6",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 14:55-15:15,81:08-81:30",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 15:10,81:23,77:40,78:00",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "v1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Breitbart (15:10).",
+     "confidence": "high",
+     "frame": "at_15m10.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate identifies Breitbart, matching the reference."
+    },
+    "v2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "White wired earbuds (32:06).",
+     "confidence": "high",
+     "frame": "at_32m06.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference: white wired earbuds."
+    },
+    "v3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Hires (61:23; also clearly visible at 77:40).",
+     "confidence": "high",
+     "frame": "at_77m40.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate gives 'Hires', matching the reference."
+    },
+    "v4": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "THE WEEKLY QUESTIONS (81:23).",
+     "confidence": "high",
+     "frame": "at_81m23.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate gives the same segment title, 'The Weekly Questions', matching the reference."
+    },
+    "mixed": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Brittany. Jon addresses her by name at 80:41–81:12, and she appears in the striped blue top at 80:45.6 and 81:23.",
+     "confidence": "high",
+     "frame": "at_81m23.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate identifies the producer as Brittany, matching the reference."
+    },
+    "speech": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "About nine million full-time workers (transcript 11:46–12:19).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate states about nine million, matching the reference."
+    }
+   }
+  },
+  "main_v9DuQ1C3xH8_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 11,
+   "at_viewed": 11,
+   "at_calls": 5,
+   "scan_files": 3,
+   "scan_viewed": 3,
+   "scan_calls": 3,
+   "images_shown": 20,
+   "other_images": 0,
+   "input_tokens": 640498,
+   "cached_input_tokens": 589952,
+   "output_tokens": 1466,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at '7:46,16:53,26:05,40:25,40:32'",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at '40:20,26:20' --scan '16:44-17:09'",
+     "exit": 1
+    },
+    {
+     "command": "vidscribe <F>/frames --at '40:20,26:20'",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan '16:44-17:09'",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at '16:59,40:22'",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan '26:07-26:31,40:18-40:25'",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at '26:25.5,40:19'",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "v1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "8",
+     "confidence": "high",
+     "frame": "at_07m46.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate gives 8, matching the reference."
+    },
+    "v2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "basics: roasted chicken",
+     "confidence": "high",
+     "frame": "at_16m59.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly."
+    },
+    "v3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Yellow.",
+     "confidence": "high",
+     "frame": "at_26m25.5s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate answer \"Yellow\" matches the reference answer."
+    },
+    "v4": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "PYREX",
+     "confidence": "high",
+     "frame": "at_40m19.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference (Pyrex), differing only in capitalization."
+    },
+    "mixed": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Green.",
+     "confidence": "high",
+     "frame": "at_40m32.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate says green, matching the reference."
+    },
+    "speech": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Basil, because she personally hates cilantro and says basil gives it great flavor (transcript 00:24:24–00:24:58).",
+     "confidence": "high",
+     "frame": null,
+     "reason": "Candidate matches the reference: basil, because she hates cilantro."
+    }
+   }
+  },
+  "hard_LCEmiRjPEtQ_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 3,
+   "at_viewed": 3,
+   "at_calls": 1,
+   "scan_files": 0,
+   "scan_viewed": 0,
+   "scan_calls": 0,
+   "images_shown": 9,
+   "other_images": 0,
+   "input_tokens": 270967,
+   "cached_input_tokens": 233856,
+   "output_tokens": 671,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 12:08.7,21:36.8,37:40.2",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "h1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "496 GB",
+     "confidence": "high",
+     "frame": "at_12m08.7s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference value of 496GB."
+    },
+    "h2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Unreal engine",
+     "confidence": "high",
+     "frame": "at_21m36.8s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference (Unreal Engine), differing only in capitalization."
+    },
+    "h3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "TripAdvisor",
+     "confidence": "high",
+     "frame": "at_37m40.2s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference (Tripadvisor), differing only in capitalization."
+    }
+   }
+  },
+  "hard_Unzc731iCUY_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 20,
+   "at_viewed": 18,
+   "at_calls": 5,
+   "scan_files": 9,
+   "scan_viewed": 9,
+   "scan_calls": 5,
+   "images_shown": 35,
+   "other_images": 0,
+   "input_tokens": 977114,
+   "cached_input_tokens": 911616,
+   "output_tokens": 2098,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 1:29,31:45,60:30",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 1:39.5 --scan 31:40-32:00,38:40-39:30",
+     "exit": 1
+    },
+    {
+     "command": "vidscribe <F>/frames --at 1:39.5",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 31:40-32:00,38:40-39:30",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 29:35-31:40",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 25:00-29:35,32:00-35:00",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 31:32-31:46/15",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 24:00-25:00",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 24:27",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "h1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "A Joshua tree.",
+     "confidence": "high",
+     "frame": "at_01m39.5s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate identifies the Joshua tree, matching the reference."
+    },
+    "h2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "A12.",
+     "confidence": "high",
+     "frame": "at_24m27.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate answer \"A12\" matches the reference exactly."
+    },
+    "h3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "8:23 pm PT.",
+     "confidence": "high",
+     "frame": "at_60m30.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate gives 8:23 pm PT, which the reference explicitly accepts as correct."
+    }
+   }
+  },
+  "hard_wYSncx9zLIU_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 30,
+   "at_viewed": 30,
+   "at_calls": 9,
+   "scan_files": 20,
+   "scan_viewed": 20,
+   "scan_calls": 7,
+   "images_shown": 56,
+   "other_images": 0,
+   "input_tokens": 2047388,
+   "cached_input_tokens": 1953536,
+   "output_tokens": 4250,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 0:34.8 --scan 0:00-1:22,70:20-73:00,85:20-86:10",
+     "exit": 1
+    },
+    {
+     "command": "vidscribe <F>/frames --at 0:34.8",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 0:00-1:22,70:20-73:00,85:20-86:10",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 0:33.5,85:52.8",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 23:40-24:50,65:45-67:35,68:10-70:00",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 67:06,67:10,67:14",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 20:55-22:15,43:25-44:20,92:30-94:10",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 67:07,67:08,67:11,67:12",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 44:20-47:20",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 94:10-95:30,98:00-100:15",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 94:46.8,94:49,94:51",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 80:35-81:45,6:40-7:20,3:15-3:50",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 70:50,71:04.3",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 93:54-94:03/10",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 94:41-94:46/5",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "h1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "BLK & BOLD",
+     "confidence": "high",
+     "frame": "at_00m33.5s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference brand name; only capitalization differs."
+    },
+    "h2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "12:15 PM",
+     "confidence": "high",
+     "frame": "at_67m08.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly: 12:15 PM."
+    },
+    "h3": {
+     "score": 0,
+     "first_run": 1,
+     "current": 1,
+     "answer": "unknown",
+     "confidence": "low",
+     "frame": null,
+     "cite": "unknown answer",
+     "reason": "Candidate answered 'unknown' and did not provide the trail number 35A."
+    }
+   }
+  },
+  "hard_H3KnMyojEQU_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 9,
+   "at_viewed": 9,
+   "at_calls": 3,
+   "scan_files": 0,
+   "scan_viewed": 0,
+   "scan_calls": 0,
+   "images_shown": 15,
+   "other_images": 0,
+   "input_tokens": 479689,
+   "cached_input_tokens": 435840,
+   "output_tokens": 948,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 9:42,37:50.5,56:55",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 9:46,9:50,57:00,57:05",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 57:10,57:14",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "h1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Sr. Director, Fitness Technologies",
+     "confidence": "high",
+     "frame": "at_09m46.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly."
+    },
+    "h2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "The Carlyle",
+     "confidence": "high",
+     "frame": "at_37m50.5s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly: The Carlyle."
+    },
+    "h3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "SVP, Worldwide Marketing",
+     "confidence": "high",
+     "frame": "at_57m10.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly."
+    }
+   }
+  },
+  "hard_gDvwRpl9erE_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 3,
+   "at_viewed": 3,
+   "at_calls": 1,
+   "scan_files": 4,
+   "scan_viewed": 4,
+   "scan_calls": 1,
+   "images_shown": 13,
+   "other_images": 0,
+   "input_tokens": 377688,
+   "cached_input_tokens": 336256,
+   "output_tokens": 1142,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --scan 8:35-9:10,27:30-28:10,30:35-31:15,59:00-60:20",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 8:54.8,27:56.5,59:43",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "h1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "December 2017 (2017-12)",
+     "confidence": "high",
+     "frame": "at_08m54.8s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference: December 2017 (2017-12)."
+    },
+    "h2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "1:11:21",
+     "confidence": "high",
+     "frame": "at_27m56.5s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly (1:11:21)."
+    },
+    "h3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "unreflected",
+     "confidence": "high",
+     "frame": "at_59m43.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference answer exactly: 'unreflected'."
+    }
+   }
+  },
+  "hard_xAcTmDO6NTI_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 3,
+   "at_viewed": 3,
+   "at_calls": 2,
+   "scan_files": 3,
+   "scan_viewed": 3,
+   "scan_calls": 1,
+   "images_shown": 12,
+   "other_images": 0,
+   "input_tokens": 434568,
+   "cached_input_tokens": 393728,
+   "output_tokens": 1076,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 21:29.8,59:51.7",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 0:00-5:00",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 2:09.6",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "h1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "6.S061",
+     "confidence": "high",
+     "frame": "at_02m09.6s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly: 6.S061."
+    },
+    "h2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "7.20.0",
+     "confidence": "high",
+     "frame": "at_21m29.8s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly: 7.20.0."
+    },
+    "h3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "25",
+     "confidence": "high",
+     "frame": "at_59m51.7s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate answer matches the reference (25)."
+    }
+   }
+  },
+  "hard_ej5RsTtVvQE_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 3,
+   "at_viewed": 3,
+   "at_calls": 1,
+   "scan_files": 0,
+   "scan_viewed": 0,
+   "scan_calls": 0,
+   "images_shown": 9,
+   "other_images": 0,
+   "input_tokens": 269268,
+   "cached_input_tokens": 226304,
+   "output_tokens": 769,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 00:15.2,25:08.4,38:51.2",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "h1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Hochschule Burgenland — University of Applied Sciences",
+     "confidence": "high",
+     "frame": "at_00m15.2s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference: Hochschule Burgenland (University of Applied Sciences)."
+    },
+    "h2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "The More Common The Bigger The Impact",
+     "confidence": "high",
+     "frame": "at_25m08.4s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference answer exactly."
+    },
+    "h3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "get_user_from_session(request.session)",
+     "confidence": "high",
+     "frame": "at_38m51.2s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference: get_user_from_session called with request.session."
+    }
+   }
+  },
+  "hard_JKbtWimlzAE_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 3,
+   "at_viewed": 3,
+   "at_calls": 2,
+   "scan_files": 2,
+   "scan_viewed": 2,
+   "scan_calls": 1,
+   "images_shown": 11,
+   "other_images": 0,
+   "input_tokens": 413763,
+   "cached_input_tokens": 375296,
+   "output_tokens": 1081,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 4:09.7",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 23:50-24:25,47:10-48:10",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 24:07.2,47:49.7",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "h1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Dark green",
+     "confidence": "high",
+     "frame": "at_04m09.7s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate's 'dark green' matches the reference 'green (dark/olive green)'."
+    },
+    "h2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "2412.15285",
+     "confidence": "high",
+     "frame": "at_24m07.2s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference identifier exactly."
+    },
+    "h3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "55.1%",
+     "confidence": "high",
+     "frame": "at_47m49.7s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate answer matches the reference exactly (55.1%)."
+    }
+   }
+  },
+  "hard_hF8swzNR1-o_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 14,
+   "at_viewed": 14,
+   "at_calls": 4,
+   "scan_files": 15,
+   "scan_viewed": 15,
+   "scan_calls": 10,
+   "images_shown": 35,
+   "other_images": 0,
+   "input_tokens": 1896765,
+   "cached_input_tokens": 1826688,
+   "output_tokens": 3268,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 19:48,51:13,08:00-08:50/6",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 06:50-08:05",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 08:46-09:45",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 10:08-14:42",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 42:28-43:20",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 08:58,10:22,42:57.5",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 49:45-51:05",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 55:30-56:10,34:00-35:00",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 30:45-32:10",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 45:40-47:05",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 10:20,10:21",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 00:00-02:30",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 47:15-49:00",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 48:27.5",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "h1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Bose",
+     "confidence": "high",
+     "frame": "at_19m48.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate gives the surname \"Bose\", matching the reference."
+    },
+    "h2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Gema’s Gourmet Market",
+     "confidence": "high",
+     "frame": "at_48m27.5s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly, differing only in apostrophe style."
+    },
+    "h3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "What archeological discoveries were made here?",
+     "confidence": "high",
+     "frame": "at_51m13.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference answer exactly."
+    }
+   }
+  },
+  "hard_yQ6VOOd73MA_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 5,
+   "at_viewed": 5,
+   "at_calls": 2,
+   "scan_files": 15,
+   "scan_viewed": 15,
+   "scan_calls": 3,
+   "images_shown": 26,
+   "other_images": 0,
+   "input_tokens": 643834,
+   "cached_input_tokens": 583424,
+   "output_tokens": 1598,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 50:28.8,14:46.9",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 07:50-08:30,13:20-14:00,14:15-14:46",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 00:00-03:00,19:00-23:00",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 03:00-03:20,15:25-15:45,17:40-18:05,08:12-08:28",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 15:36.5,17:55.5,50:27",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "h1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "September 25, 1983",
+     "confidence": "high",
+     "frame": "at_15m36.5s.jpg",
+     "cite": "full frame opened",
+     "reason": "The candidate gives the same date as the reference (Sep. 25, 1983), just with the month spelled out."
+    },
+    "h2": {
+     "score": 0,
+     "first_run": 1,
+     "current": 0,
+     "answer": "University of California, Santa Barbara",
+     "confidence": "high",
+     "frame": "at_17m55.5s.jpg",
+     "cite": "full frame opened",
+     "reason": "The candidate says University of California, Santa Barbara, but the reference answer is Dartmouth."
+    },
+    "h3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 0,
+     "answer": "0898",
+     "confidence": "high",
+     "frame": "at_50m28.8s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate matches the reference exactly (0898)."
+    }
+   }
+  },
+  "hard_x-wqMcYMNdg_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 7,
+   "at_viewed": 7,
+   "at_calls": 3,
+   "scan_files": 3,
+   "scan_viewed": 3,
+   "scan_calls": 1,
+   "images_shown": 17,
+   "other_images": 0,
+   "input_tokens": 683296,
+   "cached_input_tokens": 635264,
+   "output_tokens": 1769,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 3:55,15:35,84:32",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 84:27.1",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 3:25-4:55,14:50-16:25",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 3:32,15:10,3:34",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "h1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "18 sources",
+     "confidence": "high",
+     "frame": "at_15m10.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate states 18 sources, matching the reference."
+    },
+    "h2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Sally Rooney",
+     "confidence": "high",
+     "frame": "at_03m32.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate names Sally Rooney, matching the reference."
+    },
+    "h3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 0,
+     "answer": "Dark Money",
+     "confidence": "high",
+     "frame": "at_84m27.1s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate gives the title 'Dark Money', matching the reference; the author name is parenthetical."
+    }
+   }
+  },
+  "hard_v9DuQ1C3xH8_s": {
+   "overview": 6,
+   "overview_viewed": 6,
+   "at_files": 12,
+   "at_viewed": 12,
+   "at_calls": 5,
+   "scan_files": 8,
+   "scan_viewed": 8,
+   "scan_calls": 3,
+   "images_shown": 26,
+   "other_images": 0,
+   "input_tokens": 733243,
+   "cached_input_tokens": 675840,
+   "output_tokens": 2081,
+   "leak": [],
+   "calls": [
+    {
+     "command": "vidscribe <F>/frames --at 26:05,47:41.6",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 11:15-11:40,22:00-22:35,25:50-26:30,29:35-30:05,36:10-36:35,47:10-47:56",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 26:27,47:33 --scan 4:05-4:35,19:10-19:35",
+     "exit": 1
+    },
+    {
+     "command": "vidscribe <F>/frames --at 26:27,47:33",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --scan 4:05-4:35,19:10-19:35",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 4:22,26:09,26:23,26:25.5,47:13.5",
+     "exit": 0
+    },
+    {
+     "command": "vidscribe <F>/frames --at 26:08,26:10,47:34",
+     "exit": 0
+    }
+   ],
+   "grades": {
+    "h1": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "MMVIII",
+     "confidence": "high",
+     "frame": "at_04m22.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate gives MMVIII, matching the reference."
+    },
+    "h2": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "Bread: a loaf and small rolls.",
+     "confidence": "high",
+     "frame": "at_26m08.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate identifies bread/rolls, matching the reference's key food item in substance; the mention of a loaf is a minor deviation."
+    },
+    "h3": {
+     "score": 1,
+     "first_run": 1,
+     "current": 1,
+     "answer": "A tart.",
+     "confidence": "high",
+     "frame": "at_47m33.0s.jpg",
+     "cite": "full frame opened",
+     "reason": "Candidate identifies the dessert as a tart, matching the reference."
+    }
+   }
+  }
+ }
+}
