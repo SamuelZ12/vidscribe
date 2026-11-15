@@ -4,9 +4,8 @@
 #        vidscribe <frames-dir> --at TIMES | --scan RANGES: from a previous run's video, frames (--at 494,8:14,7:50-8:50,10:00-20:00/12; a range gives 4 frames, A-B/N gives N) or 4x4 contact sheets (--scan 50:00-60:00 or all).
 # URLs (X, YouTube, etc.) are fetched with yt-dlp. Prints the transcript path; text to stdout for txt.
 # Frames are on by default when the input has a video stream (-f txt|srt). -a/--audio-only: transcript only.
-# -v [N]: force frames, N evenly spaced (default 8) plus a frame at every cue with an on-screen reference
-#         ("look at this", "as you can see"...) and one at the end of each distinct scene (cut detection, near-duplicates dropped),
-#         at most max(40, N) total. Frame text = sentence spoken at that time, interpolated within ~30s cues.
+# -v [N]: force frames, exactly N at full size (720 px high), evenly spaced over the picture (default 8).
+#         Frame text = sentence spoken at that time, interpolated within ~30s cues.
 #         Frames go to /tmp/vidscribe/frames/<name>/ (auto-pruned after 3 days) with video.<ext> (downloads moved there, local files symlinked) and index.txt (time -> frame -> start-end of spoken text -> text).
 set -euo pipefail
 export PATH="$HOME/.local/bin:/opt/homebrew/bin:$PATH"
@@ -19,35 +18,6 @@ FMT="txt"; LANG_ARG=(); CTX_ARG=(); VFLAG=0; AFLAG=0; NFRAMES=8
 
 [[ $# -ge 1 ]] || { sed -n '2,5p' "$0"; exit 1; }
 case "$1" in -h|--help) sed -n '2,5p' "$0"; exit 0;; esac
-# scene ends, shared by frame mode and --scan: one 2 fps pass gives each frame a scene score and a 9x8 gray thumbnail (for dedupe)
-IFS= read -r -d '' SCENES_PY <<'PY' || true
-import os, re, subprocess, tempfile
-def scene_ends(vid, ss=None, t=None):
-    fd, scf = tempfile.mkstemp(suffix='.txt'); os.close(fd)  # metadata file: path must be filtergraph-safe
-    rng = [] if ss is None else ['-ss', f'{ss:.3f}', '-t', f'{t:.3f}']  # input seek: times restart at 0
-    raw = subprocess.run(['ffmpeg','-nostdin','-loglevel','error'] + rng + ['-i',vid,'-an','-vf',
-        f"fps=2,scale=160:-2,select='gte(scene,0)',metadata=print:key=lavfi.scene_score:file={scf},scale=9:8,format=gray",
-        '-f','rawvideo','-'], capture_output=True).stdout
-    meta = open(scf).read(); os.unlink(scf)
-    pts = [float(x) + (ss or 0) for x in re.findall(r'pts_time:([\d.]+)', meta)]
-    score = [float(x) for x in re.findall(r'scene_score=([\d.]+)', meta)]
-    nf = min(len(raw)//72, len(pts), len(score))
-    def dhash(i):
-        b = raw[i*72:(i+1)*72]
-        return sum(1 << (r*8+c) for r in range(8) for c in range(8) if b[r*9+c] > b[r*9+c+1])
-    # one frame per scene, at its last sampled frame (slide builds and typed text are complete by then);
-    # skip scenes under 1 s, flat frames (black/fades), and repeats of an already kept scene
-    cuts = [0] + [i for i in range(1, nf) if score[i] > 0.3] + [nf]
-    ends, seen = [], []
-    for a, b in zip(cuts, cuts[1:]):
-        i = b - 1
-        th = raw[i*72:(i+1)*72]
-        if b - a < 2 or max(th) - min(th) < 12: continue
-        h = dhash(i)
-        if any(bin(h ^ k).count('1') <= 6 for k in seen): continue
-        seen.append(h); ends.append(pts[i])
-    return ends
-PY
 # contact sheets, shared by --scan: 4x4 sheets of WxH tiles with 2 px padding and 1 px margin = 1280x720
 # (grid from docs/measurements.md, "Scan probe"); a last sheet with fewer than 16 tiles is padded white
 IFS= read -r -d '' SHEETS_PY <<'PY' || true
@@ -116,13 +86,39 @@ if [[ "${2:-}" == "--at" || "${2:-}" == "--scan" ]]; then
       }
     }')"
   if [[ "$MODE" == "scan" ]]; then
-    python3 - "$SCENES_PY" "$SHEETS_PY" "$VID" "$D" "$TS" <<'PY'
-import sys; exec(sys.argv.pop(1)); exec(sys.argv.pop(1))
-import math
+    python3 - "$SHEETS_PY" "$VID" "$D" "$TS" <<'PY'
+import sys; exec(sys.argv.pop(1))
+import math, os, re, subprocess, tempfile
 vid, d, ranges = sys.argv[1:4]
 G = 10  # tiles: every scene end plus even fill so no gap exceeds G s (fill gap from docs/measurements.md, "Scan probe")
 mm = lambda t: f"{int(t//60):02d}:{t%60:04.1f}"
 tag = lambda t: f"{int(t//60):02d}m{int(t%60):02d}s"
+# scene ends: one 2 fps pass gives each frame a scene score and a 9x8 gray thumbnail (for dedupe)
+def scene_ends(vid, ss=None, t=None):
+    fd, scf = tempfile.mkstemp(suffix='.txt'); os.close(fd)  # metadata file: path must be filtergraph-safe
+    rng = [] if ss is None else ['-ss', f'{ss:.3f}', '-t', f'{t:.3f}']  # input seek: times restart at 0
+    raw = subprocess.run(['ffmpeg','-nostdin','-loglevel','error'] + rng + ['-i',vid,'-an','-vf',
+        f"fps=2,scale=160:-2,select='gte(scene,0)',metadata=print:key=lavfi.scene_score:file={scf},scale=9:8,format=gray",
+        '-f','rawvideo','-'], capture_output=True).stdout
+    meta = open(scf).read(); os.unlink(scf)
+    pts = [float(x) + (ss or 0) for x in re.findall(r'pts_time:([\d.]+)', meta)]
+    score = [float(x) for x in re.findall(r'scene_score=([\d.]+)', meta)]
+    nf = min(len(raw)//72, len(pts), len(score))
+    def dhash(i):
+        b = raw[i*72:(i+1)*72]
+        return sum(1 << (r*8+c) for r in range(8) for c in range(8) if b[r*9+c] > b[r*9+c+1])
+    # one frame per scene, at its last sampled frame (slide builds and typed text are complete by then);
+    # skip scenes under 1 s, flat frames (black/fades), and repeats of an already kept scene
+    cuts = [0] + [i for i in range(1, nf) if score[i] > 0.3] + [nf]
+    ends, seen = [], []
+    for a, b in zip(cuts, cuts[1:]):
+        i = b - 1
+        th = raw[i*72:(i+1)*72]
+        if b - a < 2 or max(th) - min(th) < 12: continue
+        h = dhash(i)
+        if any(bin(h ^ k).count('1') <= 6 for k in seen): continue
+        seen.append(h); ends.append(pts[i])
+    return ends
 for line in ranges.splitlines():
     a, b = map(float, line.split('\t'))
     s0 = math.floor(a*2)/2  # sample on the same 0.5 s grid as a whole-video pass
@@ -156,7 +152,8 @@ while [[ $# -gt 0 ]]; do
     -f) FMT="$2"; shift 2;;
     -c) CTX_ARG=(--context "$2"); shift 2;;
     -m) MODEL="$2"; shift 2;;
-    -v) VFLAG=1; if [[ "${2:-}" =~ ^[0-9]+$ ]]; then NFRAMES="$2"; shift 2; else shift; fi;;
+    -v) VFLAG=1; if [[ "${2:-}" =~ ^[0-9]+$ ]]; then NFRAMES="$2"; shift 2; else shift; fi
+        [[ ! "$NFRAMES" =~ ^0+$ ]] || { echo "-v N: N must be at least 1" >&2; exit 1; };;
     -a|--audio-only) AFLAG=1; shift;;
     -h|--help) sed -n '2,5p' "$0"; exit 0;;
     *) echo "unknown arg: $1" >&2; exit 1;;
@@ -277,8 +274,8 @@ if (( VISUAL )); then
   # sub-second differences are codec padding, so keep the audio length there (normal runs unchanged)
   FDUR="$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "$VID")"
   awk -v a="$DUR" -v v="${FDUR:-0}" 'BEGIN{ exit !(v + 0 > a + 1) }' || FDUR="$DUR"  # +0: "N/A" (unknown) means 0, not a string compare
-  python3 - "$SCENES_PY" "$OUT.srt" "$FDUR" "$NFRAMES" "$FDIR" "$VID" "$OUT.txt" <<'PY' >&2
-import os, re, subprocess, sys; exec(sys.argv.pop(1))
+  python3 - "$OUT.srt" "$FDUR" "$NFRAMES" "$FDIR" "$VID" "$OUT.txt" <<'PY' >&2
+import os, re, subprocess, sys
 srt, dur, n, fdir, vid, txt = sys.argv[1], float(sys.argv[2]), int(sys.argv[3]), sys.argv[4], sys.argv[5], sys.argv[6]
 def sec(t):
     h, m, s = t.replace(',', '.').split(':'); return int(h)*3600 + int(m)*60 + float(s)
@@ -290,7 +287,6 @@ for blk in re.split(r'\n\s*\n', open(srt, encoding='utf-8').read().strip()):
             a, b = [x.strip() for x in l.split('-->')]
             cues.append((sec(a), sec(b), ' '.join(lines[i+1:]).strip())); break
 open(txt, 'w', encoding='utf-8').write('\n'.join(c[2] for c in cues) + '\n')
-DEIX = re.compile(r"\b(look at (this|that|here|the)|as you can see|you can see|see (this|here|that)|this (one|screen|chart|graph|slide|button|page|part)|right here|over here|on (the )?screen|watch (this|what)|let me show|i'?ll show|showing you|here'?s (the|what|how)|like this|this is what|on the (right|left)|(this|the) (photo|image|picture|plot|diagram|demo|code|graph)|up here|down here|pointing)\b|这个|这里|你看|看这", re.I)
 # cues are ~30s chunks; split into sentences and interpolate each sentence's time
 # by character offset so frames map to the line actually spoken, not the whole chunk
 sents = []
@@ -301,38 +297,25 @@ for a, b, t in cues:
         s0 = a + (b-a)*pos/total; pos += len(x); s1 = a + (b-a)*pos/total
         sents.append((s0, s1, x.strip()))
 def mmss(t): return f"{int(t//60):02d}:{t%60:04.1f}"
-def around(t, w=1):
+def around(t):  # the sentence spoken at t plus one either side
     i = next((k for k, s in enumerate(sents) if s[0] <= t < s[1]), None)
     if i is None: return '-', ''  # no spoken sentence in a gap or beyond the transcript
-    win = sents[max(0, i-w):i+w+1]
+    win = sents[max(0, i-1):i+2]
     return f"{mmss(win[0][0])}-{mmss(win[-1][1])}", ' '.join(s[2] for s in win)
-refs = [s0 + min(1.0, (s1-s0)/2) for s0, s1, x in sents if DEIX.search(x) and s1 > s0]  # stay inside even a sub-second sentence
-scenes = [t for t in scene_ends(vid) if all(abs(t - r) >= 3 for r in refs)]
-def thin(xs, k): return xs if len(xs) <= k else [xs[int((i+0.5)*len(xs)/k)] for i in range(k)]
-# cap total frames (see docs/measurements.md): keep all even frames; refs and scenes split the rest,
-# either side's unused share goes to the other, and each is thinned evenly over time
-evens = [dur*(i+0.5)/n for i in range(n)] if dur > 0 else []
-cap = max(40, n); room = cap - len(evens)
-r = min(len(refs), max(room//2, room - len(scenes))); s = min(len(scenes), room - r)
-if len(refs) + len(scenes) > room:
-    print(f"frames: capped at {cap}, kept {r} of {len(refs)} on-screen refs, {s} of {len(scenes)} scene changes")
-refs, scenes = thin(refs, r), thin(scenes, s)
-targets = [(t, 'ref') for t in refs] + [(t, 'scene') for t in scenes]
-targets += [(t, 'even') for t in evens if all(abs(t - y) >= 3 for y, _ in targets)]
-targets.sort()
-idx, kept, missed = [], [], []
-for t, kind in targets:
-    fn = f"{len(idx):03d}_{int(t//60):02d}m{t%60:04.1f}s_{kind}.jpg"; fp = f"{fdir}/{fn}"
+times = [dur*(i+0.5)/n for i in range(n)] if dur > 0 else []
+idx, missed = [], []
+for t in times:
+    fn = f"{len(idx):03d}_{int(t//60):02d}m{t%60:04.1f}s.jpg"; fp = f"{fdir}/{fn}"
     subprocess.run(['ffmpeg','-nostdin','-loglevel','error','-y','-ss',f'{t:.2f}','-i',vid,'-frames:v','1','-q:v','3','-vf','scale=-2:720',fp], check=False)
     if not os.path.exists(fp) or os.path.getsize(fp) == 0:  # e.g. past the end of the picture while audio runs on
         if os.path.exists(fp): os.remove(fp)
         missed.append(mmss(t)); continue
-    span, text = around(t, 0 if kind == 'ref' else 1)
-    idx.append(f"{mmss(t)}\t{fn}\t{span}\t{text}"); kept.append(kind)
-open(f"{fdir}/index.txt", 'w', encoding='utf-8').write('\n'.join(idx) + '\n')
+    idx.append('\t'.join((mmss(t), fn) + around(t)))
+open(f"{fdir}/index.txt", 'w', encoding='utf-8').write(''.join(l + '\n' for l in idx))
 if missed:
-    print(f"frames: no picture at {len(missed)} of {len(targets)} times ({missed[0]}-{missed[-1]}), left out")
-print(f"frames: {fdir} ({kept.count('ref')} on-screen refs, {kept.count('scene')} scene changes, {kept.count('even')} evenly spaced)")
+    print(f"frames: no picture at {len(missed)} of {len(times)} times ({missed[0]}-{missed[-1]}), left out")
+k = len(idx)
+print(f"frames: {fdir} ({k} frame{'s' * (k != 1)}, one every {dur/n:.1f} s)")
 PY
   [[ "$FMT" != "srt" && "$FMT" != "txt" ]] && echo "note: -v writes srt+txt; -f $FMT ignored" >&2
   [[ "$FMT" == "srt" ]] || FMT="txt"
