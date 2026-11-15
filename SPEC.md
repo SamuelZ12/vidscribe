@@ -1,6 +1,6 @@
 # Spec: vidscribe overview sheets — V1
 
-Status: proposed
+Status: implemented
 
 ## Objective
 

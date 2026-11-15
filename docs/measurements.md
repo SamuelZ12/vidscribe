@@ -1,6 +1,6 @@
 # Measurements
 
-The tests behind vidscribe's defaults. The first section is the latest run of the four agent conditions on the three question sets; where a score also appears there, that number is current. The later sections are earlier tests, which the ADRs in [`decisions/`](decisions/) cite. Questions, prompts, grades and rebuild steps are in [`eval/`](../eval/).
+The tests behind vidscribe's defaults. The first section is the latest run of the four agent conditions on the three question sets, on the default frames of the time. The second tests the overview sheets that replaced those frames ([ADR-0007](decisions/0007-overview-sheets.md)) and is where the README's numbers come from. The later sections are earlier tests, which the ADRs in [`decisions/`](decisions/) cite. Questions, prompts, grades and rebuild steps are in [`eval/`](../eval/).
 
 Terms used throughout:
 
@@ -40,7 +40,7 @@ By kind (`transcript` → `frames` → `at` → `scan`):
 - **Cost per video** (from files on disk): long set `at` 16 extra frames, `scan` 17 frames + 0.25 sheets; hard set `at` 37 frames, `scan` 16 frames + 9 sheets; clips `at` 7, `scan` 6 frames. Agents viewed every original frame in 69 of 72 `frames`, `at` and `scan` folders on the long sets and 33 of 36 on clips.
 - **Every condition missed `Gjnup-PuquQ` q3** ("AWS and Google Cloud", on screen at 1:07 per the time check). It may be too brief or too small to read; check it before the clip set is reused.
 
-README headline: the three rows summed, 156 questions on 21 videos (3 clips are also long videos, with different questions): 25.5, 78.5, 146, 151.5. Caveats that come with it:
+README headline until the overview-sheets run below replaced it: the three rows summed, 156 questions on 21 videos (3 clips are also long videos, with different questions): 25.5, 78.5, 146, 151.5. Caveats that come with it:
 
 - The 36 hard questions were kept only if a transcript-only agent failed them, so their 0 is by construction and pulls the first column down.
 - The `--scan` gain is optimistic: its design was tuned on the 5 questions `--at` missed, and a 4-video holdout scored 12/12 with and without it ([#2](https://github.com/SamuelZ12/vidscribe/issues/2)).
@@ -93,6 +93,11 @@ Caveats:
 
 - One run per cell; earlier runs put the noise at about ±1 per 12 questions, so differences of 1 mean nothing and the hard set's +3 may not either.
 - Codex agents, at the owner's choice, and they ran with the owner's global Codex instructions (commands prefixed with `rtk`). `current` scored 71 and 33 here where Claude agents given the SKILL.md of the time scored 69 and 33-34 ("SKILL.md re-test"), so the two kinds of agent look close on these sets, but that is a comparison across runs.
+
+README headline: the `transcript` and `vidscribe` columns summed over the 156 questions, 24 and 152.5, so 15% and 98%. Besides the caveats above:
+
+- The 36 hard questions were kept only if a transcript-only agent failed them, so `transcript`'s 0 there is by construction. On the other 120 questions the two columns are 24 and 116.5: 20% and 97%.
+- `vidscribe` here means overview sheets, `--at` and `--scan` in the hands of an agent given `skill/SKILL.md`; the answers come from the full-size frames it fetched, not from the sheets alone.
 
 ## Frame cap: 40
 

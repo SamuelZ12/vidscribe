@@ -1,16 +1,16 @@
 # vidscribe
 
-Lets AI agents watch videos, locally on Apple Silicon. Give it a file or any URL yt-dlp handles; it returns a transcript and, for video, key frames with an `index.txt` mapping each frame to what was being said. Runs on-device with [MLX](https://github.com/ml-explore/mlx): no API keys, no cloud.
+Lets AI agents watch videos, locally on Apple Silicon. Give it a file or any URL yt-dlp handles; it returns a transcript and, for video, overview sheets (small, evenly spaced pictures) with an `index.txt` mapping each one to what was being said. The agent then fetches full-size frames at the moments that matter. Runs on-device with [MLX](https://github.com/ml-explore/mlx): no API keys, no cloud.
 
 ## Does it help?
 
-Agents answered 156 questions about 21 videos, 36 of them about moments the speech never names. A blind grader scored the answers, and each column adds one tool to the one before.
+Agents answered 156 questions about 21 videos, 36 of them about moments the speech never names: once from the transcript alone, once with vidscribe (overview sheets, `--at` and `--scan`). A blind grader scored the answers.
 
-| | Transcript only | + frames | + `--at` | + `--scan` |
-|---|---|---|---|---|
-| Correct | 16% | 50% | 94% | 97% |
+| | Transcript only | vidscribe |
+|---|---|---|
+| Score | 15% | 98% |
 
-Method and caveats: [docs/measurements.md](docs/measurements.md#table-re-run-every-condition-on-every-set). Questions, grades and scripts: [eval/](eval/).
+Method and caveats: [docs/measurements.md](docs/measurements.md#overview-sheets-against-the-current-default-frames). Questions, grades and scripts: [eval/](eval/).
 
 ## Install
 
@@ -26,10 +26,10 @@ Make sure `~/.local/bin` is on your `PATH`, then check with `vidscribe -h`. Upda
 ## Usage
 
 ```sh
-vidscribe talk.mp4                                         # transcript + frames
+vidscribe talk.mp4                                         # transcript + overview sheets
 vidscribe "https://www.youtube.com/watch?v=<id>" -a        # transcript only
 vidscribe memo.m4a -f srt -o ~/transcripts                 # srt, kept outside /tmp
-vidscribe /tmp/vidscribe/frames/<name> --at 8:14,7:50-8:50 # more frames from a run
+vidscribe /tmp/vidscribe/frames/<name> --at 8:14,7:50-8:50 # full-size frames from a run
 vidscribe /tmp/vidscribe/frames/<name> --scan 50:00-60:00  # find an unnamed moment
 ```
 
