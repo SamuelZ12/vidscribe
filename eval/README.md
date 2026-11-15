@@ -399,7 +399,7 @@ Deviations from the plan above, none touching prompts' rules or the grader:
 
 ## Overview sheets (`overview`)
 
-Tests the branch `overview-sheets` (`fdb5961`: overview sheets replace the default frames, `--at A-B/N`, new `skill/SKILL.md`) against master `28966e5`, with bars set before the run (`SPEC.md`, "Eval"). Result: `docs/measurements.md`, "Overview sheets against the current default frames".
+Tests the branch `overview-sheets` (`fdb5961`: overview sheets replace the default frames, `--at A-B/N`, new `skill/SKILL.md`) against master `28966e5`, with bars set before the run (in `SPEC.md`, "Eval"; the spec was deleted after the merge, `git show fb6618c:SPEC.md`). Result: `docs/measurements.md`, "Overview sheets against the current default frames".
 
 - Sets: `clips` (48 questions), `main` (72), `hard` (36), as in "Table re-run".
 - Arms, one fresh agent per video, set and arm (108 agents): `transcript` (the `transcript` prompt above); `current` (the `skill` prompt above with master's SKILL.md, on the frames master's script made); `vidscribe` (the same prompt with the branch's SKILL.md, on the branch script's output).

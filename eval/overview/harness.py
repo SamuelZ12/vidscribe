@@ -1,4 +1,4 @@
-"""Harness for the overview-sheets eval (SPEC.md, Testing Strategy, "Eval").
+"""Harness for the overview-sheets eval (eval/README.md, "Overview sheets").
 
 Builds one folder per video, set and arm under $VSOV/ans, runs one fresh Codex agent in each
 (`codex exec`), and reads what each agent opened and ran from its JSONL log.

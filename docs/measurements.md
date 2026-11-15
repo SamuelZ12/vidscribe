@@ -49,7 +49,7 @@ README headline until the overview-sheets run below replaced it: the three rows 
 
 ## Overview sheets against the current default frames
 
-2026-11-15, branch `overview-sheets` at `fdb5961` against master `28966e5`. The branch replaces the default frames (up to 40 full-size) with overview sheets: 4x4 contact sheets of evenly spaced tiles, one per 10 s, 16 to 96 in all. The question, with bars set before the run (`SPEC.md`, "Eval"): does that cost answers?
+2026-11-15, branch `overview-sheets` at `fdb5961` against master `28966e5`. The branch replaces the default frames (up to 40 full-size) with overview sheets: 4x4 contact sheets of evenly spaced tiles, one per 10 s, 16 to 96 in all. The question, with bars set before the run: does that cost answers? (The bars and the smoke cases were in `SPEC.md`, deleted after the merge: `git show fb6618c:SPEC.md`.)
 
 One run, three arms on the three question sets, 108 fresh agents (one per video, set and arm): `transcript` (transcript only), `current` (master's default frames and `skill/SKILL.md`), `vidscribe` (the branch's overview sheets and `skill/SKILL.md`). Both picture arms got only the SKILL.md as instructions and could run `--at` and `--scan`; in both arms those calls ran master's script (see "`--at A-B/N` was not tested" below). All arms share downloads, transcripts (byte-identical between the two scripts on all 21 videos), prompts and grader. **The agents were Codex (`gpt-6.1-sol`, medium effort), not Claude subagents as in every other section, so compare arms within this table, not with numbers elsewhere in this file.** Method, prompts and deviations: `eval/README.md`, "Overview sheets"; grades: `eval/overview/grades.json`.
 
