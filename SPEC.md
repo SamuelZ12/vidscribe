@@ -1,6 +1,6 @@
 # Spec: Full overview sheets (V1)
 
-Status: approved 2026-11-15, not built yet. Plan: `tasks/plan.md`.
+Status: approved 2026-11-15; built on branch `feat/full-sheets`, every success criterion checked, not merged. Plan: `tasks/plan.md`.
 
 ## Objective
 

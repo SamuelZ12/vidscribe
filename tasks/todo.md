@@ -15,7 +15,7 @@ Details, acceptance criteria and verification: `tasks/plan.md`. Spec: `SPEC.md`.
 
 ## Checkpoint: before merge
 
-- [ ] 3:33 test video gives `16 tiles on 1 sheet` (criterion 2)
-- [ ] `-a`, an audio file, `--at` and `--scan` match master (criterion 5)
-- [ ] No "one per 10 s" statement of the overview count is left in `bin`, `docs/usage.md` or `skill`
-- [ ] Stop and report; merge, push and deleting `SPEC.md` and `tasks/` wait for the owner's go-ahead
+- [x] 3:33 test video gives `16 tiles on 1 sheet` (criterion 2): one every 13.3 s
+- [x] `-a`, an audio file, `--at` and `--scan` match master (criterion 5): stdout, stderr, transcripts and 17 jpgs
+- [x] No "one per 10 s" statement of the overview count is left in `bin`, `docs/usage.md` or `skill`
+- [ ] Merge, push and deleting `SPEC.md` and `tasks/` wait for the owner's go-ahead
