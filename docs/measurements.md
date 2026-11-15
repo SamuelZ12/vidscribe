@@ -51,7 +51,7 @@ README headline until the overview-sheets run below replaced it: the three rows 
 
 2026-11-15, branch `overview-sheets` at `fdb5961` against master `28966e5`. The branch replaces the default frames (up to 40 full-size) with overview sheets: 4x4 contact sheets of evenly spaced tiles, one per 10 s, 16 to 96 in all. The question, with bars set before the run (`SPEC.md`, "Eval"): does that cost answers?
 
-One run, three arms on the three question sets, 108 fresh agents (one per video, set and arm): `transcript` (transcript only), `current` (master's script and `skill/SKILL.md`), `vidscribe` (the branch's script and `skill/SKILL.md`). Both picture arms got only the SKILL.md as instructions and could run `--at` and `--scan`. All arms share downloads, transcripts (byte-identical between the two scripts on all 21 videos), prompts and grader. **The agents were Codex (`gpt-6.1-sol`, medium effort), not Claude subagents as in every other section, so compare arms within this table, not with numbers elsewhere in this file.** Method, prompts and deviations: `eval/README.md`, "Overview sheets"; grades: `eval/overview/grades.json`.
+One run, three arms on the three question sets, 108 fresh agents (one per video, set and arm): `transcript` (transcript only), `current` (master's default frames and `skill/SKILL.md`), `vidscribe` (the branch's overview sheets and `skill/SKILL.md`). Both picture arms got only the SKILL.md as instructions and could run `--at` and `--scan`; in both arms those calls ran master's script (see "`--at A-B/N` was not tested" below). All arms share downloads, transcripts (byte-identical between the two scripts on all 21 videos), prompts and grader. **The agents were Codex (`gpt-6.1-sol`, medium effort), not Claude subagents as in every other section, so compare arms within this table, not with numbers elsewhere in this file.** Method, prompts and deviations: `eval/README.md`, "Overview sheets"; grades: `eval/overview/grades.json`.
 
 | Set | `transcript` | `current` | `vidscribe` |
 |---|---|---|---|
@@ -86,7 +86,7 @@ Bars, the same on each set: `vidscribe` at most 2 points below `current`, and at
   | Hard | `vidscribe` | 6.0 | 8.0 | 6.7 | 20.8 |
 
   With sheets, agents did not fetch more frames to make up for the smaller default: `--at` and `--scan` use is about the same in both arms. Input tokens per agent, summed over its requests, fell by about half (311k vs 636k, 464k vs 999k, 745k vs 1,393k).
-- **`--at A-B/N` was used little**: 6 of the 95 `--at` calls in the `vidscribe` arm gave a count.
+- **`--at A-B/N` was not tested** (found after the run, 2026-11-15). Codex runs each command in a login shell, which put the installed `vidscribe` (master) ahead of the arm's copy on `PATH`, so every `--at` and `--scan` call in both arms ran master's script. Without a count the two scripts print the same lines and save the same files (smoke case S11), so the scores stand as sheets against frames, each with its own SKILL.md. But the 6 `--at` calls that gave a count, of 95 in the `vidscribe` arm, all failed with `bad time`. The six agents went on to fetch frames without a count, and each scored full marks, as `current` did on the same questions. How agents use a working `A-B/N` is unmeasured; the script side has smoke cases S7 and S8 only.
 - **Leakage**: no agent opened a path outside its folder, ran `ffmpeg` or searched the web; every image an agent was shown matched a file in its own folder.
 
 Caveats:
