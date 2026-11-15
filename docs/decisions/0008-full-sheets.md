@@ -21,15 +21,15 @@ Of the 21 videos in the [overview-sheets eval](../measurements.md#overview-sheet
 | 2:40 to 3:59 | 1 | 16 | 10 to 15 | 16 to 24 |
 | 4:00 to 6:39 | 2 | 32 | 7.5 to 12.5 | 24 to 40 |
 | 6:40 to 9:19 | 3 | 48 | 8.3 to 11.7 | 40 to 56 |
-| 9:20 to 11:59 | 4 | 64 | 8.8 to 11.3 | 56 to 72 |
+| 9:20 to 11:59 | 4 | 64 | 8.75 to 11.25 | 56 to 72 |
 | 12:00 to 14:39 | 5 | 80 | 9 to 11 | 72 to 88 |
 | 14:40 to 15:59 | 6 | 96 | 9.2 to 10 | 88 to 96 |
-| 16:00 and over | 6 | 96 | over 10 | 96 (unchanged) |
+| 16:00 and over | 6 | 96 | 10 or more | 96 (unchanged) |
 
-`-v N`, `--at`, `--scan`, the tile size, the sheet layout and `index.txt` do not change.
+`-v N`, `--at`, `--scan`, the tile size, the sheet layout and the format of `index.txt` do not change.
 
 ## Alternatives considered
-- **Round up to the next sheet.** Tiles would never be more than 10 s apart, but a 2:41 video would get 32 tiles where it got 17, and the 3:33 video 32 where it got 22. The owner chose nearest: the count stays closest to one tile per 10 s.
+- **Round up to the next sheet.** Up to 16:00, tiles would never be more than 10 s apart, but a 2:41 video would get 32 tiles where it got 17, and the 3:33 video 32 where it got 22. The owner chose nearest: the count stays closest to one tile per 10 s.
 - **Crop a part-empty sheet to the rows it uses.** Not built: sheets would come in four sizes, and it is not needed once every sheet is full.
 - **Fill `--scan` sheets too.** Not built: their tile count comes from scene changes plus a 10 s fill, not from a formula.
 
