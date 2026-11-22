@@ -1,6 +1,6 @@
 # vidscribe
 
-Lets AI agents watch videos, locally on Apple Silicon. Give it a file or any URL yt-dlp handles; it returns a transcript and, for video, overview sheets (small, evenly spaced pictures) with an `index.txt` mapping each one to what was being said. The agent then fetches full-size frames at the moments that matter. Runs on-device with [MLX](https://github.com/ml-explore/mlx): no API keys, no cloud.
+Lets AI agents watch videos, locally on Apple Silicon. Give it a file or any URL yt-dlp handles; it returns a transcript and, for video, overview sheets (small, evenly spaced pictures) with an `index.txt` mapping each one to what was being said. Videos without an audio track get the same sheets and an empty transcript. The agent then fetches full-size frames at the moments that matter. Runs on-device with [MLX](https://github.com/ml-explore/mlx): no API keys, no cloud.
 
 ## Does it help?
 

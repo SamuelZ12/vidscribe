@@ -168,49 +168,61 @@ done
 WANT_VIDEO=$VFLAG
 (( ! VFLAG && ! AFLAG )) && [[ "$FMT" == "txt" || "$FMT" == "srt" ]] && WANT_VIDEO=1
 
-# true if the file has a real video stream (cover art on mp3/m4a is an attached_pic, not video)
-has_video() {
-  # one value per line: csv appends a field per side_data entry ("0,"), which hid video streams
-  local d; d="$(ffprobe -v error -select_streams v -show_entries stream_disposition=attached_pic -of default=nw=1:nk=1 "$1" 2>/dev/null || true)"
-  [[ $'\n'"$d"$'\n' == *$'\n0\n'* ]]
-}
-
 mkdir -p "$OUTDIR"
 TMP="$(mktemp -d)"; trap 'rm -rf "$TMP"' EXIT
 
 if [[ "$SRC" =~ ^https?:// ]]; then
   if (( WANT_VIDEO )); then
-    # sources without video fall back to "b" (audio only, any extension); has_video decides below
-    IN="$(yt-dlp -q --no-warnings --no-simulate --print after_move:filepath \
-      -f "bv*[height<=720]+ba/b[height<=720]/b" --merge-output-format mp4 -o "$TMP/%(id)s.%(ext)s" "$SRC")"
-    IN="${IN%%$'\n'*}"  # first file only if the URL is a playlist
+    FORMATS="bv*[height<=720]+ba/b[height<=720]/b/bv[height<=720]/bv/ba"
   else
-    yt-dlp -q --no-warnings -x --audio-format wav -o "$TMP/%(id)s.%(ext)s" "$SRC" >&2
-    IN="$(ls "$TMP"/*.wav | head -1)"
+    FORMATS="ba/b"
   fi
+  # Probe the downloaded streams before asking ffmpeg to extract audio.
+  IN="$(yt-dlp -q --no-warnings --no-simulate --print after_move:filepath \
+    -f "$FORMATS" --merge-output-format mp4 -o "$TMP/%(id)s.%(ext)s" "$SRC")"
+  IN="${IN%%$'\n'*}"  # first file only if the URL is a playlist
   NAME="$(basename "${IN%.*}")"
 else
   [[ -f "$SRC" ]] || { echo "no such file: $SRC" >&2; exit 1; }
   IN="$SRC"; NAME="$(basename "${SRC%.*}")"
 fi
-VISUAL=$VFLAG
-(( WANT_VIDEO && ! VFLAG )) && has_video "$IN" && VISUAL=1
-
-WAV="$TMP/in16k.wav"
-ffmpeg -nostdin -loglevel error -y -i "$IN" -ac 1 -ar 16000 "$WAV"
-DUR="$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$WAV")"
-
 OUT="$OUTDIR/$NAME"
-RUNFMT="$FMT"; (( VISUAL )) && RUNFMT="srt"
-# mlx-audio spends one --max-tokens budget (default 8192) on the whole file: dense speech ran out
-# after ~13-55 min, and a repetition loop ("oh, oh, ..." over applause) could burn it all. So give the
-# file a budget that never binds, and cap each ~30 s piece at 25 tok/s instead (real speech peaks ~16).
-# A piece that hits its cap was cut off (the end token is never counted): split it at its quietest
-# point and redo the halves, so a loop shrinks to a few seconds; one still capped under 8 s is warned.
-MLXPY="$(sed -n '1s/^#!//p' "$(command -v mlx_audio.stt.generate)")"
-MAXTOK="$(awk -v d="$DUR" 'BEGIN{ printf "%d", 8192 + 32*d }')"
-"$MLXPY" - --model "$MODEL" --audio "$WAV" --output-path "$OUT" --format "$RUNFMT" --max-tokens "$MAXTOK" \
-  ${LANG_ARG[@]+"${LANG_ARG[@]}"} ${CTX_ARG[@]+"${CTX_ARG[@]}"} >&2 <<'PY'
+AUDIO="$(ffprobe -v quiet -select_streams a:u -show_entries stream=index -of csv=p=0 "$IN" || true)"
+VISUAL=$VFLAG
+if (( WANT_VIDEO )) || [[ -z "$AUDIO" ]]; then
+  # Uppercase V excludes attached cover art; u requires usable codec parameters.
+  VIDEO="$(ffprobe -v quiet -select_streams V:u -show_entries stream=index -of csv=p=0 "$IN" || true)"
+  (( WANT_VIDEO )) && [[ -n "$VIDEO" ]] && VISUAL=1
+fi
+if [[ -z "$AUDIO" ]]; then
+  if [[ -z "$VIDEO" ]]; then
+    echo "vidscribe: no usable audio or video stream" >&2
+    exit 1
+  elif (( ! VISUAL )); then
+    echo "vidscribe: no audio track to transcribe" >&2
+    exit 1
+  fi
+  FDUR="$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "$IN")"
+  if [[ -z "$FDUR" || "$FDUR" == "N/A" ]]; then
+    echo "vidscribe: video duration unavailable, cannot sample frames" >&2
+    exit 1
+  fi
+  echo "vidscribe: no audio track; writing an empty transcript" >&2
+  : > "$OUT.srt"
+else
+  WAV="$TMP/in16k.wav"
+  ffmpeg -nostdin -loglevel error -y -i "$IN" -ac 1 -ar 16000 "$WAV"
+  DUR="$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$WAV")"
+  RUNFMT="$FMT"; (( VISUAL )) && RUNFMT="srt"
+  # mlx-audio spends one --max-tokens budget (default 8192) on the whole file: dense speech ran out
+  # after ~13-55 min, and a repetition loop ("oh, oh, ..." over applause) could burn it all. So give the
+  # file a budget that never binds, and cap each ~30 s piece at 25 tok/s instead (real speech peaks ~16).
+  # A piece that hits its cap was cut off (the end token is never counted): split it at its quietest
+  # point and redo the halves, so a loop shrinks to a few seconds; one still capped under 8 s is warned.
+  MLXPY="$(sed -n '1s/^#!//p' "$(command -v mlx_audio.stt.generate)")"
+  MAXTOK="$(awk -v d="$DUR" 'BEGIN{ printf "%d", 8192 + 32*d }')"
+  "$MLXPY" - --model "$MODEL" --audio "$WAV" --output-path "$OUT" --format "$RUNFMT" --max-tokens "$MAXTOK" \
+    ${LANG_ARG[@]+"${LANG_ARG[@]}"} ${CTX_ARG[@]+"${CTX_ARG[@]}"} >&2 <<'PY'
 import sys, time, json
 import numpy as np
 from mlx_audio.stt.generate import main
@@ -265,6 +277,7 @@ if gen:
 sys.argv[0] = "mlx_audio.stt.generate"
 main()
 PY
+fi
 
 if (( VISUAL )); then
   # media is bulky: keep it in /tmp (cleared on reboot) and prune runs older than 3 days
@@ -276,8 +289,10 @@ if (( VISUAL )); then
   if [[ "$IN" == "$TMP"/* ]]; then mv "$IN" "$VID"; else ln -s "$(cd "$(dirname "$IN")" && pwd)/$(basename "$IN")" "$VID"; fi
   # tiles and frames span the picture: use the container length (as --at does) when the video outlasts the audio;
   # sub-second differences are codec padding, so keep the audio length there (normal runs unchanged)
-  FDUR="$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "$VID")"
-  awk -v a="$DUR" -v v="${FDUR:-0}" 'BEGIN{ exit !(v + 0 > a + 1) }' || FDUR="$DUR"  # +0: "N/A" (unknown) means 0, not a string compare
+  if [[ -n "$AUDIO" ]]; then
+    FDUR="$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "$VID")"
+    awk -v a="$DUR" -v v="${FDUR:-0}" 'BEGIN{ exit !(v + 0 > a + 1) }' || FDUR="$DUR"  # +0: "N/A" (unknown) means 0, not a string compare
+  fi
   python3 - "$SHEETS_PY" "$OUT.srt" "$FDUR" "${NFRAMES:-0}" "$FDIR" "$VID" "$OUT.txt" <<'PY' >&2
 import sys; exec(sys.argv.pop(1))
 import math, os, re, subprocess
@@ -291,7 +306,7 @@ for blk in re.split(r'\n\s*\n', open(srt, encoding='utf-8').read().strip()):
         if '-->' in l:
             a, b = [x.strip() for x in l.split('-->')]
             cues.append((sec(a), sec(b), ' '.join(lines[i+1:]).strip())); break
-open(txt, 'w', encoding='utf-8').write('\n'.join(c[2] for c in cues) + '\n')
+open(txt, 'w', encoding='utf-8').write(''.join(c[2] + '\n' for c in cues))
 # cues are ~30s chunks; split into sentences and interpolate each sentence's time
 # by character offset so frames map to the line actually spoken, not the whole chunk
 sents = []
@@ -341,7 +356,7 @@ PY
 fi
 
 # truncation check: model has silently stopped early on long media before
-if [[ -f "$OUT.srt" ]]; then
+if [[ -n "$AUDIO" && -f "$OUT.srt" ]]; then
   LAST="$(awk '/-->/ {split($0,a,"-->"); split(a[2],t,/[:,]/); last=t[1]*3600+t[2]*60+t[3]+t[4]/1000} END {print last+0}' "$OUT.srt")"
   awk -v l="${LAST:-0}" -v d="$DUR" 'BEGIN{ if (d-l > 30) printf "WARNING: last cue %.0fs < duration %.0fs; transcript ends early\n", l, d }' >&2
 fi
