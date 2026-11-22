@@ -4,13 +4,11 @@ Lets AI agents watch videos, locally on Apple Silicon. Give it a file or any URL
 
 ## Does it help?
 
-Agents answered 156 questions about 21 videos, 36 of them about moments the speech never names: once from the transcript alone, once with vidscribe (overview sheets, `--at` and `--scan`). A blind grader scored the answers.
+The transcript does. On 12 long talks, an agent with only `ffmpeg` scored 54% on the 12 questions about what was said. With vidscribe's transcript it scored 100%.
 
-| | Transcript only | vidscribe |
-|---|---|---|
-| Score | 15% | 96% |
+The picture commands (overview sheets, `--at`, and `--scan`) did not beat an agent that runs `ffmpeg` on the video file. On the public [Video-Index v1.1](https://github.com/Espere-1119-Song/Video-Index) benchmark, vidscribe scored 38.2% and plain `ffmpeg` scored 37.7%. vidscribe cost 23% more per question.
 
-Method and caveats: [docs/measurements.md](docs/measurements.md#overview-sheets-against-the-current-default-frames). Questions, grades and scripts: [eval/](eval/).
+Tables, method, and limits: [docs/benchmark.md](docs/benchmark.md). Every run used Codex with `gpt-6.2-sol`.
 
 ## Install
 
