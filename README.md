@@ -30,7 +30,16 @@ vidscribe "https://www.youtube.com/watch?v=<id>" -a    # transcript only
 vidscribe memo.m4a -f srt -o ~/transcripts             # srt, kept outside /tmp
 ```
 
-txt transcripts print to stdout; the transcript and video paths go to stderr. Outputs stay in `/tmp/vidscribe/` for 3 days. The default model is Qwen3-ASR (~30 languages); for others, use `-m mlx-community/whisper-large-v3-turbo-asr-fp16`. Full reference: [docs/usage.md](docs/usage.md).
+On YouTube's first video:
+
+```console
+$ vidscribe "https://www.youtube.com/watch?v=jNQXAC9IVRw"
+video: /tmp/vidscribe/videos/jNQXAC9IVRw.mp4
+transcript: /tmp/vidscribe/transcripts/jNQXAC9IVRw.txt
+All right, so here we are, one of the elephants. Cool thing about these guys is that they have really, really, really long trunks, and that's that's cool. And that's pretty much all there is to say.
+```
+
+txt transcripts print to stdout; the transcript and video paths go to stderr. On an M5 Pro Mac mini, a 64-minute lecture took 2 min 14 s, download included. Outputs stay in `/tmp/vidscribe/` for 3 days. The default model is Qwen3-ASR (~30 languages); for others, use `-m mlx-community/whisper-large-v3-turbo-asr-fp16`. Full reference: [docs/usage.md](docs/usage.md).
 
 ## Agent skill
 
