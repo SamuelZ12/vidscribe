@@ -119,4 +119,4 @@ The questions, grades, prompts, and scripts from those runs are in [the last com
 
 ## Data and code
 
-The page reports scores only. It includes no videos, questions, or answers from Video-Index, whose items keep the licences of their source benchmarks. The runner that produced these numbers is not public.
+The page reports scores only. It includes no videos, questions, or answers from Video-Index, whose items keep the licences of their source benchmarks. The harness that produced these numbers, with its prompts, scoring and reports, is in [SamuelZ12/vidscribe-index](https://github.com/SamuelZ12/vidscribe-index). The runs used its tag `harness-v2`.
