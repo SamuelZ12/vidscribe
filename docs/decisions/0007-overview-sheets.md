@@ -32,4 +32,4 @@ The choice of default frames is not what answers questions. In the [table re-run
 - A tile is 318x178, too small to read text from, so every on-screen detail now costs an `--at` call. Both answers lost in the eval were ones a default full-size frame happened to show.
 - Past 16 minutes the tiles are more than 10 s apart (one per 75 s on a 2-hour video); `--scan` covers a chosen stretch at 10 s or closer.
 - Frame files lose the `_even`/`_ref`/`_scene` suffix (`-v N`), and a default run has no frame files at all: anything that matched those names stops working.
-- Sections of `docs/measurements.md` before this eval, and the `frames`, `at` and `scan` prompts in `eval/README.md`, describe the frames this ADR removes.
+- Sections of `docs/measurements.md` before this eval, and the `frames`, `at` and `scan` prompts in [`eval/README.md`](https://github.com/SamuelZ12/vidscribe/tree/7a119b4786de1198ab533ebe85c0314ae35d90d7/eval/README.md), describe the frames this ADR removes.
