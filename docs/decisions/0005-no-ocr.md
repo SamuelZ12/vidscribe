@@ -1,7 +1,7 @@
 # ADR-0005: No OCR timeline; contact sheets for unnamed moments
 
 ## Status
-Accepted
+Accepted. [ADR-0009](0009-drop-picture-commands.md) removed the contact sheets; OCR is still not built.
 
 ## Date
 2026-11-05

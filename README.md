@@ -1,12 +1,12 @@
 # vidscribe
 
-Lets AI agents watch videos, locally on Apple Silicon. Give it a file or any URL yt-dlp handles; it returns a transcript and, for video, overview sheets (small, evenly spaced pictures) with an `index.txt` mapping each one to what was being said. Videos without an audio track get the same sheets and an empty transcript. The agent then fetches full-size frames at the moments that matter. Runs on-device with [MLX](https://github.com/ml-explore/mlx): no API keys, no cloud.
+Lets AI agents watch videos, locally on Apple Silicon. Give it a file or any URL yt-dlp handles. It returns a transcript and, for video, the path of the video file, so the agent can look at the picture with `ffmpeg`. Videos without an audio track get an empty transcript and the path. Runs on-device with [MLX](https://github.com/ml-explore/mlx): no API keys, no cloud.
 
 ## Does it help?
 
 The transcript does. On 12 long talks, an agent with only `ffmpeg` scored 54% on the 12 questions about what was said. With vidscribe's transcript it scored 100%.
 
-The picture commands (overview sheets, `--at`, and `--scan`) did not beat an agent that runs `ffmpeg` on the video file. On the public [Video-Index v1.1](https://github.com/Espere-1119-Song/Video-Index) benchmark, vidscribe scored 38.2% and plain `ffmpeg` scored 37.7%. vidscribe cost 23% more per question.
+vidscribe used to have its own picture commands: overview sheets, `--at` and `--scan`. They did not beat an agent that runs `ffmpeg` on the video file. On the public [Video-Index v1.1](https://github.com/Espere-1119-Song/Video-Index) benchmark, they scored 38.2% and plain `ffmpeg` scored 37.7%, and they cost 23% more per question. So they were removed in November 2026 ([ADR-0009](docs/decisions/0009-drop-picture-commands.md)). The `v1` tag keeps them.
 
 Tables, method, and limits: [docs/benchmark.md](docs/benchmark.md). Every run used Codex with `gpt-6.2-sol`.
 
@@ -24,14 +24,13 @@ Make sure `~/.local/bin` is on your `PATH`, then check with `vidscribe -h`. Upda
 ## Usage
 
 ```sh
-vidscribe talk.mp4                                         # transcript + overview sheets
-vidscribe "https://www.youtube.com/watch?v=<id>" -a        # transcript only
-vidscribe memo.m4a -f srt -o ~/transcripts                 # srt, kept outside /tmp
-vidscribe /tmp/vidscribe/frames/<name> --at 8:14,7:50-8:50 # full-size frames from a run
-vidscribe /tmp/vidscribe/frames/<name> --scan 50:00-60:00  # find an unnamed moment
+vidscribe talk.mp4                                     # transcript; the video path goes to stderr
+vidscribe "https://www.youtube.com/watch?v=<id>"       # downloads the video too
+vidscribe "https://www.youtube.com/watch?v=<id>" -a    # transcript only
+vidscribe memo.m4a -f srt -o ~/transcripts             # srt, kept outside /tmp
 ```
 
-txt transcripts print to stdout; the transcript path and frames folder go to stderr. Outputs stay in `/tmp/vidscribe/` for 3 days. The default model is Qwen3-ASR (~30 languages); for others, use `-m mlx-community/whisper-large-v3-turbo-asr-fp16`. Full reference: [docs/usage.md](docs/usage.md).
+txt transcripts print to stdout; the transcript and video paths go to stderr. Outputs stay in `/tmp/vidscribe/` for 3 days. The default model is Qwen3-ASR (~30 languages); for others, use `-m mlx-community/whisper-large-v3-turbo-asr-fp16`. Full reference: [docs/usage.md](docs/usage.md).
 
 ## Agent skill
 
@@ -44,7 +43,7 @@ Needs Node.js 22.20+. Without Node, copy `skill/` into your agent's skills folde
 ## Limits
 
 - Speech only: music and other sounds aren't described.
-- No OCR or word timestamps; agents read on-screen text from the frames.
+- No OCR or word timestamps; agents read on-screen text from frames they take with `ffmpeg`.
 
 Design decisions: [docs/decisions/](docs/decisions/).
 

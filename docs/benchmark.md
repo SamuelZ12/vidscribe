@@ -1,6 +1,6 @@
 # Benchmark: vidscribe against plain ffmpeg
 
-vidscribe gives an agent two things. The first is a transcript of the speech. The second is a set of commands that show the picture: overview sheets, `--at`, and `--scan`. This page tests each one against the obvious alternative, which is an agent that runs `ffmpeg` on the video file itself.
+vidscribe gave an agent two things. The first is a transcript of the speech. The second was a set of commands that showed the picture: overview sheets, `--at`, and `--scan`. This page tests each one against the obvious alternative, which is an agent that runs `ffmpeg` on the video file itself.
 
 The results:
 
@@ -18,7 +18,7 @@ Every run used one agent and one model: Codex CLI 0.169.0 with `gpt-6.2-sol` at 
 | Plain ffmpeg | The video file. The prompt says that `ffmpeg` and `ffprobe` are installed. |
 | Transcript + ffmpeg | The video file and vidscribe's transcript, as `.txt` and `.srt`. |
 | Transcript + guided ffmpeg | The same files, plus a seven-step guidance file. The steps cover contact sheets of the whole video, full-size frames, crops, and 8 frames per second for motion. |
-| vidscribe | The output of `vidscribe video.mp4`, the skill in [`skill/SKILL.md`](../skill/SKILL.md), and the `--at` and `--scan` commands. |
+| vidscribe | The output of `vidscribe video.mp4`, the skill as it was at [`v1`](https://github.com/SamuelZ12/vidscribe/blob/v1/skill/SKILL.md), and the `--at` and `--scan` commands. |
 
 Each question ran in a new session. The session could read only its own folder and had no web access.
 
@@ -99,7 +99,7 @@ Speech recognition took about 155 seconds per video on an M5 Pro Mac mini. The a
 
 ## What the results mean for vidscribe
 
-Use vidscribe to fetch a video and transcribe it. For the picture, an agent that can run `ffmpeg` did as well without the picture commands in both tests, at a lower cost. The picture commands stay in the tool. These tests give no reason to prefer them over `ffmpeg`.
+Use vidscribe to fetch a video and transcribe it. For the picture, an agent that can run `ffmpeg` did as well without the picture commands in both tests, at a lower cost. So the picture commands were removed ([ADR-0009](decisions/0009-drop-picture-commands.md)). vidscribe now prints the path of the video for `ffmpeg`.
 
 ## Limits
 

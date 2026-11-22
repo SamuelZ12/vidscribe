@@ -1,7 +1,7 @@
 # ADR-0008: Every overview sheet is full
 
 ## Status
-Accepted. Amends the tile count of [ADR-0007](0007-overview-sheets.md); the rest of ADR-0007 stands.
+Superseded by [ADR-0009](0009-drop-picture-commands.md). Amends the tile count of [ADR-0007](0007-overview-sheets.md); the rest of ADR-0007 stands.
 
 ## Date
 2026-11-15
