@@ -1,7 +1,7 @@
 # ADR-0004: Frames on demand (`--at`) instead of smarter scene choice
 
 ## Status
-Accepted
+Superseded by [ADR-0009](0009-drop-picture-commands.md).
 
 ## Date
 2026-11-04

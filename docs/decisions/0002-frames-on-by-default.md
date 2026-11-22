@@ -1,7 +1,7 @@
 # ADR-0002: Frames on by default for video
 
 ## Status
-Accepted
+Superseded by [ADR-0009](0009-drop-picture-commands.md).
 
 ## Date
 2026-11-04

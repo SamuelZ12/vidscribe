@@ -5,13 +5,14 @@ Why the shipped defaults are what they are. An ADR is written when a default cha
 | ADR | Decision |
 |---|---|
 | [0001](0001-local-only.md) | Stay local; no hosted video model |
-| [0002](0002-frames-on-by-default.md) | Frames on by default for video |
+| [0002](0002-frames-on-by-default.md) | Frames on by default for video (superseded by 0009) |
 | [0003](0003-frame-cap.md) | Cap automatic frames at 40, split between refs and scenes (superseded by 0007) |
-| [0004](0004-frames-on-demand.md) | Frames on demand (`--at`) instead of smarter scene choice |
-| [0005](0005-no-ocr.md) | No OCR timeline; contact sheets for unnamed moments |
+| [0004](0004-frames-on-demand.md) | Frames on demand (`--at`) instead of smarter scene choice (superseded by 0009) |
+| [0005](0005-no-ocr.md) | No OCR timeline; contact sheets for unnamed moments (sheets removed by 0009) |
 | [0006](0006-detect-language-per-piece.md) | Detect the language of every piece by default |
-| [0007](0007-overview-sheets.md) | Overview sheets instead of default frames; `-v N` and `--at A-B/N` give full-size frames (tile count amended by 0008) |
-| [0008](0008-full-sheets.md) | Every overview sheet is full: 16 tiles per sheet, one sheet per 160 s of picture (1 to 6) |
+| [0007](0007-overview-sheets.md) | Overview sheets instead of default frames; `-v N` and `--at A-B/N` give full-size frames (tile count amended by 0008) (superseded by 0009) |
+| [0008](0008-full-sheets.md) | Every overview sheet is full: 16 tiles per sheet, one sheet per 160 s of picture (1 to 6) (superseded by 0009) |
+| [0009](0009-drop-picture-commands.md) | Drop sheets, `-v`, `--at` and `--scan`; print the video path for `ffmpeg` |
 
 ## Considered, not built
 
