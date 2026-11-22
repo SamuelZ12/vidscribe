@@ -28,6 +28,6 @@ The transcript is the part that helped. On the long talks, an agent without one 
 - **Write an `ffmpeg` guidance skill.** Tested as `ffmpeg-guided`: +2.8 points (−1.4 to +6.9) at 3.3 cents more per question on Video-Index, 0.0 on the long talks.
 
 ## Consequences
-- The script goes from 366 to 176 lines, and video runs no longer spend time making sheets.
+- The script goes from 366 to 175 lines, and video runs no longer spend time making sheets.
 - Anyone calling `-v`, `--at` or `--scan` gets an error. They can check out `v1`.
 - The evidence covers one agent and model. A model that uses `ffmpeg` less well may have needed the sheets. On the 36 hard long-talk questions about moments the speech never names, plain `ffmpeg` scored 94.4% against 100%, within noise.
