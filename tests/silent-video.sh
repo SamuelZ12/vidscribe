@@ -12,3 +12,6 @@ for ext in txt srt; do
   [[ -f "$transcript" && ! -s "$transcript" ]]
 done
 grep -Fqx "video: $tmp/silent.mp4" "$tmp/err"
+# a relative input prints an absolute path
+(cd "$tmp" && "$cli" silent.mp4) 2> "$tmp/err" || { cat "$tmp/err" >&2; exit 1; }
+grep -Fqx "video: $tmp/silent.mp4" "$tmp/err"

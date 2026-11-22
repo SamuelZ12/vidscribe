@@ -16,7 +16,8 @@ done
 FMT="txt"; LANG_ARG=(); CTX_ARG=(); AFLAG=0
 
 [[ $# -ge 1 ]] || { sed -n '2,6p' "$0"; exit 1; }
-case "$1" in -h|--help) sed -n '2,6p' "$0"; exit 0;; esac
+removed() { echo "vidscribe: $1 was removed (docs/decisions/0009-drop-picture-commands.md); run ffmpeg on the video path a normal run prints" >&2; exit 1; }
+case "$1" in -h|--help) sed -n '2,6p' "$0"; exit 0;; -v|--at|--scan) removed "$1";; esac
 SRC="$1"; shift
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -25,7 +26,7 @@ while [[ $# -gt 0 ]]; do
     -f) FMT="$2"; shift 2;;
     -c) CTX_ARG=(--context "$2"); shift 2;;
     -m) MODEL="$2"; shift 2;;
-    -v|--at|--scan) echo "vidscribe: $1 was removed (docs/decisions/0009-drop-picture-commands.md); run ffmpeg on the video path a normal run prints" >&2; exit 1;;
+    -v|--at|--scan) removed "$1";;
     -a|--audio-only) AFLAG=1; shift;;
     -h|--help) sed -n '2,6p' "$0"; exit 0;;
     *) echo "unknown arg: $1" >&2; exit 1;;
