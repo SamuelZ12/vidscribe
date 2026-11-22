@@ -3,20 +3,20 @@
 # Usage: vidscribe <file-or-URL> [-o OUTDIR] [-l LANG] [-f txt|srt|vtt|json] [-c "hotwords"] [-m MODEL] [-a]
 # URLs (X, YouTube, etc.) are fetched with yt-dlp. Prints the transcript path; text to stdout for txt.
 # Video (-f txt|srt) writes srt + txt and prints the video's path, so an agent can look at the picture with ffmpeg.
-# Downloaded videos stay in /tmp/vidscribe/videos/ for 3 days; local files are used where they are. -a/--audio-only: transcript only, no video download.
+# Downloaded videos stay in /tmp/vidscribe/videos/ for 3 days; local files are used where they are. -a/--audio-only: transcript only (URLs ask yt-dlp for audio only).
 set -euo pipefail
 export PATH="$HOME/.local/bin:/opt/homebrew/bin:$PATH"
 
 MODEL="${VIDSCRIBE_MODEL:-mlx-community/Qwen3-ASR-1.7B-8bit}"
 OUTDIR="${VIDSCRIBE_OUTDIR:-/tmp/vidscribe/transcripts}"
-# tmp is only cleared on reboot, so prune transcripts older than 3 days
-[[ -d /tmp/vidscribe/transcripts ]] && find /tmp/vidscribe/transcripts -mindepth 1 -maxdepth 1 -mtime +3 -exec rm -rf {} + 2>/dev/null || true
+# tmp is only cleared on reboot, so prune outputs older than 3 days (frames/ is left over from v1)
+for d in transcripts videos frames; do
+  [[ -d "/tmp/vidscribe/$d" ]] && find "/tmp/vidscribe/$d" -mindepth 1 -maxdepth 1 -mtime +3 -exec rm -rf {} + 2>/dev/null || true
+done
 FMT="txt"; LANG_ARG=(); CTX_ARG=(); AFLAG=0
 
 [[ $# -ge 1 ]] || { sed -n '2,6p' "$0"; exit 1; }
 case "$1" in -h|--help) sed -n '2,6p' "$0"; exit 0;; esac
-case "${2:-}" in --at|--scan)
-  echo "vidscribe: --at and --scan were removed (docs/decisions/0009-drop-picture-commands.md); run ffmpeg on the video path a normal run prints" >&2; exit 1;; esac
 SRC="$1"; shift
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -25,7 +25,7 @@ while [[ $# -gt 0 ]]; do
     -f) FMT="$2"; shift 2;;
     -c) CTX_ARG=(--context "$2"); shift 2;;
     -m) MODEL="$2"; shift 2;;
-    -v) echo "vidscribe: -v was removed (docs/decisions/0009-drop-picture-commands.md); run ffmpeg on the video path a normal run prints" >&2; exit 1;;
+    -v|--at|--scan) echo "vidscribe: $1 was removed (docs/decisions/0009-drop-picture-commands.md); run ffmpeg on the video path a normal run prints" >&2; exit 1;;
     -a|--audio-only) AFLAG=1; shift;;
     -h|--help) sed -n '2,6p' "$0"; exit 0;;
     *) echo "unknown arg: $1" >&2; exit 1;;
@@ -45,7 +45,7 @@ if [[ "$SRC" =~ ^https?:// ]]; then
     FORMATS="ba/b"
   fi
   # Probe the downloaded streams before asking ffmpeg to extract audio.
-  IN="$(yt-dlp -q --no-warnings --no-simulate --print after_move:filepath \
+  IN="$(yt-dlp -q --no-warnings --no-simulate --no-mtime --print after_move:filepath \
     -f "$FORMATS" --merge-output-format mp4 -o "$TMP/%(id)s.%(ext)s" "$SRC")"
   IN="${IN%%$'\n'*}"  # first file only if the URL is a playlist
   NAME="$(basename "${IN%.*}")"
@@ -154,13 +154,11 @@ for blk in re.split(r'\n\s*\n', open(srt, encoding='utf-8').read().strip()):
             lines.append(' '.join(rows[i+1:]).strip()); break
 open(txt, 'w', encoding='utf-8').write(''.join(l + '\n' for l in lines))
 PY
-  # downloads are bulky: keep them in /tmp (cleared on reboot) and prune ones older than 3 days
+  # downloads are bulky: keep them in /tmp (cleared on reboot; pruned at startup after 3 days)
   if [[ "$IN" == "$TMP"/* ]]; then
-    VROOT="${VIDSCRIBE_VIDEO_DIR:-/tmp/vidscribe/videos}"; mkdir -p "$VROOT"
-    find "$VROOT" -mindepth 1 -maxdepth 1 -mtime +3 -exec rm -rf {} + 2>/dev/null || true
-    VID="$VROOT/$(basename "$IN")"; mv -f "$IN" "$VID"
-  else
-    VID="$(cd "$(dirname "$IN")" && pwd)/$(basename "$IN")"
+    mkdir -p /tmp/vidscribe/videos; VID="/tmp/vidscribe/videos/$(basename "$IN")"; mv -f "$IN" "$VID"
+  elif [[ "$IN" == /* ]]; then VID="$IN"
+  else VID="$PWD/$IN"
   fi
   echo "video: $VID" >&2
 fi

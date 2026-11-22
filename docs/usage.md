@@ -8,11 +8,11 @@ vidscribe -h | --help
 - Transcripts go to `/tmp/vidscribe/transcripts/<name>.<fmt>`; txt is also printed to stdout. Use `-o DIR` to keep them elsewhere.
 - A video input (a video stream, checked with ffprobe; URLs are downloaded as video, up to 720p) writes srt + txt and prints `video: <path>` to stderr, so an agent can look at the picture with `ffmpeg`. Downloaded videos are saved as `/tmp/vidscribe/videos/<id>.<ext>`; a local file is used where it is. Audio files, including mp3/m4a with cover art, give a transcript only.
 - A video with no audio track gets empty srt and txt files and its video path. Transcript-only runs require audio.
-- `-a`/`--audio-only`: transcript only; URLs download audio only. `-f vtt|json` also gives a transcript only.
+- `-a`/`--audio-only`: transcript only; URLs ask yt-dlp for audio only. `-f vtt|json` also gives a transcript only.
 - `-v`, `--at` and `--scan` were removed in November 2026 ([ADR-0009](decisions/0009-drop-picture-commands.md)). To keep using them, check out the `v1` tag.
 - The language is detected separately in every ~30 s piece, so mixed-language media and music breaks need no flag. `-l zh|hi|en|...` (or the full name, `-l Chinese`) forces one language: use `-l en` for Hindi or other speech mixed with English terms to keep those terms in Latin script. `-c "Letta, Qwen"` biases rare names; `-m` picks another mlx-audio model.
 - Long media is transcribed to the end. Applause or music can show up as a short run of one repeated word ("oh, oh, oh"). `warning: transcript cut off in 00:12:03-00:12:09` means the model got stuck there (almost always such a loop): that stretch keeps only its first words, and the rest of the file is unaffected. A `WARNING: last cue ... < duration` line means the transcript ends before the media does: either the model stopped early or there is no speech near the end.
-- Old outputs in `/tmp/vidscribe` are pruned after 3 days.
+- Old outputs in `/tmp/vidscribe` (transcripts, videos, and v1's frames folders) are pruned after 3 days, checked at the start of each run.
 
 ## Install
 
@@ -26,7 +26,6 @@ Uninstall: `rm ~/.local/bin/vidscribe` and `uv tool uninstall mlx-audio`. The mo
 
 - `VIDSCRIBE_MODEL`: default model (same as `-m`).
 - `VIDSCRIBE_OUTDIR`: transcript folder (same as `-o`).
-- `VIDSCRIBE_VIDEO_DIR`: folder for downloaded videos instead of `/tmp/vidscribe/videos`.
 
 ## Licenses
 

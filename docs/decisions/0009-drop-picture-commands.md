@@ -19,7 +19,7 @@ The transcript is the part that helped. On the long talks, an agent without one 
 
 ## Decision
 - Remove overview sheets, `index.txt`, `-v`, `--at` and `--scan`. `-v`, `--at` and `--scan` now exit with a message pointing here.
-- A txt or srt run on a video writes srt + txt and prints `video: <path>` to stderr. Downloads move to `/tmp/vidscribe/videos/` (`VIDSCRIBE_VIDEO_DIR`) and are pruned after 3 days. A local file is used where it is.
+- A txt or srt run on a video writes srt + txt and prints `video: <path>` to stderr. Downloads move to `/tmp/vidscribe/videos/` and are pruned after 3 days. There is no setting for that folder, so pruning never touches a folder the user chose. A local file is used where it is.
 - `skill/SKILL.md` tells agents to transcribe, look with `ffmpeg` on the printed path, and answer from evidence. It gives no `ffmpeg` method, since the guidance file did not help.
 - The last commit with the picture commands is tagged `v1`.
 
