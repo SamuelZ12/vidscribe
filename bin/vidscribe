@@ -46,9 +46,10 @@ if [[ "$SRC" =~ ^https?:// ]]; then
     FORMATS="ba/b"
   fi
   # Probe the downloaded streams before asking ffmpeg to extract audio.
-  IN="$(yt-dlp -q --no-warnings --no-simulate --no-mtime --print after_move:filepath \
+  # --no-playlist: a watch?v=…&list=… link fetches that one video, not the whole playlist.
+  IN="$(yt-dlp -q --no-warnings --no-playlist --no-simulate --no-mtime --print after_move:filepath \
     -f "$FORMATS" --merge-output-format mp4 -o "$TMP/%(id)s.%(ext)s" "$SRC")"
-  IN="${IN%%$'\n'*}"  # first file only if the URL is a playlist
+  IN="${IN%%$'\n'*}"  # first file only (an X post with several videos is still a playlist)
   NAME="$(basename "${IN%.*}")"
 else
   [[ -f "$SRC" ]] || { echo "no such file: $SRC" >&2; exit 1; }
