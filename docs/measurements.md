@@ -390,3 +390,35 @@ Counts from `skill_2` on come from the agents' `read` calls; self-reports proved
 - **The current step 3 ("View every frame") works**: 9 of 12 agents viewed every frame, against 0 of 12 under the old "view the frame images". In the first `skill` run, by their own count, 6 of 12 main agents viewed no frames and went straight from the transcript to `--at`. No miss traces to a skipped frame: none of the missed moments had one among the ~40.
 - **Step 5 "Done when" not kept**: "answer from a full frame you viewed, or every plausible stretch scanned" scored 34, below the bar, and barely moved sheets viewed (68 vs 65), so step 5 went back to the earlier wording.
 - **Not fixable by wording, as far as these runs show.** Closes [#8](https://github.com/SamuelZ12/vidscribe/issues/8). The scan holdout was not run: it was only needed to confirm a gain.
+
+## Batched decoding: 32 pieces at a time
+
+2026-11-22, Mac mini M5 Pro 64 GB, mlx-audio 0.5.7, Qwen3-ASR 1.7B 8-bit. vidscribe decoded its ~30 s pieces one at a time. Each decoding step reads every model weight, so a step for 32 pieces costs little more than a step for one. vidscribe now passes `--max-parallel-segments 32` (8 on Macs under 16 GB). It also replaces mlx-audio's batched loop, which has no per-piece cap and, in 0.5.x, leaves a `language English<asr_text>` tag in every piece after the first. Each piece in a batch gets the per-piece cap from "Long audio". A piece that reaches it is redone alone and unpadded, then split as before.
+
+MIT "How to Speak" (`Unzc731iCUY`, 63:42):
+
+| | One at a time | 32 at a time |
+|---|---|---|
+| URL to transcript, `-a`, median of 3 alternating runs | 131 s (129 to 132) | 50 s (49 to 51) |
+| Transcription of the 16 kHz WAV | 107 to 128 s, 4 runs | 38 to 42 s, 5 runs |
+| Word error rate against the YouTube human captions | 5.03% | 4.95% |
+| Peak GPU memory | 4.19 GB | 6.14 GB |
+
+Batch size sweep on the same WAV, runs alternated across sizes. The machine's load average rose from 2.6 to 6.6 during the sweep, so the one-at-a-time runs spread from 109 to 128 s.
+
+| Pieces per batch | Time, 3 runs | Peak GPU memory |
+|---|---|---|
+| 1 | 109 to 128 s | 4.19 GB |
+| 4 | 54 to 61 s | |
+| 8 | 52 to 56 s | 4.22 GB |
+| 16 | 49 to 50 s | 4.75 GB |
+| 32 | 41 to 42 s | 6.14 GB |
+| 64 | 36 to 37 s, 2 runs | 9.36 GB |
+
+- 64 saves another 4 s for 3 GB more memory, so the default stops at 32. At 32, one profiled run spent 48% of its time on decoding, 29% on audio features (one piece at a time), and 23% on the prompt pass.
+- The output is deterministic at a fixed batch size, and it differs a little from the one-at-a-time output. On the MIT talk, 20 of 8,836 words differ: "60" for "sixty", "Stata" for "Stada", "point at" for "point out". Batch sizes 8 to 64 all score 4.95% to 4.99% word error rate against the captions.
+- A 128 s `say` clip of English, then Mandarin, then English: the batched run dropped one 7-character clause (还有咖啡的价格) at the start of a piece that switches language. The one-at-a-time run kept it, and `-l zh` keeps it in both. That piece was the longest in its batch, so padding did not cause the drop.
+- The Pe6xbLd94z0 music clip from "Language default" after 30 s of speech, with `-l en` to force the loop: both versions print the same 5 cut-off warnings and the same text. One at a time took 56 to 64 s (3 runs) and batched took 64 and 74 s (2 runs), because each looping piece is decoded to its cap in the batch and again alone. Passing the batch's capped result to the split, instead of redoing the piece alone, was faster (46 s) but added a warning. The 11.7 s last piece, padded with silence to its batch's 34 s, looped where it does not alone.
+- A cap forced low on every batched piece, so that every piece is redone alone, gives the same transcript on 5 min of the MIT talk.
+- mlx-audio 0.6.7, which `install.sh` installs today: 125 s to 42 s on the WAV, 5.03% to 4.93% word error rate, and the same 5 loop warnings.
+- Not measured: a Mac under 16 GB (batch 8).
