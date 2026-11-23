@@ -17,5 +17,5 @@ Don't add one. Transcription and frame work run on the device: no API keys, no c
 
 ## Consequences
 - vidscribe stays free, and media never leaves the device.
-- The local design borrows the idea instead: Google's [agentic video](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-agentic-video-in-gemini/) scans cheaply, then inspects; vidscribe does the same with `--scan` (contact sheets) and `--at` (full frames). See [ADR-0004](0004-frames-on-demand.md) and [ADR-0005](0005-no-ocr.md).
+- The local design borrows the idea instead: Google's [agentic video](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-agentic-video-in-gemini/) scans cheaply, then inspects; vidscribe does the same with `--scan` (contact sheets) and `--at` (full frames). See [ADR-0004](https://github.com/SamuelZ12/vidscribe/blob/v1/docs/decisions/0004-frames-on-demand.md) and [ADR-0005](0005-no-ocr.md).
 - The remaining gap between frames + transcript and native audio + video (38.1 vs 47.5 on Omni2Web) stays.
