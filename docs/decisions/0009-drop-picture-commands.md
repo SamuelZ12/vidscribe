@@ -1,7 +1,7 @@
 # ADR-0009: Drop the picture commands
 
 ## Status
-Accepted. Supersedes [ADR-0002](0002-frames-on-by-default.md), [ADR-0004](0004-frames-on-demand.md), [ADR-0007](0007-overview-sheets.md) and [ADR-0008](0008-full-sheets.md). Removes the contact sheets of [ADR-0005](0005-no-ocr.md).
+Accepted. Supersedes [ADR-0002](https://github.com/SamuelZ12/vidscribe/blob/v1/docs/decisions/0002-frames-on-by-default.md), [ADR-0004](https://github.com/SamuelZ12/vidscribe/blob/v1/docs/decisions/0004-frames-on-demand.md), [ADR-0007](https://github.com/SamuelZ12/vidscribe/blob/v1/docs/decisions/0007-overview-sheets.md) and [ADR-0008](https://github.com/SamuelZ12/vidscribe/blob/v1/docs/decisions/0008-full-sheets.md). Removes the contact sheets of [ADR-0005](0005-no-ocr.md).
 
 ## Date
 2026-11-22
