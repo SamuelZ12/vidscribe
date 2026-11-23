@@ -49,7 +49,7 @@ The next table compares two setups on the same questions. Four comparisons were 
 
 Every accuracy interval includes zero. The intervals are about 5 points wide on each side, so this test cannot show a smaller difference in either direction. The cost differences are clear.
 
-The setups with a transcript took 28 to 38 seconds longer per question than plain `ffmpeg`. The extra time is the vidscribe run that makes the transcript.
+The setups with a transcript took 28 to 38 seconds longer per question than plain `ffmpeg`. The extra time is the vidscribe run that makes the transcript, measured before batched decoding cut transcription time to about a third.
 
 ### The transcript did not help on long videos with speech
 
@@ -95,7 +95,7 @@ With the same transcript, plain `ffmpeg` matched vidscribe's picture commands an
 
 Two cautions apply to this table. The scores are near 100%, so the set cannot separate setups that are close. In the hard column, the gap between 100% and 94.4% is two questions.
 
-Speech recognition took about 155 seconds per video on an M5 Pro Mac mini. The agent then took about 29 seconds per question with vidscribe or with transcript + ffmpeg, 57 seconds with the guidance file, and 68 seconds without a transcript.
+Speech recognition took about 155 seconds per video on an M5 Pro Mac mini. These runs came before vidscribe decoded pieces in batches, which cut transcription of a 64-minute talk from 107-128 s to 38-42 s ([measurements](measurements.md#batched-decoding-32-pieces-at-a-time)). The agent then took about 29 seconds per question with vidscribe or with transcript + ffmpeg, 57 seconds with the guidance file, and 68 seconds without a transcript.
 
 ## What the results mean for vidscribe
 
