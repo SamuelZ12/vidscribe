@@ -1,6 +1,6 @@
 # Measurements
 
-The tests behind vidscribe's defaults. The first section is the latest run of the four agent conditions on the three question sets, on the default frames of the time. The second and third test the overview sheets that replaced those frames ([ADR-0007](decisions/0007-overview-sheets.md)); the README's numbers came from them until [benchmark.md](benchmark.md) replaced them. The later sections are earlier tests, which the ADRs in [`decisions/`](decisions/) cite. The last section, [Batched decoding](#batched-decoding-32-pieces-at-a-time), is the newest. It measures transcription speed. Questions, prompts, grades and rebuild steps are in [`eval/`](https://github.com/SamuelZ12/vidscribe/tree/7a119b4786de1198ab533ebe85c0314ae35d90d7/eval).
+The tests behind vidscribe's defaults. The first section is the latest run of the four agent conditions on the three question sets, on the default frames of the time. The second and third test the overview sheets that replaced those frames ([ADR-0007](decisions/0007-overview-sheets.md)); the README's numbers came from them until [benchmark.md](benchmark.md) replaced them. The later sections are earlier tests, which the ADRs in [`decisions/`](decisions/) cite. [Batched decoding](#batched-decoding-32-pieces-at-a-time) measures transcription speed. The last two sections, on Whisper and on faster models, are the newest. Questions, prompts, grades and rebuild steps are in [`eval/`](https://github.com/SamuelZ12/vidscribe/tree/7a119b4786de1198ab533ebe85c0314ae35d90d7/eval).
 
 The `eval/` folder these sections cite (questions, grades, prompts and scripts) is no longer in the repository. Every `eval/...` path below refers to [the last commit that has it](https://github.com/SamuelZ12/vidscribe/tree/7a119b4786de1198ab533ebe85c0314ae35d90d7/eval).
 
@@ -422,3 +422,27 @@ Batch size sweep on the same WAV, runs alternated across sizes. The machine's lo
 - A cap forced low on every batched piece, so that every piece is redone alone, gives the same transcript on 5 min of the MIT talk.
 - mlx-audio 0.6.7, which `install.sh` installs today: 125 s to 42 s on the WAV, 5.03% to 4.93% word error rate, and the same 5 loop warnings.
 - Not measured: a Mac under 16 GB (batch 8).
+
+## Whisper turbo with the language detected
+
+2026-11-22, Mac mini M5 Pro 64 GB, mlx-audio 0.5.7, `-m mlx-community/whisper-large-v3-turbo-asr-fp16`, the model the README suggests for languages Qwen3-ASR lacks. Since [ADR-0006](decisions/0006-detect-language-per-piece.md), a run without `-l` passes `language=None`, and this had not been tested with Whisper. Clips: about 100 s from 1:00 of an English talk (`Unzc731iCUY`), Ukrainian (`myp0_Ixxl2A`) and Hebrew (`z4shrIuOxk8`). Ukrainian and Hebrew are outside Qwen3-ASR's ~30 languages.
+
+- Without `-l`, each transcript came out in its own language and script. Each clip took about 3 s once the model was downloaded.
+- `-l uk` keeps Ukrainian. `-l en` on the Ukrainian clip forces English and gives a garbled English rendering, so `-l` still forces the language.
+- Full names are ignored: `-l English` on the Ukrainian clip gave the same Ukrainian text as no `-l`. With Whisper, use the short code. (Qwen3-ASR accepts both.)
+- The only extra stderr output is a transformers tokenizer warning (`clean_up_tokenization_spaces`).
+
+## Faster models: not built
+
+2026-11-23, Mac mini M5 Pro 64 GB, mlx-audio 0.5.7. The MIT talk (`Unzc731iCUY`, 63:42) as a 16 kHz WAV, `-a`, through `-m`. Word error rate is against the YouTube human captions, after lowercasing, removing punctuation and bracketed cues such as "(Laughter)", and scoring with `jiwer`. This method gives the default 4.97%, against 4.95% in "Batched decoding".
+
+| Model | Time, 2 runs | Word error rate |
+|---|---|---|
+| `Qwen3-ASR-1.7B-8bit` (default) | 38.8 to 40.6 s | 4.97% |
+| `Qwen3-ASR-0.6B-8bit` | 23.9 to 26.1 s | 5.99% |
+| `parakeet-tdt-0.6b-v3` | 18.0 to 19.0 s | 7.80% |
+
+- Issue #6 set parakeet's bar before the run: word error rate no worse than the default + 1 point, and at least 2x faster. It is 2.1x faster with 2.8 points more error, and it is English only, ignoring `-l` and `-c`. It wrote 9,082 words against the captions' 8,741.
+- The smaller Qwen3-ASR keeps every language and flag, and makes about 20% more errors for about 37% less time. Mandarin was not measured.
+- Where the default's time goes, from profiled runs at 32 pieces per batch: decoding 16 to 18 s, the prompt pass 8 to 9 s, the audio encoder 7.5 s (one piece at a time), the spectrogram 2 s, and loading and startup about 4 s. Downloading the talk took 5 s and converting it to WAV 4 s.
+- **Decision: not built.** A 64-minute talk already transcribes in under a minute with the default, so neither model's accuracy loss earns its speed. `-m` runs either one.
