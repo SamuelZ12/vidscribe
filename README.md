@@ -52,7 +52,8 @@ Needs Node.js 22.20+. Without Node, copy `skill/` into your agent's skills folde
 ## Limits
 
 - Speech only: music and other sounds aren't described.
-- No OCR or word timestamps; agents read on-screen text from frames they take with `ffmpeg`.
+- No OCR: agents read on-screen text from frames they take with `ffmpeg`.
+- Coarse timing: each `.srt` cue covers a ~30 s piece of audio, with no word timestamps, so a spoken moment is located only to within that piece.
 
 Design decisions: [docs/decisions/](docs/decisions/).
 
