@@ -166,14 +166,16 @@ try:
                     else:
                         out[i].append(t); done[i] = len(out[i]) >= caps[i]
                 y = nxt
+            width = x.shape[1]
+            del x, embeds, cache, hidden  # free the batch before any retry
             for i, (a, off) in enumerate(group):
-                text, g = self._tokenizer.decode(out[i], skip_special_tokens=True), len(out[i])
+                text, p, g = self._tokenizer.decode(out[i], skip_special_tokens=True), width, len(out[i])
                 if g >= caps[i]:
-                    text, _, g = run(self, a, int(off * sr), max_tokens, dict(
+                    text, p, g = run(self, a, int(off * sr), max_tokens, dict(
                         sampler=sampler, logits_processors=logits_processors, language=lang, system_prompt=system_prompt))
                 if AUTO and b0 + i and text.startswith("language "):
                     text = self.extract_language(text)[1]  # upstream reads the first piece's tag
-                texts.append(text); gens.append(g); prompts.append(x.shape[1])
+                texts.append(text); gens.append(g); prompts.append(p)
             mx.clear_cache()
         return texts, gens, prompts, [True] * len(chunks)
     M._generate_chunks_batched = batched
