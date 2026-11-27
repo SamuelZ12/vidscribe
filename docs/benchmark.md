@@ -8,7 +8,7 @@ The results:
 - **The transcript helped when the answer was spoken.** On 12 long talks, an agent with only `ffmpeg` scored 54% on the questions about what was said. Every setup with a transcript scored 100%. On the public benchmark, where few answers are spoken, the transcript did not help.
 - **A guidance file for `ffmpeg` cost more and scored the same.** The agent looked at more frames. The score did not move by an amount these tests can detect.
 
-Every run used one agent and one model: Codex CLI 0.169.0 with `gpt-6.2-sol` at medium reasoning effort. Treat the results as one data point.
+The five setups below used one agent and one model: Codex CLI 0.169.0 with `gpt-6.2-sol` at medium reasoning effort. Treat the results as one data point.
 
 ## The five setups
 
@@ -97,19 +97,25 @@ Two cautions apply to this table. The scores are near 100%, so the set cannot se
 
 Speech recognition took about 155 seconds per video on an M5 Pro Mac mini. These runs came before vidscribe decoded pieces in batches, which cut transcription of a 64-minute talk from 107-128 s to 38-42 s ([measurements](measurements.md#batched-decoding-32-pieces-at-a-time)). The agent then took about 29 seconds per question with vidscribe or with transcript + ffmpeg, 57 seconds with the guidance file, and 68 seconds without a transcript.
 
+### Gemini 3.8 Flash agentic on the same 108 questions
+
+Codex with vidscribe's transcript and plain `ffmpeg` scored **103/108 points (95.4%)**. Gemini 3.8 Flash in agentic video mode on Vertex AI scored **81.5/108 (75.5%)** from the public YouTube URLs. There was one attempt per question. Gemini returned no answer on 14 requests. On the **94 questions both answered**, Codex scored **94.7%** and Gemini **86.7%**. Both got all 12 speech-only questions right.
+
+This compares two complete setups on vidscribe's own long-video set, not on the public Video-Index benchmark. See the [full comparison, grading method and per-question results](https://github.com/SamuelZ12/vidscribe-index/blob/main/docs/gemini-agentic.md).
+
 ## What the results mean for vidscribe
 
 Use vidscribe to fetch a video and transcribe it. For the picture, an agent that can run `ffmpeg` did as well without the picture commands in both tests, at a lower cost. So the picture commands were removed ([ADR-0009](decisions/0009-drop-picture-commands.md)). vidscribe now prints the path of the video for `ffmpeg`.
 
 ## Limits
 
-- **One agent, one model, one effort level.** A model that knows `ffmpeg` less well may need the picture commands more.
+- **One Codex model and effort level for the tool comparisons.** A model that knows `ffmpeg` less well may need the picture commands more.
 - **Wide intervals.** 144 questions and three runs give about 7 points of uncertainty on a score and about 5 on a difference.
 - **The long-talk set is small.** It has 12 videos, AI-written questions, an AI grader, and scores near the top of the scale.
 - **Costs are list prices.** Each request's token counts are priced at the `gpt-6.2-sol` API rates: $2.00 per million input tokens, $0.10 per million cached input tokens, and $10.00 per million output tokens. The sessions ran on a ChatGPT subscription.
 - **Seconds are rough.** The machine was under load, and the setups with a transcript are charged for the whole vidscribe run, overview sheets included.
 - **One unexplained result.** On the 78 silent questions, transcript + ffmpeg scored 6 points below plain `ffmpeg` (−11.5 to −0.9), although the transcript of a silent clip is empty. Nobody planned that comparison, and the one unplanned pattern that was checked on new questions reversed.
-- **Dates and versions.** The runs took place on 21 and 22 November 2026 with vidscribe at commit `7a119b4`.
+- **Dates and versions.** The five Codex setups ran on 21 and 22 November 2026 with vidscribe at commit `7a119b4`.
 
 ## The earlier README number
 
@@ -119,4 +125,4 @@ The questions, grades, prompts, and scripts from those runs are in [the last com
 
 ## Data and code
 
-The page reports scores only. It includes no videos, questions, or answers from Video-Index, whose items keep the licences of their source benchmarks. The harness that produced these numbers, with its prompts, scoring and reports, is in [SamuelZ12/vidscribe-index](https://github.com/SamuelZ12/vidscribe-index). The runs used its tag `harness-v2`.
+The page reports scores only. It includes no videos, questions, or answers from Video-Index, whose items keep the licences of their source benchmarks. The harness that produced these numbers, with its prompts, scoring and reports, is in [SamuelZ12/vidscribe-index](https://github.com/SamuelZ12/vidscribe-index). The five-setup comparison used its tag `harness-v2`. The Gemini comparison is linked separately above.
